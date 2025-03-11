@@ -1,0 +1,31 @@
+spec:
+  ports:
+  - name: status-port
+    nodePort: 30100
+    port: 15021
+    protocol: TCP
+    targetPort: 15021
+  - name: http2
+    nodePort: 30110
+    port: 80
+    protocol: TCP
+    targetPort: 8080
+  - name: https
+    nodePort: 30120
+    port: 443
+    protocol: TCP
+    targetPort: 8443
+  - name: tcp
+    nodePort: 30230
+    port: 31400
+    protocol: TCP
+    targetPort: 31400
+  - name: tls
+    nodePort: 30140
+    port: 15443
+    protocol: TCP
+    targetPort: 15443
+  selector:
+    app: istio-ingressgateway
+    istio: ingressgateway
+  type: NodePort
