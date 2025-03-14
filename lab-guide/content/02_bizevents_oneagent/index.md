@@ -1,9 +1,9 @@
-## Bizevents OneAgent Capture
+## Business Event Capture - OneAgent
 
-This lab utilizes 
+This lab will utilize the Dynatrace OneAgent to capture a business event for the `Place Order` step of our Astroshop business process.
 
-* Review the Order
-* Review the data that needs to be captured
+* Configure in Dynatrace to add capture rule, triggers, data fields
+* Validate the data using a Notebook
 * Setup a bizevent rule...
 
 
