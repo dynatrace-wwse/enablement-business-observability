@@ -1,9 +1,8 @@
-## Bizevents Logs
+## Business Event Capture - Logs
 
-This lab utilizes 
+This lab will utilize logs lines ingested by the OneAgent to convert into a business event for the `Fraud Check` step of our Astroshop `Order to Shipped` business process.
 
-* Review the the logs lines
-* Review the data that needs to be captured
-* Setup a bizevent rule...
+* Use `OpenPipeline` to convert incoming logs to business events
+* Validate the data using a Notebook
 
-
+![FlowStepTwo](../../assets/images/03_bizevents_log_flow.png)
