@@ -2,13 +2,13 @@
 
 In this section of the lab we will configure Business Event capture for `Placer Order Success` step  of the `Order to Shipped` business process.
 
-#### 1. Go to Settings Classic > Business Analytics > OneAgent Business Event Sources
+### Step 1: Go to Settings Classic > Business Analytics > OneAgent Business Event Sources
 
-#### 2. Select the Incoming tab
+### Step 2: Select the Incoming tab
 
 ![Rule 1](../../../assets/images/02_bizevents_oneagent_rule_1.png)
 
-#### 3. Select the Add new capture rule button and name your rule using the following name: 
+### Step 3: Select the Add new capture rule button and name your rule using the following name: 
 
 `astroshop_placeorder_success`
 
@@ -16,7 +16,7 @@ In this section of the lab we will configure Business Event capture for `Placer 
 
 To capture business events from incoming web requests, we need to define conditions which are called Triggers.  Triggers are connected by AND logic per capture rule. If you set multiple trigger rules, all of them need to be fulfilled to capture a business event.
 
-#### 4. Select the Add trigger button to define a condition that will trigger a business event
+### Step 4: Select the Add trigger button to define a condition that will trigger a business event
 
 We will use 3 triggers:
 
@@ -68,7 +68,7 @@ In the `Value` field use:
 
 ![Trigger 3](../../../assets/images/02_bizevents_oneagent_placeorder_success_rule_2_C.png)
 
-#### 5. Under Event meta data, for the Event provider section use the following:
+### Step 5: Under Event meta data, for the Event provider section use the following:
 
 In the `Data source` drop down list select:
 
@@ -80,7 +80,7 @@ In the `Fixed value` section use:
 
 ![Event Provider](../../../assets/images/02_bizevents_oneagent_placeorder_success_rule_3.png)
 
-#### 6. Under Event meta data, for the Event type section use the following:
+### Step 6: Under Event meta data, for the Event type section use the following:
 
 In the `Data source` drop down list select:
 
@@ -180,7 +180,7 @@ The following table shows additional examples of how to extract data from JSON p
 
 [Dynatrace Documentation Link](https://docs.dynatrace.com/docs/shortlink/ba-business-events-capturing#json)
 
-#### 7. Under the Event data section, select the Add data field button.
+### Step 7: Under the Event data section, select the Add data field button
 
 In the `Field name` section use: 
 
@@ -196,7 +196,7 @@ In the `Path` section use:
 
 ![Event Data oderId](../../../assets/images/02_bizevents_oneagent_placeorder_success_rule_5.png)
 
-#### 8. Under the Event data section, select the Add data field button.
+### Step 8:  Under the Event data section, select the Add data field button
 
 In the `Field name` section use: 
 
@@ -213,7 +213,7 @@ In the `Path` section use:
 
 ![Event Data shippingTrackingId](../../../assets/images/02_bizevents_oneagent_placeorder_success_rule_6.png)
 
-#### 9. Under the Event data section, select the Add data field button.
+### Step 9: Under the Event data section, select the Add data field button
 
 In the `Field name` section use: 
 
@@ -229,7 +229,7 @@ In the `Path` section use:
 
 ![Event Data userId](../../../assets/images/02_bizevents_oneagent_placeorder_success_rule_7.png)
 
-#### 10. Under the Event data section, select the Add data field button.
+### Step 10: Under the Event data section, select the Add data field button
 
 In the `Field name` section use: 
 
@@ -245,7 +245,7 @@ In the `Path` section use:
 
 ![Event Data email](../../../assets/images/02_bizevents_oneagent_placeorder_success_rule_8.png)
 
-#### 11. Click the Save changes button.
+### Step 11: Click the Save changes button
 
 ![Save changes](../../../assets/images/02_bizevents_oneagent_placeorder_success_rule_9.png)
 
