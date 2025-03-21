@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block libs %}
+  <!-- Add scripts that need to run before here -->
+  {{ super() }}
+  <!-- Add scripts that need to run afterwards here -->
+   TODO
+   1. Create an agentless application in Dynatrace
+   2. Replace this snippet with your RUM Snippet
+  <script type="text/javascript" src="https://js-cdn.dynatrace.com/jstag/PLACEHOLDEr/REPLACE_WITH_YOUR_SNIPPET/1234abcd1234abcd_complete.js" crossorigin="anonymous"></script>
+{% endblock %}

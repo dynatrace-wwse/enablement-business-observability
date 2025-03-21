@@ -1,0 +1,6 @@
+# mkdocs renders static files in site
+# ignore them and do not commit to Git
+site/*
+
+# temp files
+*-tmp*
