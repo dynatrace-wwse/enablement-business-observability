@@ -53,7 +53,9 @@ Result:
 
 1. Name your OpenPipeline rule using the following name: 
 
-`Astroshop_Fraud_Check`
+```text
+Astroshop_Fraud_Check
+```
 
 2. Select the `Processing` tab
 
@@ -94,7 +96,7 @@ parse content, """DATA 'Consumed record with orderId: ' ld:orderId ','"""
 ```
 6. Run sample data and Preview the result.  
 
-7. Validate the orderId fields in the results
+7. Validate the orderId field exists in the results
 
 ![Pipeline Processing Rule Part 2](../../../assets/images/03_bizevents_logs_fraudcheck_openpipline_rule_2.png)
 
