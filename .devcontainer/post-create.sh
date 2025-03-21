@@ -3,15 +3,13 @@
 # Install RunMe
 # RunMe makes markdown files runnable
 # Used during end2end testing to execute the code snippets
-RUNME_CLI_VERSION=3.10.2
-mkdir runme_binary
-wget -O runme_binary/runme_linux_x86_64.tar.gz https://download.stateful.com/runme/${RUNME_CLI_VERSION}/runme_linux_x86_64.tar.gz
-tar -xvf runme_binary/runme_linux_x86_64.tar.gz --directory runme_binary
-sudo mv runme_binary/runme /usr/local/bin
-rm -rf runme_binary
+source /workspaces/enablement-business-observability/.devcontainer/util/functions.sh
 
-# Create k8s cluster
-kind create cluster --config .devcontainer/kind-cluster.yml --wait 5m
+
+installRunme
+
+installKind
+
 
 # e2e testing
 # If the codespace is created (eg. via a Dynatrace workflow)

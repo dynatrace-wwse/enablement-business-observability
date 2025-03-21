@@ -42,7 +42,7 @@ dynatrace_deploy_cloudnative=true
 #doInstallation
 # call specific functions
 setupAliases
-resourcesCloneq
+resourcesClone
 certmanagerInstall
 certmanagerEnable
 dynatraceEvalReadSaveCredentials
