@@ -1,98 +1,147 @@
-## Place Order Success
+## Place Order
 
-In this section of the lab we will configure Business Event capture for `Placer Order Success` step  of the `Order to Shipped` business process.
+In this section of the lab we will configure a Business Event capture rule for `Place Order` step  of the `Order to Shipped` business process.
 
-### Step 1: Go to Settings Classic > Business Analytics > OneAgent Business Event Sources
+### Business Event - Source Settings
 
-### Step 2: Select the Incoming tab
+1. Go to Settings Classic > Business Analytics > OneAgent Business Event Sources
+
+2. Select the Incoming tab
 
 ![Rule 1](../../../assets/images/02_bizevents_oneagent_rule_1.png)
 
-### Step 3: Select the Add new capture rule button and name your rule using the following name: 
+### Business Event - Capture Rule
 
-`astroshop_placeorder_success`
+Select the Add new capture rule button and name your rule using the following name: 
+
+```text
+astroshop_placeorder_success
+```
 
 ![Rule Name](../../../assets/images/02_bizevents_oneagent_placeorder_success_rule_1.png)
 
-To capture business events from incoming web requests, we need to define conditions which are called Triggers.  Triggers are connected by AND logic per capture rule. If you set multiple trigger rules, all of them need to be fulfilled to capture a business event.
+### Business Event - Triggers
 
-### Step 4: Select the Add trigger button to define a condition that will trigger a business event
+To capture Business Events from incoming web requests, we need to define conditions which are called Triggers.  Triggers are connected by AND logic per capture rule. If you set multiple trigger rules, all of them need to be fulfilled to capture a business event.
 
 We will use 3 triggers:
 
 **Trigger 1**
 
+Select the Add trigger button
+
 In the `Data source` drop down list select:  
 
-`Request - Path`
+```text
+Request - Path
+```
 
 In the `Operator` drop down list select: 
 
-`equals`
+```text
+equals
+```
 
 In the `Value` field use: 
 
-`/api/checkout`
+```text
+/api/checkout
+```
 
 ![Trigger 1](../../../assets/images/02_bizevents_oneagent_placeorder_success_rule_2_A.png)
 
 **Trigger 2**
 
+Select the Add trigger button
+
 In the `Data source` drop down list select:  
 
-`Response - Body`
+```text
+Response - Body
+```
 
 In the `Path` field use: 
 
-`orderId`
+```text
+orderId
+```
 
 In the `Operator` drop down list select: 
 
-`exists`
+```text
+exists
+```
 
 ![Trigger 2](../../../assets/images/02_bizevents_oneagent_placeorder_success_rule_2_B.png)
 
 **Trigger 3**
 
+Select the Add trigger button
+
 In the `Data source` drop down list select:  
 
-`Response - HTTP Status Code`
+```text
+Response - HTTP Status Code
+```
 
 In the `Operator` drop down list select: 
 
-`equals`
+```text
+equals
+```
 
 In the `Value` field use: 
 
-`200`
+```text
+200
+```
 
 ![Trigger 3](../../../assets/images/02_bizevents_oneagent_placeorder_success_rule_2_C.png)
 
-### Step 5: Under Event meta data, for the Event provider section use the following:
+
+### Business Event - Event Provider
+
+The `Event Provider` is the source of the event, for example, the name of the component or system that generated the event.
+
+Under Event meta data, for the Event provider section use the following:
 
 In the `Data source` drop down list select:
 
-`Fixed value`
+```text
+Fixed value
+```
 
 In the `Fixed value` section use:
 
-`astroshop`
+```text
+astroshop
+```
 
 ![Event Provider](../../../assets/images/02_bizevents_oneagent_placeorder_success_rule_3.png)
 
-### Step 6: Under Event meta data, for the Event type section use the following:
+### Business Event - Event Type
+
+The Event Type is the unique identifier of a given event.
+
+Under Event meta data, for the Event type section use the following:
 
 In the `Data source` drop down list select:
 
-`Fixed value`
+```text
+Fixed value
+```
 
 In the `Fixed value` section use:
 
-`astroshop.placeorder.success`
+```text
+astroshop.placeorder.success
+```
 
 ![Event Type](../../../assets/images/02_bizevents_oneagent_placeorder_success_rule_4.png)
 
 The `Event Category` is optional.  For this lab we will leave the defaults.
+
+### Business Event - Event Meta Data
 
 The steps so far concludes the configuration of a business event that will be generated each time the trigger criteria are matched. This might be sufficient if all you need is to count the number of matching events for example, to answer the question of how many `astroshop_placeorder_success` were made. 
 
@@ -175,78 +224,110 @@ Below is sample response payload for the `Place Order` transaction.  The followi
  
 The following table shows additional examples of how to extract data from JSON payloads.
 
-
 ![JSON Payload Extractin Example](../../../assets/images/02_bizevents_oneagent_json_payload_example.png)
 
 [Dynatrace Documentation Link](https://docs.dynatrace.com/docs/shortlink/ba-business-events-capturing#json)
 
-### Step 7: Under the Event data section, select the Add data field button
+### Business Event - oderId Capture
+
+Under the Event data section, select the Add data field button
 
 In the `Field name` section use: 
 
-`orderId`
+```text
+orderId
+```
 
 In the `Data Source` drop down list select:
 
-`Response - Body`
+```text
+Response - Body
+```
 
 In the `Path` section use:
 
-`orderId`
+```text
+orderId
+```
 
 ![Event Data oderId](../../../assets/images/02_bizevents_oneagent_placeorder_success_rule_5.png)
 
-### Step 8:  Under the Event data section, select the Add data field button
+### Business Event - shippingTrackingId Capture
+
+Under the Event data section, select the Add data field button
 
 In the `Field name` section use: 
 
-`shippingTrackingId`
+```text
+shippingTrackingId
+```
 
 In the `Data Source` drop down list select:
 
-`Response - Body`
+```text
+Response - Body
+```
 
 In the `Path` section use:
 
-`shippingTrackingId`
-
+```text
+shippingTrackingId
+```
 
 ![Event Data shippingTrackingId](../../../assets/images/02_bizevents_oneagent_placeorder_success_rule_6.png)
 
-### Step 9: Under the Event data section, select the Add data field button
+### Business Event - userId Capture
+
+Under the Event data section, select the Add data field button
 
 In the `Field name` section use: 
 
-`userId`
+```text
+userId
+```
 
 In the `Data Source` drop down list select:
 
-`Request - Body`
+```text
+Request - Body
+```
 
 In the `Path` section use:
 
-`userId`
+```text
+userId
+```
 
 ![Event Data userId](../../../assets/images/02_bizevents_oneagent_placeorder_success_rule_7.png)
 
-### Step 10: Under the Event data section, select the Add data field button
+### Business Event - revenue Capture
+
+Under the Event data section, select the Add data field button
 
 In the `Field name` section use: 
 
-`email`
+```text
+revenue
+```
 
 In the `Data Source` drop down list select:
 
-`Request - Body`
+```text
+Request - Body
+```
 
 In the `Path` section use:
 
-`email`
+```text
+items.0.cost.units
+```
 
-![Event Data email](../../../assets/images/02_bizevents_oneagent_placeorder_success_rule_8.png)
+![Event Data revenue](../../../assets/images/02_bizevents_oneagent_placeorder_success_rule_8.png)
 
-### Step 11: Click the Save changes button
+### Business Event - Save Rule
+
+Click the Save changes button
 
 ![Save changes](../../../assets/images/02_bizevents_oneagent_placeorder_success_rule_9.png)
 
-We have completed the Business Event capture for `Placer Order Success` step  of the `Order to Shipped` business process.  In the next section we will validate the data using the `Notebook's App`.
+We have completed the Business Event capture for `Place Order Success` step  of the `Order to Shipped` business process.  In the next section we will validate the data using the `Notebook's App`.
