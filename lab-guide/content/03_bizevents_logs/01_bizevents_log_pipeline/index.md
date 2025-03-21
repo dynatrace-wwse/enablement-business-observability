@@ -1,6 +1,6 @@
 ## Fraud Check
 
-In this section of the lab we will use OpenPipeline to convert incoming logs to business events or `Fraud Detection` step of the `Order to Shipped` business process. 
+In this section of the lab we will use OpenPipeline to convert incoming logs to business events for the `Fraud Detection` step of the `Order to Shipped` business process. 
 
 This approach is useful if logs contain business-relevant information or no other ingest path for business events is available.
 

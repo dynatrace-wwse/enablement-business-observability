@@ -1,6 +1,6 @@
 ## Place Order
 
-In this section of the lab we will configure a Business Event capture rule for `Place Order` step  of the `Order to Shipped` business process.
+In this section of the lab we will configure a Business Event capture rule for `Place Order` step of the `Order to Shipped` business process.
 
 ### Business Event - Source Settings
 
