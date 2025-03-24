@@ -284,7 +284,8 @@ dynatraceEvalReadSaveCredentials() {
     DT_API_TOKEN=$DT_API_TOKEN
     DT_INGEST_TOKEN=$DT_INGEST_TOKEN
     DT_OTEL_API_TOKEN=$DT_OTEL_API_TOKEN
-    DT_OTEL_ENDPOINT=$DT_OTEL_ENDPOINT
+    DT_OTEL_ENDPOINT=$DT_TENANT/api/v2/otlp
+    
     printInfo "--- Variables set in the environment with Otel config, overriding & saving them ------"
     printInfo "Dynatrace Tenant: $DT_TENANT"
     printInfo "Dynatrace API Token: $DT_API_TOKEN"
