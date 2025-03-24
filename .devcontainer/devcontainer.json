@@ -24,14 +24,14 @@
 	},
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
-	"forwardPorts": [
-		8080
-	],
+	//"forwardPorts": [
+	//	8080
+	//],
 
 	// add labels
-	"portsAttributes": {
-		"8080": { "label": "Astroshop web UI" }
-	},
+	//"portsAttributes": {
+	//	"8080": { "label": "Astroshop web UI" }
+	//},
 
 	"hostRequirements": {
 		"cpus": 4
@@ -39,7 +39,7 @@
 
 	// Use 'postCreateCommand' to run commands after the container is created.
 	// eg. ./init.sh or python installer.py
-	"postCreateCommand": "echo 'test'",
+	"postCreateCommand": "bash post-create.sh",
 
 	// Add recommended secrets
 	"secrets": {
