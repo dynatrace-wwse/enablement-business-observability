@@ -20,6 +20,8 @@ certmanagerEnable
 
 dynatraceEvalReadSaveCredentials
 
+dynatraceDeployOperator
+
 # e2e testing
 # If the codespace is created (eg. via a Dynatrace workflow)
 # and hardcoded to have a name starting with dttest-

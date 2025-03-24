@@ -171,7 +171,7 @@ generateRandomEmail() {
 certmanagerEnable() {
   printInfoSection "Installing ClusterIssuer with HTTP Letsencrypt "
 
-  if [ -n "$CERTMANAGER_EMAIL" ]; then 
+  if [ -n "$CERTMANAGER_EMAIL" ]; then
     printInfo "Creating ClusterIssuer for $CERTMANAGER_EMAIL"
     # Simplecheck to check if the email address is valid
     if [[ $CERTMANAGER_EMAIL == *"@"* ]]; then
@@ -187,7 +187,7 @@ certmanagerEnable() {
   fi
 
   printInfo "EmailAccount for ClusterIssuer $EMAIL, creating ClusterIssuer"
-  cat $CODESPACE_VSCODE_FOLDER/.devcontainer/yaml/clusterissuer.yaml | sed 's~email.placeholder~'"$EMAIL"'~' > $CODESPACE_VSCODE_FOLDER/.devcontainer/yaml/gen/clusterissuer.yaml
+  cat $CODESPACE_VSCODE_FOLDER/.devcontainer/yaml/clusterissuer.yaml | sed 's~email.placeholder~'"$EMAIL"'~' >$CODESPACE_VSCODE_FOLDER/.devcontainer/yaml/gen/clusterissuer.yaml
 
   kubectl apply -f $CODESPACE_VSCODE_FOLDER/.devcontainer/yaml/gen/clusterissuer.yaml
 
@@ -208,72 +208,72 @@ certmanagerEnable() {
 }
 
 saveReadCredentials() {
-    
-    echo "If credentials are passed as arguments they will be overwritten and saved as ConfigMap"
-    echo "else they will be read from the ConfigMap and exported as env Variables"
-    
-    if [[ $# -eq 5 ]]; then
-        DT_TENANT=$1
-        DT_API_TOKEN=$2
-        DT_INGEST_TOKEN=$3
-        DT_OTEL_API_TOKEN=$4
-        DT_OTEL_ENDPOINT=$5
-        echo "Saving the credentials ConfigMap dtcredentials -n default with following arguments supplied: @"
 
-        kubectl delete configmap -n default dtcredentials 2>/dev/null
+  echo "If credentials are passed as arguments they will be overwritten and saved as ConfigMap"
+  echo "else they will be read from the ConfigMap and exported as env Variables"
 
-        kubectl create configmap -n default dtcredentials \
-        --from-literal=tenant=${DT_TENANT} \
-        --from-literal=apiToken=${DT_API_TOKEN} \
-        --from-literal=dataIngestToken=${DT_INGEST_TOKEN} \
-        --from-literal=otelApiToken=${DT_OTEL_API_TOKEN} \
-        --from-literal=otelEndpoint=${DT_OTEL_ENDPOINT}
+  if [[ $# -eq 5 ]]; then
+    DT_TENANT=$1
+    DT_API_TOKEN=$2
+    DT_INGEST_TOKEN=$3
+    DT_OTEL_API_TOKEN=$4
+    DT_OTEL_ENDPOINT=$5
+    echo "Saving the credentials ConfigMap dtcredentials -n default with following arguments supplied: @"
 
-    elif [[ $# -eq 3 ]]; then
-        DT_TENANT=$1
-        DT_API_TOKEN=$2
-        DT_INGEST_TOKEN=$3
-       
-        echo "Saving the credentials ConfigMap dtcredentials -n default with following arguments supplied: @"
-        kubectl delete configmap -n default dtcredentials 2>/dev/null
+    kubectl delete configmap -n default dtcredentials 2>/dev/null
 
-        kubectl create configmap -n default dtcredentials \
-        --from-literal=tenant=${DT_TENANT} \
-        --from-literal=apiToken=${DT_API_TOKEN} \
-        --from-literal=dataIngestToken=${DT_INGEST_TOKEN}
-        
+    kubectl create configmap -n default dtcredentials \
+      --from-literal=tenant=${DT_TENANT} \
+      --from-literal=apiToken=${DT_API_TOKEN} \
+      --from-literal=dataIngestToken=${DT_INGEST_TOKEN} \
+      --from-literal=otelApiToken=${DT_OTEL_API_TOKEN} \
+      --from-literal=otelEndpoint=${DT_OTEL_ENDPOINT}
+
+  elif [[ $# -eq 3 ]]; then
+    DT_TENANT=$1
+    DT_API_TOKEN=$2
+    DT_INGEST_TOKEN=$3
+
+    echo "Saving the credentials ConfigMap dtcredentials -n default with following arguments supplied: @"
+    kubectl delete configmap -n default dtcredentials 2>/dev/null
+
+    kubectl create configmap -n default dtcredentials \
+      --from-literal=tenant=${DT_TENANT} \
+      --from-literal=apiToken=${DT_API_TOKEN} \
+      --from-literal=dataIngestToken=${DT_INGEST_TOKEN}
+
+  else
+    echo "No arguments passed, getting them from the ConfigMap"
+
+    kubectl get configmap -n default dtcredentials 2>/dev/null
+    # Getting the data size
+    data=$(kubectl get configmap -n default dtcredentials | awk '{print $2}')
+    # parsing to number
+    size=$(echo $data | grep -o '[0-9]*')
+    echo "The Configmap has $size variables stored"
+    if [[ $? -eq 0 ]]; then
+      DT_TENANT=$(kubectl get configmap -n default dtcredentials -ojsonpath={.data.tenant})
+      DT_API_TOKEN=$(kubectl get configmap -n default dtcredentials -ojsonpath={.data.apiToken})
+      DT_INGEST_TOKEN=$(kubectl get configmap -n default dtcredentials -ojsonpath={.data.dataIngestToken})
+      DT_OTEL_API_TOKEN=$(kubectl get configmap -n default dtcredentials -ojsonpath={.data.otelApiToken})
+      DT_OTEL_ENDPOINT=$(kubectl get configmap -n default dtcredentials -ojsonpath={.data.otelEndpoint})
+
     else
-        echo "No arguments passed, getting them from the ConfigMap"
-
-        kubectl get configmap -n default dtcredentials 2>/dev/null
-        # Getting the data size
-        data=$(kubectl get configmap -n default dtcredentials | awk '{print $2}')
-        # parsing to number
-        size=$(echo $data | grep -o '[0-9]*')
-        echo "The Configmap has $size variables stored"
-        if [[ $? -eq 0 ]]; then
-            DT_TENANT=$(kubectl get configmap -n default dtcredentials -ojsonpath={.data.tenant})
-            DT_API_TOKEN=$(kubectl get configmap -n default dtcredentials -ojsonpath={.data.apiToken})
-            DT_INGEST_TOKEN=$(kubectl get configmap -n default dtcredentials -ojsonpath={.data.dataIngestToken})
-            DT_OTEL_API_TOKEN=$(kubectl get configmap -n default dtcredentials -ojsonpath={.data.otelApiToken})
-            DT_OTEL_ENDPOINT=$(kubectl get configmap -n default dtcredentials -ojsonpath={.data.otelEndpoint})
-
-        else
-            echo "ConfigMap not found, resetting variables"
-            unset DT_TENANT DT_API_TOKEN DT_INGEST_TOKEN DT_OTEL_API_TOKEN DT_OTEL_ENDPOINT
-        fi
+      echo "ConfigMap not found, resetting variables"
+      unset DT_TENANT DT_API_TOKEN DT_INGEST_TOKEN DT_OTEL_API_TOKEN DT_OTEL_ENDPOINT
     fi
-    echo "Dynatrace Tenant: $DT_TENANT"
-    echo "Dynatrace API & PaaS Token: $DT_API_TOKEN"
-    echo "Dynatrace Ingest Token: $DT_INGEST_TOKEN"
-    echo "Dynatrace Otel API Token: $DT_OTEL_API_TOKEN"
-    echo "Dynatrace Otel Endpoint: $DT_OTEL_ENDPOINT"
+  fi
+  echo "Dynatrace Tenant: $DT_TENANT"
+  echo "Dynatrace API & PaaS Token: $DT_API_TOKEN"
+  echo "Dynatrace Ingest Token: $DT_INGEST_TOKEN"
+  echo "Dynatrace Otel API Token: $DT_OTEL_API_TOKEN"
+  echo "Dynatrace Otel Endpoint: $DT_OTEL_ENDPOINT"
 
-    export DT_TENANT=$DT_TENANT
-    export DT_API_TOKEN=$DT_API_TOKEN
-    export DT_INGEST_TOKEN=$DT_INGEST_TOKEN
-    export DT_OTEL_API_TOKEN=$DT_OTEL_API_TOKEN
-    export DT_OTEL_ENDPOINT=$DT_OTEL_ENDPOINT
+  export DT_TENANT=$DT_TENANT
+  export DT_API_TOKEN=$DT_API_TOKEN
+  export DT_INGEST_TOKEN=$DT_INGEST_TOKEN
+  export DT_OTEL_API_TOKEN=$DT_OTEL_API_TOKEN
+  export DT_OTEL_ENDPOINT=$DT_OTEL_ENDPOINT
 
 }
 
@@ -291,7 +291,7 @@ dynatraceEvalReadSaveCredentials() {
     printInfo "Dynatrace Ingest Token: $DT_INGEST_TOKEN"
     printInfo "Dynatrace Otel API Token: $DT_OTEL_API_TOKEN"
     printInfo "Dynatrace Otel Endpoint: $DT_OTEL_ENDPOINT"
-    
+
     saveReadCredentials \"$DT_TENANT\" \"$DT_API_TOKEN\" \"$DT_INGEST_TOKEN\" \"$DT_OTEL_API_TOKEN\" \"$DT_OTEL_ENDPOINT\"
 
   elif [[ $# -eq 3 ]]; then
@@ -303,7 +303,7 @@ dynatraceEvalReadSaveCredentials() {
     printInfo "Dynatrace API Token: $DT_API_TOKEN"
     printInfo "Dynatrace Ingest Token: $DT_INGEST_TOKEN"
     saveReadCredentials \"$DT_TENANT\" \"$DT_API_TOKEN\" \"$DT_INGEST_TOKEN\"
-    
+
   elif [[ -n "${DT_TENANT}" ]]; then
     DT_TENANT=$DT_TENANT
     DT_API_TOKEN=$DT_API_TOKEN
@@ -319,6 +319,96 @@ dynatraceEvalReadSaveCredentials() {
   fi
 }
 
+deployCloudNative() {
+
+    # Check if the Webhook has been created and is ready
+    kubectl -n dynatrace wait pod --for=condition=ready --selector=app.kubernetes.io/name=dynatrace-operator,app.kubernetes.io/component=webhook --timeout=300s
+
+    kubectl -n dynatrace apply -f gen/dynakube-cloudnative.yaml
+}
+
+undeployDynakubes() {
+    echo "Undeploying Dynakubes, OneAgent installation from Workernode if installed"
+
+    kubectl -n dynatrace delete dynakube --all
+    #TODO: fix this
+    #kubectl -n dynatrace wait pod --for=condition=delete --selector=app.kubernetes.io/name=oneagent,app.kubernetes.io/managed-by=dynatrace-operator --timeout=300s
+    sudo bash /opt/dynatrace/oneagent/agent/uninstall.sh 2>/dev/null
+}
+
+uninstallDynatrace() {
+
+    echo "Uninstalling Dynatrace"
+    undeployDynakubes
+
+    echo "Uninstalling Dynatrace"
+    helm uninstall dynatrace-operator -n dynatrace
+
+    kubectl delete namespace dynatrace
+}
+# shellcheck disable=SC2120
 dynatraceDeployOperator() {
-  echo "placeholder"
+
+  # posssibility to load functions.sh and call dynatraceDeployOperator A B C to save credentials and override
+  # or just run in normal deployment
+  saveReadCredentials $@
+  # new lines, needed for workflow-k8s-playground, cluster in dt needs to have the name k8s-playground-{requestuser} to be able to spin up multiple instances per tenant
+
+  if [ -n "${DT_TENANT}" ]; then
+    printInfoSection "Deploying Dynatrace Operator"
+    # Deploy Operator
+
+    deployOperatorViaHelm
+    waitForAllPods dynatrace
+
+    printInfoSection "Deploying Dynakube with CloudNative FullStack Monitoring for $DT_TENANT"
+
+    deployCloudNative
+    waitForAllPods
+
+    printInfoSection "Instrumenting NGINX Ingress"
+    
+    #TODO: Fix this 
+    #bashas "cd $K8S_PLAY_DIR/apps/nginx && bash instrument-nginx.sh"
+
+    waitForAllPods
+
+  else
+    printInfo "Not deploying the Dynatrace Operator, no credentials found"
+  fi
+}
+
+generateDynakube(){
+    # Generate DynaKubeSkel with API URL
+    sed -e 's~apiUrl: https://ENVIRONMENTID.live.dynatrace.com/api~apiUrl: '"$DT_API_URL"'~' $CODESPACE_VSCODE_FOLDER/.devcontainer/yaml/dynakube-skel.yaml > $CODESPACE_VSCODE_FOLDER/.devcontainer/yaml/gen/dynakube-skel.yaml
+
+    # ClusterName for API
+    sed -i 's~feature.dynatrace.com/automatic-kubernetes-api-monitoring-cluster-name: "CLUSTERNAME"~feature.dynatrace.com/automatic-kubernetes-api-monitoring-cluster-name: "'"$CLUSTERNAME"'"~g' $CODESPACE_VSCODE_FOLDER/.devcontainer/yaml/gen/dynakube-skel.yaml
+    # Networkzone
+    sed -i 's~networkZone: CLUSTERNAME~networkZone: '$CLUSTERNAME'~g' $CODESPACE_VSCODE_FOLDER/.devcontainer/yaml/gen/dynakube-skel.yaml
+    # HostGroup
+    sed -i 's~hostGroup: CLUSTERNAME~hostGroup: '$CLUSTERNAME'~g' $CODESPACE_VSCODE_FOLDER/.devcontainer/yaml/gen/dynakube-skel.yaml
+    # ActiveGate Group
+    sed -i 's~group: CLUSTERNAME~group: '$CLUSTERNAME'~g' $CODESPACE_VSCODE_FOLDER/.devcontainer/yaml/gen/dynakube-skel.yaml
+
+    # Create Dynakube for CloudNative 
+    sed -e 's~MONITORINGMODE:~cloudNativeFullStack:~' $CODESPACE_VSCODE_FOLDER/.devcontainer/yaml/gen/dynakube-skel.yaml > $CODESPACE_VSCODE_FOLDER/.devcontainer/yaml/gen/dynakube-cloudnative.yaml
+
+}
+
+deployOperatorViaHelm(){
+
+  saveReadCredentials
+  DT_API_URL="$DT_TENANT/api"
+
+  # Read the actual hostname in case changed during instalation
+  CLUSTERNAME=$(hostname)
+
+  helm install dynatrace-operator oci://public.ecr.aws/dynatrace/dynatrace-operator --create-namespace --namespace dynatrace --atomic
+
+  # Save Dynatrace Secret
+  kubectl -n dynatrace create secret generic devcontainer --from-literal="apiToken=$DT_API_TOKEN" --from-literal="dataIngestToken=$DT_INGEST_TOKEN"
+
+  generateDynakube
+
 }
