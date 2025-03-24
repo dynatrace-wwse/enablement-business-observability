@@ -43,7 +43,16 @@
 
 	// Add recommended secrets
 	"secrets": {
-		"PLACEHOLDER": {
+		"DT_TENANT": {
+			 "description": "eg. abc12345 from https://abc12345.apps.dynatrace.com"
+	 },
+		"DT_API_TOKEN": {
+			 "description": "eg. abc12345 from https://abc12345.apps.dynatrace.com"
+	 },
+		"DT_INGEST_TOKEN": {
+			 "description": "eg. abc12345 from https://abc12345.apps.dynatrace.com"
+	 },
+		"DT_OTEL_API_TOKEN": {
 			 "description": "eg. abc12345 from https://abc12345.apps.dynatrace.com"
 	 }
   }

@@ -14,13 +14,13 @@ timestamp() {
 }
 
 printInfo() {
-  echo -e '\e[38;5;198m'"[dev.container|INFO] $(timestamp) |>->-> $1 <-<-<|"
+  echo -e '\033[1;34m'"[dev.container|INFO] $(timestamp) |>->-> $1 <-<-<|"
 }
 
 printInfoSection() {
-  echo -e '\e[38;5;198m'"[dev.container|INFO] $(timestamp) |$thickline"
-  echo -e '\e[38;5;198m'"[dev.container|INFO] $(timestamp) |$halfline $1 $halfline"
-  echo -e '\e[38;5;198m'"[dev.container|INFO] $(timestamp) |$thinline"
+  echo -e '\033[1;34m'"[dev.container|INFO] $(timestamp) |$thickline"
+  echo -e '\033[1;34m'"[dev.container|INFO] $(timestamp) |$halfline $1 $halfline"
+  echo -e '\033[1;34m'"[dev.container|INFO] $(timestamp) |$thinline"
 }
 
 printWarn() {
@@ -447,6 +447,8 @@ helm dependency build $CODESPACE_VSCODE_FOLDER/.devcontainer/astroshop/helm/dt-o
 
 kubectl create namespace astroshop
 
+DT_OTEL_ENDPOINT=$DT_TENANT/api/v2/otlp
+
 echo "OTEL Configuration URL $DT_OTEL_ENDPOINT and Token $DT_OTEL_API_TOKEN"  
 
 helm upgrade --install astroshop -f $CODESPACE_VSCODE_FOLDER/.devcontainer/astroshop/helm/dt-otel-demo-helm-deployments/values.yaml --set default.image.repository=docker.io/shinojosa/astroshop --set default.image.tag=1.12.0 --set collector_tenant_endpoint=$DT_OTEL_ENDPOINT --set collector_tenant_token=$DT_OTEL_API_TOKEN -n astroshop $CODESPACE_VSCODE_FOLDER/.devcontainer/astroshop/helm/dt-otel-demo-helm
@@ -457,10 +459,12 @@ kubectl get cronjobs -n astroshop -o json | jq -r '.items[] | .metadata.name' | 
 
 kubectl get cronjobs -n astroshop
 
-printInfo "Astroshop available at: "
 
 #kubectl get ing -n astroshop
+waitForAllPods astroshop
 
 nohup kubectl port-forward service/astroshop-frontendproxy 8080:8080  -n astroshop --address="0.0.0.0" > /tmp/kubectl-port-forward.log 2>&1 &
+
+printInfo "Astroshop available at: "
 
 }
