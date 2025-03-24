@@ -292,7 +292,7 @@ dynatraceEvalReadSaveCredentials() {
     printInfo "Dynatrace Otel API Token: $DT_OTEL_API_TOKEN"
     printInfo "Dynatrace Otel Endpoint: $DT_OTEL_ENDPOINT"
 
-    saveReadCredentials \"$DT_TENANT\" \"$DT_API_TOKEN\" \"$DT_INGEST_TOKEN\" \"$DT_OTEL_API_TOKEN\" \"$DT_OTEL_ENDPOINT\"
+    saveReadCredentials $DT_TENANT $DT_API_TOKEN $DT_INGEST_TOKEN $DT_OTEL_API_TOKEN $DT_OTEL_ENDPOINT
 
   elif [[ $# -eq 3 ]]; then
     DT_TENANT=$1
@@ -302,7 +302,7 @@ dynatraceEvalReadSaveCredentials() {
     printInfo "Dynatrace Tenant: $DT_TENANT"
     printInfo "Dynatrace API Token: $DT_API_TOKEN"
     printInfo "Dynatrace Ingest Token: $DT_INGEST_TOKEN"
-    saveReadCredentials \"$DT_TENANT\" \"$DT_API_TOKEN\" \"$DT_INGEST_TOKEN\"
+    saveReadCredentials $DT_TENANT $DT_API_TOKEN $DT_INGEST_TOKEN
 
   elif [[ -n "${DT_TENANT}" ]]; then
     DT_TENANT=$DT_TENANT
@@ -312,7 +312,7 @@ dynatraceEvalReadSaveCredentials() {
     printInfo "Dynatrace Tenant: $DT_TENANT"
     printInfo "Dynatrace API Token: $DT_API_TOKEN"
     printInfo "Dynatrace Ingest Token: $DT_INGEST_TOKEN"
-    saveReadCredentials \"$DT_TENANT\" \"$DT_API_TOKEN\" \"$DT_INGEST_TOKEN\"
+    saveReadCredentials $DT_TENANT $DT_API_TOKEN $DT_INGEST_TOKEN
   else
     printInfoSection "Dynatrace Variables not passed, reading them"
     saveReadCredentials
@@ -324,7 +324,7 @@ deployCloudNative() {
     # Check if the Webhook has been created and is ready
     kubectl -n dynatrace wait pod --for=condition=ready --selector=app.kubernetes.io/name=dynatrace-operator,app.kubernetes.io/component=webhook --timeout=300s
 
-    kubectl -n dynatrace apply -f gen/dynakube-cloudnative.yaml
+    kubectl -n dynatrace apply -f $CODESPACE_VSCODE_FOLDER/.devcontainer/yaml/gen/dynakube-cloudnative.yaml
 }
 
 undeployDynakubes() {
@@ -399,8 +399,9 @@ generateDynakube(){
 deployOperatorViaHelm(){
 
   saveReadCredentials
-  DT_API_URL=$(echo "$DT_TENANT/api")
-
+  API="/api"
+  DT_API_URL=$DT_TENANT$API
+  
   # Read the actual hostname in case changed during instalation
   CLUSTERNAME=$(hostname)
 
