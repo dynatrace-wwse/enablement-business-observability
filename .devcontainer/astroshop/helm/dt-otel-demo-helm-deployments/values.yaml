@@ -1,4 +1,4 @@
-ingressHostUrl: "astroshop.domain.placeholder"
+ingressHostUrl: "astroshop-frontendproxy.astroshop.svc.cluster.local"
 collector_tenant_endpoint: donotstore
 collector_tenant_token: donotstore
 
