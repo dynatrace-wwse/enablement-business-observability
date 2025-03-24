@@ -4,3 +4,20 @@ site/*
 
 # temp files
 *-tmp*
+
+# No generated file
+**/gen/*/*.yaml
+
+**/gen/**.yaml
+
+**-gen.yaml
+# loc files
+**-loc**
+# No mounted file shares
+**sshfs**
+# No DS Store files
+.DS_Store
+
+# No tmp folders
+**tmp**
+**/tmp/**
