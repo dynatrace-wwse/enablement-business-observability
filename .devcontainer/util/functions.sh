@@ -154,7 +154,8 @@ installRunme() {
 installKind() {
   printInfoSection "Installing Kubernetes Cluster (Kind)"
   # Create k8s cluster
-  kind create cluster --config "$CODESPACE_VSCODE_FOLDER"/.devcontainer/kind-cluster.yml --wait 5m
+  pwd 
+  kind create cluster --config "$CODESPACE_VSCODE_FOLDER/.devcontainer/kind-cluster.yml" --wait 5m
 }
 
 certmanagerInstall() {
