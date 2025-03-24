@@ -399,7 +399,7 @@ generateDynakube(){
 deployOperatorViaHelm(){
 
   saveReadCredentials
-  DT_API_URL="$DT_TENANT/api"
+  DT_API_URL=$(echo "$DT_TENANT/api")
 
   # Read the actual hostname in case changed during instalation
   CLUSTERNAME=$(hostname)
