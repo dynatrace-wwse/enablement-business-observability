@@ -1,0 +1,52 @@
+site_name: "Dynatrace Observability Lab: PLACEHOLDER"
+repo_name: "View Code on GitHub"
+repo_url: "https://github.com/dynatrace/PLACEHOLDER"
+nav:
+  - '1. About': index.md
+  - '2. Getting Started': getting-started.md
+  # ...
+  - '8. Cleanup': cleanup.md
+  - '9. Resources': resources.md
+  - "10. What's Next?": whats-next.md
+theme:
+  name: material
+  custom_dir: docs/overrides
+  features:
+    - content.code.copy
+    
+  palette:
+  # Palette toggle for automatic mode
+  - media: "(prefers-color-scheme)"
+    toggle:
+      icon: material/brightness-auto
+      name: Switch to light mode
+
+  # Palette toggle for light mode
+  - media: "(prefers-color-scheme: light)"
+    scheme: default 
+    toggle:
+      icon: material/brightness-7
+      name: Switch to dark mode
+
+  # Palette toggle for dark mode
+  - media: "(prefers-color-scheme: dark)"
+    scheme: slate
+    toggle:
+      icon: material/brightness-4
+      name: Switch to system preference
+
+markdown_extensions:
+  - toc:
+      permalink: '#'
+  - md_in_html
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.snippets:
+      base_path: ["docs"]
+  - attr_list
+plugins:
+    - search
