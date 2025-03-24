@@ -10,6 +10,15 @@ installRunme
 
 installKind
 
+installK9s
+
+setupAliases
+
+certmanagerInstall
+
+certmanagerEnable
+
+dynatraceEvalReadSaveCredentials
 
 # e2e testing
 # If the codespace is created (eg. via a Dynatrace workflow)
