@@ -1,15 +1,22 @@
 ## Order Shipped
 
-In this section of the lab we will use a Dynatrace Workflow to send simulated event data to the Business Events API for the `Order Shipped` step of the Astroshop `Order to Shipped` business process.  
+In this section of the lab we will use a Dynatrace Workflow to send simulated events that represent the Astroshop Shipping system when an Order is shipped.  These events will leverage the Business Events API for the `Order Shipped` step of the Astroshop `Order to Shipped` business process.  
 
 ### Workflow
 
-Import the following Workflow....
+1.  Click this link and download to your local system
 
-Link Place holder
+2.  Open the Dynatrace Workflow app
 
-Since we don't have another we are going to simulate a 3 party system that isn't being monitored by Dynatrace to sent us events that represent `Order Shipped`
+3.  Import the `Astroshop - Order Shipped` workflow from your local system
+
+4. 
+
+###  Workflow Configuration
+
+1. 
+
 
 ### Conclusion
 
-We have completed the Business Event....
+We have completed the step of using a Dynatrace Workflow to send simulated events that represent the Astroshop Shipping system when an Order is shipped.  In the next section we will validate `Order Shipped` step of the `Order to Shipped` business process Business Events are being generated using the `Notebook's App`.

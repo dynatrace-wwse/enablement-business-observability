@@ -14,12 +14,9 @@ fetch bizevents
 | sort timestamp desc
 ```
 
-
-NEED UDDATE SCREENSHOT WHEN THIS DATA IS AVAILABLE
-
 Result:
 
-![DQL Query](../../../assets/images/03_bizevents_logs_fraudcheck_data_validation_dql.png)
+![DQL Query](../../../assets/images/04_bizevents_api_ordershipped_data_validation_dql.png)
 
 ### Conclusion
 

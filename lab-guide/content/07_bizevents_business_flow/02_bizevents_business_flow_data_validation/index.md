@@ -35,7 +35,7 @@ The Tree view displays all steps with the corresponding numbers of unique flows 
 
  On the side panel, expand the dropdown menu to see a list of completed unique flows that have reached that step. For any of the listed flows, select the magnifying glass icon (under Actions in the rightmost side panel) to explore the end-to-end business flow details.
 
-
+![Flow Details](../../../assets/images/06_bizevents_business_flow_data_validation_3.png)
 
 ### Conclusion
 
