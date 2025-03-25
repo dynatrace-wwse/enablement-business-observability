@@ -258,26 +258,9 @@ saveReadCredentials() {
   printInfo "If credentials are passed as arguments they will be overwritten and saved as ConfigMap"
   printInfo "else they will be read from the ConfigMap and exported as env Variables"
 
-  if [[ $# -eq 5 ]]; then
+  if [[ $# -eq 3 ]]; then
     DT_TENANT=$1
-    DT_API_TOKEN=$2
-    DT_INGEST_TOKEN=$3
-    DT_OTEL_API_TOKEN=$4
-    DT_OTEL_ENDPOINT=$5
-    printInfo "Saving the credentials ConfigMap dtcredentials -n default with following arguments supplied: @"
-
-    kubectl delete configmap -n default dtcredentials 2>/dev/null
-
-    kubectl create configmap -n default dtcredentials \
-      --from-literal=tenant=${DT_TENANT} \
-      --from-literal=apiToken=${DT_API_TOKEN} \
-      --from-literal=dataIngestToken=${DT_INGEST_TOKEN} \
-      --from-literal=otelApiToken=${DT_OTEL_API_TOKEN} \
-      --from-literal=otelEndpoint=${DT_OTEL_ENDPOINT}
-
-  elif [[ $# -eq 3 ]]; then
-    DT_TENANT=$1
-    DT_API_TOKEN=$2
+    DT_OPERATOR_TOKEN=$2
     DT_INGEST_TOKEN=$3
 
     printInfo "Saving the credentials ConfigMap dtcredentials -n default with following arguments supplied: @"
@@ -285,7 +268,7 @@ saveReadCredentials() {
 
     kubectl create configmap -n default dtcredentials \
       --from-literal=tenant=${DT_TENANT} \
-      --from-literal=apiToken=${DT_API_TOKEN} \
+      --from-literal=apiToken=${DT_OPERATOR_TOKEN} \
       --from-literal=dataIngestToken=${DT_INGEST_TOKEN}
 
   else
@@ -299,67 +282,64 @@ saveReadCredentials() {
     printInfo "The Configmap has $size variables stored"
     if [[ $? -eq 0 ]]; then
       DT_TENANT=$(kubectl get configmap -n default dtcredentials -ojsonpath={.data.tenant})
-      DT_API_TOKEN=$(kubectl get configmap -n default dtcredentials -ojsonpath={.data.apiToken})
+      DT_OPERATOR_TOKEN=$(kubectl get configmap -n default dtcredentials -ojsonpath={.data.apiToken})
       DT_INGEST_TOKEN=$(kubectl get configmap -n default dtcredentials -ojsonpath={.data.dataIngestToken})
-      DT_OTEL_API_TOKEN=$(kubectl get configmap -n default dtcredentials -ojsonpath={.data.otelApiToken})
-      DT_OTEL_ENDPOINT=$(kubectl get configmap -n default dtcredentials -ojsonpath={.data.otelEndpoint})
 
     else
       printInfo "ConfigMap not found, resetting variables"
-      unset DT_TENANT DT_API_TOKEN DT_INGEST_TOKEN DT_OTEL_API_TOKEN DT_OTEL_ENDPOINT
+      unset DT_TENANT DT_OPERATOR_TOKEN DT_INGEST_TOKEN
     fi
   fi
   printInfo "Dynatrace Tenant: $DT_TENANT"
-  printInfo "Dynatrace API & PaaS Token: $DT_API_TOKEN"
+  printInfo "Dynatrace API & PaaS Token: $DT_OPERATOR_TOKEN"
   printInfo "Dynatrace Ingest Token: $DT_INGEST_TOKEN"
-  printInfo "Dynatrace Otel API Token: $DT_OTEL_API_TOKEN"
+  printInfo "Dynatrace Otel API Token: $DT_INGEST_TOKEN"
   printInfo "Dynatrace Otel Endpoint: $DT_OTEL_ENDPOINT"
 
   export DT_TENANT=$DT_TENANT
-  export DT_API_TOKEN=$DT_API_TOKEN
+  export DT_OPERATOR_TOKEN=$DT_OPERATOR_TOKEN
   export DT_INGEST_TOKEN=$DT_INGEST_TOKEN
-  export DT_OTEL_API_TOKEN=$DT_OTEL_API_TOKEN
+  export DT_INGEST_TOKEN=$DT_INGEST_TOKEN
   export DT_OTEL_ENDPOINT=$DT_OTEL_ENDPOINT
 
 }
 
+# TODO: Clean up this mess
 dynatraceEvalReadSaveCredentials() {
   printInfoSection "Dynatrace evaluating and reading/saving Credentials"
-  if [[ -n "${DT_TENANT}" && -n "${DT_OTEL_API_TOKEN}" ]]; then
+  if [[ -n "${DT_TENANT}" && -n "${DT_INGEST_TOKEN}" ]]; then
     DT_TENANT=$DT_TENANT
-    DT_API_TOKEN=$DT_API_TOKEN
+    DT_OPERATOR_TOKEN=$DT_OPERATOR_TOKEN
     DT_INGEST_TOKEN=$DT_INGEST_TOKEN
-    DT_OTEL_API_TOKEN=$DT_OTEL_API_TOKEN
     DT_OTEL_ENDPOINT=$DT_TENANT/api/v2/otlp
     
     printInfo "--- Variables set in the environment with Otel config, overriding & saving them ------"
     printInfo "Dynatrace Tenant: $DT_TENANT"
-    printInfo "Dynatrace API Token: $DT_API_TOKEN"
+    printInfo "Dynatrace API Token: $DT_OPERATOR_TOKEN"
     printInfo "Dynatrace Ingest Token: $DT_INGEST_TOKEN"
-    printInfo "Dynatrace Otel API Token: $DT_OTEL_API_TOKEN"
     printInfo "Dynatrace Otel Endpoint: $DT_OTEL_ENDPOINT"
 
-    saveReadCredentials $DT_TENANT $DT_API_TOKEN $DT_INGEST_TOKEN $DT_OTEL_API_TOKEN $DT_OTEL_ENDPOINT
+    saveReadCredentials $DT_TENANT $DT_OPERATOR_TOKEN $DT_INGEST_TOKEN
 
   elif [[ $# -eq 3 ]]; then
     DT_TENANT=$1
-    DT_API_TOKEN=$2
+    DT_OPERATOR_TOKEN=$2
     DT_INGEST_TOKEN=$3
     printInfo "--- Variables passed as arguments, overriding & saving them ------"
     printInfo "Dynatrace Tenant: $DT_TENANT"
-    printInfo "Dynatrace API Token: $DT_API_TOKEN"
+    printInfo "Dynatrace API Token: $DT_OPERATOR_TOKEN"
     printInfo "Dynatrace Ingest Token: $DT_INGEST_TOKEN"
-    saveReadCredentials $DT_TENANT $DT_API_TOKEN $DT_INGEST_TOKEN
+    saveReadCredentials $DT_TENANT $DT_OPERATOR_TOKEN $DT_INGEST_TOKEN
 
   elif [[ -n "${DT_TENANT}" ]]; then
     DT_TENANT=$DT_TENANT
-    DT_API_TOKEN=$DT_API_TOKEN
+    DT_OPERATOR_TOKEN=$DT_OPERATOR_TOKEN
     DT_INGEST_TOKEN=$DT_INGEST_TOKEN
     printInfo "--- Variables set in the environment, overriding & saving them ------"
     printInfo "Dynatrace Tenant: $DT_TENANT"
-    printInfo "Dynatrace API Token: $DT_API_TOKEN"
+    printInfo "Dynatrace API Token: $DT_OPERATOR_TOKEN"
     printInfo "Dynatrace Ingest Token: $DT_INGEST_TOKEN"
-    saveReadCredentials $DT_TENANT $DT_API_TOKEN $DT_INGEST_TOKEN
+    saveReadCredentials $DT_TENANT $DT_OPERATOR_TOKEN $DT_INGEST_TOKEN
   else
     printInfoSection "Dynatrace Variables not passed, reading them"
     saveReadCredentials
@@ -455,7 +435,7 @@ deployOperatorViaHelm(){
   helm install dynatrace-operator oci://public.ecr.aws/dynatrace/dynatrace-operator --create-namespace --namespace dynatrace --atomic
 
   # Save Dynatrace Secret
-  kubectl -n dynatrace create secret generic dev-container --from-literal="apiToken=$DT_API_TOKEN" --from-literal="dataIngestToken=$DT_INGEST_TOKEN"
+  kubectl -n dynatrace create secret generic dev-container --from-literal="apiToken=$DT_OPERATOR_TOKEN" --from-literal="dataIngestToken=$DT_INGEST_TOKEN"
 
   generateDynakube
 
@@ -484,10 +464,10 @@ deployAstroshop(){
   printInfoSection "Deploying Astroshop"
 
   # read the credentials and variables
-  saveReadCredentials 
+  #saveReadCredentials 
 
   # To override the Dynatrace values call the function with the following order
-  #saveReadCredentials $DT_TENANT $DT_API_TOKEN $DT_INGEST_TOKEN $DT_OTEL_API_TOKEN $DT_OTEL_ENDPOINT
+  #saveReadCredentials $DT_TENANT $DT_OPERATOR_TOKEN $DT_INGEST_TOKEN $DT_INGEST_TOKEN $DT_OTEL_ENDPOINT
 
   ###
   # Instructions to install Astroshop with Helm Chart from R&D and images built in shinojos repo (including code modifications from R&D)
@@ -503,9 +483,9 @@ deployAstroshop(){
 
   DT_OTEL_ENDPOINT=$DT_TENANT/api/v2/otlp
 
-  printInfo "OTEL Configuration URL $DT_OTEL_ENDPOINT and Token $DT_OTEL_API_TOKEN"  
+  printInfo "OTEL Configuration URL $DT_OTEL_ENDPOINT and Ingest Token $DT_INGEST_TOKEN"  
 
-  helm upgrade --install astroshop -f $CODESPACE_VSCODE_FOLDER/.devcontainer/astroshop/helm/dt-otel-demo-helm-deployments/values.yaml --set default.image.repository=docker.io/shinojosa/astroshop --set default.image.tag=1.12.0 --set collector_tenant_endpoint=$DT_OTEL_ENDPOINT --set collector_tenant_token=$DT_OTEL_API_TOKEN -n astroshop $CODESPACE_VSCODE_FOLDER/.devcontainer/astroshop/helm/dt-otel-demo-helm
+  helm upgrade --install astroshop -f $CODESPACE_VSCODE_FOLDER/.devcontainer/astroshop/helm/dt-otel-demo-helm-deployments/values.yaml --set default.image.repository=docker.io/shinojosa/astroshop --set default.image.tag=1.12.0 --set collector_tenant_endpoint=$DT_OTEL_ENDPOINT --set collector_tenant_token=$DT_INGEST_TOKEN -n astroshop $CODESPACE_VSCODE_FOLDER/.devcontainer/astroshop/helm/dt-otel-demo-helm
 
   printInfo "Stopping all cronjobs from Demo Live since they are not needed with this scenario"
 

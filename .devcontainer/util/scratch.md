@@ -23,7 +23,7 @@ TENANT=https://iid1110h.sprint.dynatracelabs.com
 APITOKEN=dt0c01.yy.xx
 INGESTTOKEN=dt0c01.yy.xx
 
-DT_OTEL_API_TOKEN=dt0c01.xx.yy
+DT_INGEST_TOKEN=dt0c01.xx.yy
 DT_OTEL_ENDPOINT=https://iid1110h.sprint.dynatracelabs.com/api/v2/otlp
 
 
