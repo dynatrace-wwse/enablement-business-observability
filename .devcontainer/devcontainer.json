@@ -39,7 +39,7 @@
 
 	// Use 'postCreateCommand' to run commands after the container is created.
 	// eg. ./init.sh or python installer.py
-	"postCreateCommand": "echo \"run this command to install the Kubernetes Cluster and Astroshop\" 'bash .devcontainer/post-create.sh'",
+	"postCreateCommand": "./.devcontainer/post-create.sh",
 
 	// Add recommended secrets
 	"secrets": {

@@ -8,27 +8,33 @@
 #https://cert-manager.io/docs/release-notes/
 CERTMANAGER_VERSION=1.15.3
 
+# RUNME Version
+RUNME_CLI_VERSION=3.10.2
+
+# Setting up the variable since its not set when instantiating the vscode folder.
+CODESPACE_VSCODE_FOLDER="/workspaces/enablement-business-observability"
+
 # FUNCTIONS DECLARATIONS
 timestamp() {
   date +"[%Y-%m-%d %H:%M:%S]"
 }
 
 printInfo() {
-  echo -e '\033[1;34m'"[dev.container|INFO] $(timestamp) |>->-> $1 <-<-<|"
+  echo -e "\e[32m [dev.container|\033\e[97mINFO\e[32m|\033\e $(timestamp) \e[0m|  $1  |"
 }
 
 printInfoSection() {
-  echo -e '\033[1;34m'"[dev.container|INFO] $(timestamp) |$thickline"
-  echo -e '\033[1;34m'"[dev.container|INFO] $(timestamp) |$halfline $1 $halfline"
-  echo -e '\033[1;34m'"[dev.container|INFO] $(timestamp) |$thinline"
+  echo -e "\e[32m [dev.container|\033\e[97mINFO\e[32m|\033\e $(timestamp) \e[0m|$thickline"
+  echo -e "\e[32m [dev.container|\033\e[97mINFO\e[32m|\033\e $(timestamp) \e[0m|$halfline $1 $halfline"
+  echo -e "\e[32m [dev.container|\033\e[97mINFO\e[32m|\033\e $(timestamp) \e[0m|$thinline"
 }
 
 printWarn() {
-  echo -e '\e[38;5;226m'"[dev.container|WARN] $(timestamp) |x-x-> $1 <-x-x|"
+  echo -e "\e[32m [dev.container|\e[38;5;226mWARN\e[32m|\033\e $(timestamp) \e[0m|  $1  |"
 }
 
 printError() {
-  echo -e '\e[38;5;196m'"[dev.container|ERROR] $(timestamp) |x-x-> $1 <-x-x|"
+  echo -e "\e[32m [dev.container|\e[38;5;196mERROR\e[32m|\033\e $(timestamp) \e[0m|  $1  |"
 }
 
 # shellcheck disable=SC2120
@@ -105,7 +111,7 @@ installKubernetesDashboard() {
   # In the functions you can specify the amount of retries and the NS
   # shellcheck disable=SC2119
   waitForAllPods
-  printInfoSection " kubectl -n kubernetes-dashboard port-forward svc/kubernetes-dashboard-kong-proxy 8001:443 --address=\"0.0.0.0\", (${attempts}/${max_attempts}) sleep 10s"
+  printInfoSection "kubectl -n kubernetes-dashboard port-forward svc/kubernetes-dashboard-kong-proxy 8001:443 --address=\"0.0.0.0\", (${attempts}/${max_attempts}) sleep 10s"
   kubectl -n kubernetes-dashboard port-forward svc/kubernetes-dashboard-kong-proxy 8001:443 --address="0.0.0.0" >/dev/null 2>&1 &
   # https://github.com/komodorio/helm-dashboard
 
@@ -142,7 +148,7 @@ setupAliases() {
 }
 
 installRunme() {
-  RUNME_CLI_VERSION=3.10.2
+  
   printInfoSection "Installing Runme Version $RUNME_CLI_VERSION"
   mkdir runme_binary
   wget -O runme_binary/runme_linux_x86_64.tar.gz https://download.stateful.com/runme/${RUNME_CLI_VERSION}/runme_linux_x86_64.tar.gz
@@ -151,17 +157,15 @@ installRunme() {
   rm -rf runme_binary
 }
 
-installKind() {
+createKindCluster() {
+  
   printInfoSection "Installing Kubernetes Cluster (Kind)"
   # Create k8s cluster
-  pwd 
-  ls "$CODESPACE_VSCODE_FOLDER/.devcontainer/kind-cluster.yml"
-   
   kind create cluster --config "$CODESPACE_VSCODE_FOLDER/.devcontainer/kind-cluster.yml" --wait 5m
 }
 
 certmanagerInstall() {
-  printInfoSection "Install CertManager $CERTMANAGER_VERSION with Email Account ($CERTMANAGER_EMAIL)"
+  printInfoSection "Install CertManager $CERTMANAGER_VERSION"
   kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v$CERTMANAGER_VERSION/cert-manager.yaml
   # shellcheck disable=SC2119
   waitForAllPods
@@ -212,8 +216,8 @@ certmanagerEnable() {
 
 saveReadCredentials() {
 
-  echo "If credentials are passed as arguments they will be overwritten and saved as ConfigMap"
-  echo "else they will be read from the ConfigMap and exported as env Variables"
+  printInfo "If credentials are passed as arguments they will be overwritten and saved as ConfigMap"
+  printInfo "else they will be read from the ConfigMap and exported as env Variables"
 
   if [[ $# -eq 5 ]]; then
     DT_TENANT=$1
@@ -221,7 +225,7 @@ saveReadCredentials() {
     DT_INGEST_TOKEN=$3
     DT_OTEL_API_TOKEN=$4
     DT_OTEL_ENDPOINT=$5
-    echo "Saving the credentials ConfigMap dtcredentials -n default with following arguments supplied: @"
+    printInfo "Saving the credentials ConfigMap dtcredentials -n default with following arguments supplied: @"
 
     kubectl delete configmap -n default dtcredentials 2>/dev/null
 
@@ -237,7 +241,7 @@ saveReadCredentials() {
     DT_API_TOKEN=$2
     DT_INGEST_TOKEN=$3
 
-    echo "Saving the credentials ConfigMap dtcredentials -n default with following arguments supplied: @"
+    printInfo "Saving the credentials ConfigMap dtcredentials -n default with following arguments supplied: @"
     kubectl delete configmap -n default dtcredentials 2>/dev/null
 
     kubectl create configmap -n default dtcredentials \
@@ -246,14 +250,14 @@ saveReadCredentials() {
       --from-literal=dataIngestToken=${DT_INGEST_TOKEN}
 
   else
-    echo "No arguments passed, getting them from the ConfigMap"
+    printInfo "No arguments passed, getting them from the ConfigMap"
 
     kubectl get configmap -n default dtcredentials 2>/dev/null
     # Getting the data size
     data=$(kubectl get configmap -n default dtcredentials | awk '{print $2}')
     # parsing to number
     size=$(echo $data | grep -o '[0-9]*')
-    echo "The Configmap has $size variables stored"
+    printInfo "The Configmap has $size variables stored"
     if [[ $? -eq 0 ]]; then
       DT_TENANT=$(kubectl get configmap -n default dtcredentials -ojsonpath={.data.tenant})
       DT_API_TOKEN=$(kubectl get configmap -n default dtcredentials -ojsonpath={.data.apiToken})
@@ -262,15 +266,15 @@ saveReadCredentials() {
       DT_OTEL_ENDPOINT=$(kubectl get configmap -n default dtcredentials -ojsonpath={.data.otelEndpoint})
 
     else
-      echo "ConfigMap not found, resetting variables"
+      printInfo "ConfigMap not found, resetting variables"
       unset DT_TENANT DT_API_TOKEN DT_INGEST_TOKEN DT_OTEL_API_TOKEN DT_OTEL_ENDPOINT
     fi
   fi
-  echo "Dynatrace Tenant: $DT_TENANT"
-  echo "Dynatrace API & PaaS Token: $DT_API_TOKEN"
-  echo "Dynatrace Ingest Token: $DT_INGEST_TOKEN"
-  echo "Dynatrace Otel API Token: $DT_OTEL_API_TOKEN"
-  echo "Dynatrace Otel Endpoint: $DT_OTEL_ENDPOINT"
+  printInfo "Dynatrace Tenant: $DT_TENANT"
+  printInfo "Dynatrace API & PaaS Token: $DT_API_TOKEN"
+  printInfo "Dynatrace Ingest Token: $DT_INGEST_TOKEN"
+  printInfo "Dynatrace Otel API Token: $DT_OTEL_API_TOKEN"
+  printInfo "Dynatrace Otel Endpoint: $DT_OTEL_ENDPOINT"
 
   export DT_TENANT=$DT_TENANT
   export DT_API_TOKEN=$DT_API_TOKEN

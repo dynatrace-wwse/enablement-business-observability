@@ -8,7 +8,7 @@ source /workspaces/enablement-business-observability/.devcontainer/util/function
 
 installRunme
 
-installKind
+createKindCluster
 
 installK9s
 
