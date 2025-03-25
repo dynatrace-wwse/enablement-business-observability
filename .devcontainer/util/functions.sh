@@ -393,12 +393,9 @@ dynatraceDeployOperator() {
     deployCloudNative
     waitForAllPods
 
-    printInfoSection "Instrumenting NGINX Ingress"
-    
     #TODO: Fix this 
+    #printInfoSection "Instrumenting NGINX Ingress"
     #bashas "cd $K8S_PLAY_DIR/apps/nginx && bash instrument-nginx.sh"
-
-    waitForAllPods
 
   else
     printInfo "Not deploying the Dynatrace Operator, no credentials found"
