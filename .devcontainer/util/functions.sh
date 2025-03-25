@@ -521,7 +521,6 @@ deployAstroshop(){
 
 
 showMessage(){
-  
   printInfo "Lab guide exposed in $LAB_GUIDE_URL"
   printInfo "Astroshop exposed in $ASTROSHOP_URL"
 }

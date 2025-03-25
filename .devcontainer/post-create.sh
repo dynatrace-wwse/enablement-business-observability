@@ -5,18 +5,19 @@
 # Used during end2end testing to execute the code snippets
 source /workspaces/enablement-business-observability/.devcontainer/util/functions.sh
 
-
-installRunme
-
-createKindCluster
-
-installK9s
-
 bindFunctionsInShell
 
 setupAliases
 
+installRunme
+
 buildLabGuide
+
+exposeLabguide
+
+createKindCluster
+
+installK9s
 
 certmanagerInstall
 
