@@ -6,6 +6,8 @@ opentelemetry-demo:
   components:
     loadgenerator:
       envOverrides:
+        - name: LOCUST_USERS
+          value: "1"
         - name: LOCUST_HOST
           value: "http://astroshop-frontendproxy:8080"
     frontend:
