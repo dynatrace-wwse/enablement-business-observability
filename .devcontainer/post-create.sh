@@ -16,7 +16,7 @@ bindFunctionsInShell
 
 setupAliases
 
-buildAndExposeLabGuide
+buildLabGuide
 
 certmanagerInstall
 
@@ -66,4 +66,6 @@ else
     #   }"
 
     showMessage
+    exposeAstroshop
+    exposeLabguide
 fi

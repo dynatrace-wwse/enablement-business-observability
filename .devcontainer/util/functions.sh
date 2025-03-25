@@ -4,6 +4,12 @@
 # can be highly customized.
 # Original file located https://github.com/dynatrace-wwse/kubernetes-playground/blob/main/cluster-setup/functions.sh
 
+# ======================================================================
+#          ------- Util Functions -------                              #
+#  A set of util functions for logging, validating and                 #
+#  executing commands.                                                 #
+# ======================================================================
+
 # VARIABLES DECLARATION
 #https://cert-manager.io/docs/release-notes/
 CERTMANAGER_VERSION=1.15.3
@@ -13,6 +19,18 @@ RUNME_CLI_VERSION=3.10.2
 
 # Setting up the variable since its not set when instantiating the vscode folder.
 CODESPACE_VSCODE_FOLDER="/workspaces/enablement-business-observability"
+
+# ColorCoding
+GREEN="\e[32m"
+BLUE="\e[34m"
+LILA="\e[35m"
+YELLOW="\e[38;5;226m"
+RED="\e[38;5;196m"
+
+thickline="======================================================================"
+halfline="============"
+thinline="______________________________________________________________________"
+LOGNAME="dynatrace.enablement"
 
 # LabGuidePort
 LABGUIDEPORT=3000
@@ -31,21 +49,21 @@ timestamp() {
 }
 
 printInfo() {
-  echo -e "\e[32m [dev.container|\033\e[97mINFO\e[32m|\033\e $(timestamp) \e[0m|  $1  |"
+  echo -e "${GREEN}[$LOGNAME| ${BLUE}INFO${GREEN} |$(timestamp) ${LILA}| $1 |"
 }
 
 printInfoSection() {
-  echo -e "\e[32m [dev.container|\033\e[97mINFO\e[32m|\033\e $(timestamp) \e[0m|$thickline"
-  echo -e "\e[32m [dev.container|\033\e[97mINFO\e[32m|\033\e $(timestamp) \e[0m|$halfline $1 $halfline"
-  echo -e "\e[32m [dev.container|\033\e[97mINFO\e[32m|\033\e $(timestamp) \e[0m|$thinline"
+  echo -e "${GREEN}[$LOGNAME| ${BLUE}INFO${GREEN} |$(timestamp) ${LILA}|$thickline"
+  echo -e "${GREEN}[$LOGNAME| ${BLUE}INFO${GREEN} |$(timestamp) ${LILA}|$halfline $1 $halfline"
+  echo -e "${GREEN}[$LOGNAME| ${BLUE}INFO${GREEN} |$(timestamp) ${LILA}|$thinline"
 }
 
 printWarn() {
-  echo -e "\e[32m [dev.container|\e[38;5;226mWARN\e[32m|\033\e $(timestamp) \e[0m|  $1  |"
+  echo -e "${GREEN}[$LOGNAME| ${YELLOW}WARN${GREEN} |$(timestamp) ${LILA}|  $1  |"
 }
 
 printError() {
-  echo -e "\e[32m [dev.container|\e[38;5;196mERROR\e[32m|\033\e $(timestamp) \e[0m|  $1  |"
+  echo -e "${GREEN}[$LOGNAME| ${RED}ERROR${GREEN} |$(timestamp) ${LILA}|  $1  |"
 }
 
 # shellcheck disable=SC2120
@@ -443,19 +461,22 @@ deployOperatorViaHelm(){
 
 }
 
+exposeAstroshop(){
+  printInfo "Exposing Astroshop in your dev.container"
+  nohup kubectl port-forward service/astroshop-frontendproxy 8080:8080  -n astroshop --address="0.0.0.0" > /tmp/kubectl-port-forward.log 2>&1 &
+}
 
-buildAndExposeLabGuide(){
+exposeLabguide(){
+  printInfo "Exposing Lab Guide in your dev.container"
+  nohup node $CODESPACE_VSCODE_FOLDER/lab-guide/bin/server.js --host 0.0.0.0 --port 3000 > /dev/null 2>&1 &
+}
 
-  printInfoSection "Building and exposing the Lab-guide in port 3000 "
+buildLabGuide(){
 
+  printInfoSection "Building the Lab-guide in port 3000"
   cd $CODESPACE_VSCODE_FOLDER/lab-guide/
-  
   node bin/generator.js
-
-  nohup node bin/server.js --host 0.0.0.0 --port 3000 > /dev/null 2>&1 &
-
   cd -
-
 }
 
 deployAstroshop(){
@@ -494,10 +515,7 @@ deployAstroshop(){
 
   waitForAllPods astroshop
 
-  printInfo "Astroshop deployed succesfully, now is being exposed in you dev.container"
-
-  nohup kubectl port-forward service/astroshop-frontendproxy 8080:8080  -n astroshop --address="0.0.0.0" > /tmp/kubectl-port-forward.log 2>&1 &
- 
+  printInfo "Astroshop deployed succesfully"
 }
 
 
