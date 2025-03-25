@@ -4,7 +4,7 @@ In this section of the lab we will validate the data for the `Fraud Check` step 
 
 ### Query Business Events in Dynatrace
 
-In the Notebook App, execute the below DQL query, which retrieves the buisness events for `astroshop.fraudcheck.success` step.  
+Using the Notebook's App, execute the below DQL query, which retrieves the buisness events for `astroshop.fraudcheck.success` step.  
 
 DQL:
 ```sql
@@ -17,5 +17,7 @@ fetch bizevents
 Result:
 
 ![DQL Query](../../../assets/images/03_bizevents_logs_fraudcheck_data_validation_dql.png)
+
+### Conclusion
 
 We have completed the Business Event data validation for the `Fraud Check` step of the `Order to Shipped` business process.

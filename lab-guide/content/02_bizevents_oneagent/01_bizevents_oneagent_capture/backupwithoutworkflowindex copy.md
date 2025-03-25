@@ -63,22 +63,16 @@ Response - Body
 In the `Path` field use: 
 
 ```text
-*
+orderId
 ```
 
 In the `Operator` drop down list select: 
 
 ```text
-contains
+exists
 ```
 
-In the `value` field use:  
-
-```text
-orderId
-```
-
-![Trigger 2](../../../assets/images/02_bizevents_oneagent_placeorder_success_rule_2_BB.png)
+![Trigger 2](../../../assets/images/02_bizevents_oneagent_placeorder_success_rule_2_B.png)
 
 **Trigger 3**
 
@@ -153,7 +147,7 @@ The steps so far concludes the configuration of a business event that will be ge
 
 In most cases, however, you will want to add event attributes for more granular insight. `Attributes` are data fields extracted from the event `JSON` or `XML` payload.
 
-Below is sample response payload for the `Place Order` transaction.  The following steps will cover how to extract the `orderId` and `units` (units will be used for the revenue number)  from the response payload.   Capturing the `orderId` is critical for this business process as it will be unique identifier (correlation ID) that is common to all process steps.
+Below is sample response payload for the `Place Order` transaction.  The following steps will cover how to extract the `orderId` and `shippingTrackingId` from the response payload.   Capturing the `orderId` is critical for this business process as it will be unique identifier (correlation ID) that is common to all process steps.
 
 **Note:** Use must use exact letter casing for fields that you define for data extraction. 
 
@@ -203,7 +197,7 @@ Below is sample response payload for the `Place Order` transaction.  The followi
 }
 ```
 
-Below is sample response payload for the `Place Order` transaction.  The following steps will cover how to extract the `userId` from the response payload. 
+Below is sample response payload for the `Place Order` transaction.  The following steps will cover how to extract the `userId` and `email` from the response payload. 
 
 **Note:** Use must use exact letter casing for fields that you define for data extraction.
 
@@ -234,7 +228,7 @@ The following table shows additional examples of how to extract data from JSON p
 
 [Dynatrace Documentation Link](https://docs.dynatrace.com/docs/shortlink/ba-business-events-capturing#json)
 
-### Business Event - orderId Capture
+### Business Event - oderId Capture
 
 Under the Event data section, select the Add data field button
 
@@ -256,7 +250,31 @@ In the `Path` section use:
 orderId
 ```
 
-![Event Data orderId](../../../assets/images/02_bizevents_oneagent_placeorder_success_rule_5.png)
+![Event Data oderId](../../../assets/images/02_bizevents_oneagent_placeorder_success_rule_5.png)
+
+### Business Event - shippingTrackingId Capture
+
+Under the Event data section, select the Add data field button
+
+In the `Field name` section use: 
+
+```text
+shippingTrackingId
+```
+
+In the `Data Source` drop down list select:
+
+```text
+Response - Body
+```
+
+In the `Path` section use:
+
+```text
+shippingTrackingId
+```
+
+![Event Data shippingTrackingId](../../../assets/images/02_bizevents_oneagent_placeorder_success_rule_6.png)
 
 ### Business Event - country Capture
 
@@ -330,87 +348,12 @@ items.0.cost.units
 
 ![Event Data revenue](../../../assets/images/02_bizevents_oneagent_placeorder_success_rule_8.png)
 
-### Business Event - shippingTrackingId Capture
-
-Under the Event data section, select the Add data field button
-
-In the `Field name` section use: 
-
-```text
-shippingTrackingId
-```
-
-In the `Data Source` drop down list select:
-
-```text
-Response - Body
-```
-
-In the `Path` section use:
-
-```text
-shippingTrackingId
-```
-
-![Event Data shippingTrackingId](../../../assets/images/02_bizevents_oneagent_placeorder_success_rule_6.png)
-
-### Business Event - Full Response Body Capture
-
-Under the Event data section, select the Add data field button
-
-In the `Field name` section use: 
-
-```text
-ResBody
-```
-
-In the `Data Source` drop down list select:
-
-```text
-Request - Body
-```
-
-In the `Path` section use:
-
-```text
-*
-```
-
-`Note:` Some use cases might require capturing the full response body to then use a OpenPipeline for Business Events to extract needed fields,  or mask a field, then you can drop the full response body field keeping only what you need.  This might also be helpful for data validation when working on intial setup but not using when you fully deploy.   Lastly,  using * for the path field value will capture everything.   For this lab will use the full response body.
-
-
-![Event Data revenue](../../../assets/images/02_bizevents_oneagent_placeorder_success_rule_8.png)
-
 ### Business Event - Save Rule
 
 Click the Save changes button
 
 ![Save changes](../../../assets/images/02_bizevents_oneagent_placeorder_success_rule_9.png)
 
-### Query Business Events in Dynatrace
-
-Using the Notebook's App, execute the below DQL query, which retrieves the buisness events for `astroshop.placeorder.success` step.  
-
-DQL:
-```sql
-fetch bizevents
-| filter event.provider == "astroshop" and event.type == "astroshop.placeorder.success"
-| fields timestamp, event.provider, event.type, userId, orderId, revenue, country,trace_id,ResBody
-| sort timestamp desc
-```
-
-Result:
-
-![DQL Query](../../../assets/images/02_bizevents_oneagent_placeorder_success_dql_before_pioeline.png)
-
-Notice we have null values for `orderId`, `revenue`, `country` fields.   
-
-When reviewing the Reponse Payload, there are multiple references for the string '\u0019'. This is a unicode string that denotes End Of Medium.   JSON parsing from the OneAgent capture won't work for this use case.   
-
-![JSON parsingn unicode](../../../assets/images/02_bizevents_oneagent_placeorder_success_parse_unicode.png)
-
-This would be probably rare in your customer environments,  but the demo app we are using does.   Don't worry,  for this lab we can fix capturing  `orderId`, `revenue`, `country` fields using a OpenPipeline.
-
 ### Conclusion
 
-We have completed the Business Event capture for `Place Order Success` step  of the `Order to Shipped` business process.  In the next section we will use OpenPipeline to replace the null fields with correct data.
+We have completed the Business Event capture for `Place Order Success` step  of the `Order to Shipped` business process.  In the next section we will validate the data using the `Notebook's App`.

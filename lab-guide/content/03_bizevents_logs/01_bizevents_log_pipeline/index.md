@@ -2,8 +2,6 @@
 
 In this section of the lab we will use OpenPipeline to convert incoming logs to business events for the `Fraud Detection` step of the `Order to Shipped` business process. 
 
-This approach is useful if logs contain business-relevant information or no other ingest path for business events is available.
-
 ### Logs - Fraud Check
 
 In the Notebook App, execute the below DQL query, which retrieves the buisness events that will be used for the `Fraud Check` step of the `Order to Shipped` business process.
@@ -162,5 +160,47 @@ trace_id
 4. Select the Save Button at the top right of the screen
 
 ![Pipeline Data Extraction Rule Part 2](../../../assets/images/03_bizevents_logs_fraudcheck_openpipline_rule_4.png)
+
+## Business Event - OpenPipeline Dynamic Route - Fraud Check
+
+Now we need to create a Dynamic route for the `Astroshop_Fraud_Check` pipeline. Dynamic routes give you the option to route your ingested data into a pipeline with a matching condition.
+
+1. Select + Dynamic route button
+
+![Pipeline Dynamic Route Part 1](../../../assets/images/03_bizevents_logs_fraudcheck_openpipline_rule_5.png)
+
+2. Configure the Dynamic route with the following
+
+Name:
+
+```text
+Astroshop_Fraud_Check
+```
+
+Matching condition:
+
+```text
+k8s.container.name == "frauddetectionservice" AND matchesPhrase(content, "Consumed record with orderId:")
+```
+
+Pipeline:
+
+In the dropdown list select the following
+
+```text
+Astroshop_Fraud_Check
+```
+
+3. Select Save button
+
+![Pipeline Dynamic Route Part 1](../../../assets/images/03_bizevents_logs_fraudcheck_openpipline_rule_6.png)
+
+4.  Select Save button
+
+A warning icon with this message will appear "Do you want to save your changes to this table?", Select the Save button.
+
+![Pipeline Dynamic Route Part 2](../../../assets/images/03_bizevents_logs_fraudcheck_openpipline_rule_7.png)
+
+### Conclusion
 
 We have completed the Business Event capture for `Fraud Check` step  of the `Order to Shipped` business process.  In the next section we will validate the data using the `Notebook's App`.
