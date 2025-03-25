@@ -4,9 +4,7 @@ You will need a Dynatrace SaaS tenant.
 
 ### Identify Dynatrace SaaS Tenant
 
-Make a note of the Dynatrace environment name. This is the first part of the URL. `abc12345` would be the environment ID for `https://abc12345.apps.dynatrace.com`
-
-* For those running in other environments (such as `sprint`), make a note of your environment: `dev`, `sprint` or `live`
+Make a note of the Dynatrace environment name. This is the first part of the URL. `abc123` would be the environment ID for `https://abc123.apps.dynatrace.com`. When you enter the tenant please enter it without the 'apps' part, for production tenants eg. abc123 for live -> https://abc123.live.dynatrace.com and for sprint -> https://abc123.sprint.dynatracelabs.com no apps in the URL
 
 ### Enable Node.js Business Event OneAgent Feature
 
@@ -35,61 +33,25 @@ Instrumentation enabled (change needs a process restart)
 
 ![OneAgent Features Node.js Biz Events](../../../assets/images/01_01_oneagent_features_nodejs_bizevents.png)
 
-### Create Kubernetes Cluster and Operator Token
+### Get the Operator Token and the Ingest Token from the Kubernetes Cluster App
 
 1. Open the Kubernetes App
 2. Select the + Add cluster button
-3. Select the Kubernetes platform monitoring + Full-Stack observability radio button
-4. Make sure Log Management and Analytics is enabled
+3. Scroll down to the section Install Dynatrace Operator 
+4. Click on generate Token for the 'Dynatrace Operator' and save it to your Notepad
+5. Click on generate Token for the 'Data Ingest Token' and save it to your Notepad
 
-![Kubernetes Config 1](../../../assets/images/01_01_kubernetes_1.png)
-
-5. Under the Configure cluster section use the following:
-
-Cluster name:
-
-```txt
-astroshop
-```
-
-Network Zone (recommended):
-
-```txt
-astroshop
-```
-
-Host group (recommended):
-
-```txt
-astroshop
-```
-
-6. Under the Install Dynatrace Operator section for Dynatrace Operator token, select the Generate token button.
-
-7. Click the copy token icon.  Save the token to your notepad as we will use this later.
-
-`Note:` We don't need the Data ingest token (optional).   We will be creating an Ingest token in the next steps that will have more scope and will include the data ingest scope needed.
-
-![Kubernetes Config 2](../../../assets/images/01_01_kubernetes_2.png)
-
-### Create DT API Token
+### Create DT Business Event Token
 
 Create a Dynatrace access token with the following permissions. This token will be used by the setup script to automatically create all other required DT tokens.
 
 1. `Ingest bizevents`
-1. `Ingest events`
-1. `Ingest logs`
-1. `Ingest metrics`
-1. `Ingest OpenTelemetry traces`
-1. `PaaS integration - Installer download`
 
 Save the token to your notepad as we will use this later.
 
-![Dynatrace API Token](../../../assets/images/01_01_dynatrace_api_token.png)
-
 You should now have 4 pieces of information:
 
-1. A DT environment (`dev`, `sprint` or `live`)
-1. A DT environment ID
-1. A DT Kubernetes Operator token
-1. An API token
+1. A DT environment URL (DT_TENANT)
+1. A Dynatrace Operator Token (DT_OPERATOR_TOKEN)
+1. A Data Ingest Token (DT_INGEST_TOKEN)
+1. An API token with permission for Business Events
