@@ -14,6 +14,17 @@ RUNME_CLI_VERSION=3.10.2
 # Setting up the variable since its not set when instantiating the vscode folder.
 CODESPACE_VSCODE_FOLDER="/workspaces/enablement-business-observability"
 
+# LabGuidePort
+LABGUIDEPORT=3000
+ASTROSHOPPORT=8080
+if [[ $CODESPACES == true ]]; then
+  LAB_GUIDE_URL="https://${CODESPACE_NAME}-$LABGUIDEPORT.app.github.dev"
+  ASTROSHOP_URL="https://${CODESPACE_NAME}-$ASTROSHOPPORT.app.github.dev"
+else
+  LAB_GUIDE_URL="https://localhost:$LABGUIDEPORT"
+  ASTROSHOP_URL="http://localhost:$ASTROSHOPPORT"
+fi
+
 # FUNCTIONS DECLARATIONS
 timestamp() {
   date +"[%Y-%m-%d %H:%M:%S]"
@@ -432,6 +443,21 @@ deployOperatorViaHelm(){
 
 }
 
+
+buildAndExposeLabGuide(){
+
+  printInfoSection "Building and exposing the Lab-guide in port 3000 "
+
+  cd $CODESPACE_VSCODE_FOLDER/lab-guide/
+  
+  node bin/generator.js
+
+  nohup node bin/server.js --host 0.0.0.0 --port 3000 > /dev/null 2>&1 &
+
+  cd -
+
+}
+
 deployAstroshop(){
   printInfoSection "Deploying Astroshop"
 
@@ -472,4 +498,12 @@ deployAstroshop(){
 
   nohup kubectl port-forward service/astroshop-frontendproxy 8080:8080  -n astroshop --address="0.0.0.0" > /tmp/kubectl-port-forward.log 2>&1 &
  
+}
+
+
+showMessage(){
+  
+  printInfo "Lab guide exposed in $LAB_GUIDE_URL"
+  printInfo "Astroshop exposed in $ASTROSHOP_URL"
+
 }

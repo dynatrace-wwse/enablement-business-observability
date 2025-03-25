@@ -16,6 +16,8 @@ bindFunctionsInShell
 
 setupAliases
 
+buildAndExposeLabGuide
+
 certmanagerInstall
 
 certmanagerEnable
