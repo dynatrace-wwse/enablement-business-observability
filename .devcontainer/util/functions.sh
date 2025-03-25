@@ -465,10 +465,9 @@ printInfo "Stopping all cronjobs from Demo Live since they are not needed with t
 
 kubectl get cronjobs -n astroshop -o json | jq -r '.items[] | .metadata.name' | xargs -I {} kubectl patch cronjob {} -n astroshop --patch '{"spec": {"suspend": true}}'
 
+# Listing all cronjobs
 kubectl get cronjobs -n astroshop
 
-
-#kubectl get ing -n astroshop
 waitForAllPods astroshop
 
 nohup kubectl port-forward service/astroshop-frontendproxy 8080:8080  -n astroshop --address="0.0.0.0" > /tmp/kubectl-port-forward.log 2>&1 &

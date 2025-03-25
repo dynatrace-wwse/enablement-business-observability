@@ -13,11 +13,12 @@ nodes:
   extraMounts:
   - hostPath: /
     containerPath: /mnt/root
-  extraPortMappings:
-  - hostPort: 8080
-    containerPort: 8080
-    protocol: TCP
-  - hostPort: 4317
-    containerPort: 4317
-  - hostPort: 4318
-    containerPort: 4318
+  # Ports are forwarded on demand using a container.
+  #extraPortMappings:
+  #- hostPort: 8080
+  #  containerPort: 8080
+  #  protocol: TCP
+  #- hostPort: 4317
+  #  containerPort: 4317
+  #- hostPort: 4318
+  #  containerPort: 4318

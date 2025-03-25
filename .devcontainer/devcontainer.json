@@ -24,14 +24,13 @@
 	},
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
-	//"forwardPorts": [
-	//	8080
-	//],
-
+	"forwardPorts": [
+		8080
+	],
 	// add labels
-	//"portsAttributes": {
-	//	"8080": { "label": "Astroshop web UI" }
-	//},
+	"portsAttributes": {
+		"8080": { "label": "Astroshop Web UI" }
+	},
 
 	"hostRequirements": {
 		"cpus": 4
