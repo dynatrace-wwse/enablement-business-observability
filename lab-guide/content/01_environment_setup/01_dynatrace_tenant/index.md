@@ -33,13 +33,14 @@ Instrumentation enabled (change needs a process restart)
 
 ![OneAgent Features Node.js Biz Events](../../../assets/images/01_01_oneagent_features_nodejs_bizevents.png)
 
-### Get the Operator Token and the Ingest Token from the Kubernetes Cluster App
+### Get the Operator Token and the Ingest Token from the Kubernetes App
 
 1. Open the Kubernetes App
 2. Select the + Add cluster button
 3. Scroll down to the section Install Dynatrace Operator 
 4. Click on generate Token for the 'Dynatrace Operator' and save it to your Notepad
 5. Click on generate Token for the 'Data Ingest Token' and save it to your Notepad
+6. You can close the Kubernetes App, we don't need it, we just needed the tokens.
 
 ### Create DT Business Event Token
 
