@@ -293,13 +293,13 @@ saveReadCredentials() {
   printInfo "Dynatrace Tenant: $DT_TENANT"
   printInfo "Dynatrace API & PaaS Token: $DT_OPERATOR_TOKEN"
   printInfo "Dynatrace Ingest Token: $DT_INGEST_TOKEN"
-  printInfo "Dynatrace Otel API Token: $DT_OTEL_API_TOKEN"
+  printInfo "Dynatrace Otel API Token: $DT_INGEST_TOKEN"
   printInfo "Dynatrace Otel Endpoint: $DT_OTEL_ENDPOINT"
 
   export DT_TENANT=$DT_TENANT
   export DT_OPERATOR_TOKEN=$DT_OPERATOR_TOKEN
   export DT_INGEST_TOKEN=$DT_INGEST_TOKEN
-  export DT_OTEL_API_TOKEN=$DT_OTEL_API_TOKEN
+  export DT_INGEST_TOKEN=$DT_INGEST_TOKEN
   export DT_OTEL_ENDPOINT=$DT_OTEL_ENDPOINT
 
 }
@@ -467,7 +467,7 @@ deployAstroshop(){
   #saveReadCredentials 
 
   # To override the Dynatrace values call the function with the following order
-  #saveReadCredentials $DT_TENANT $DT_OPERATOR_TOKEN $DT_INGEST_TOKEN $DT_OTEL_API_TOKEN $DT_OTEL_ENDPOINT
+  #saveReadCredentials $DT_TENANT $DT_OPERATOR_TOKEN $DT_INGEST_TOKEN $DT_INGEST_TOKEN $DT_OTEL_ENDPOINT
 
   ###
   # Instructions to install Astroshop with Helm Chart from R&D and images built in shinojos repo (including code modifications from R&D)
