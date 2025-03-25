@@ -468,11 +468,12 @@ exposeAstroshop(){
 
 exposeLabguide(){
   printInfo "Exposing Lab Guide in your dev.container"
-  nohup node $CODESPACE_VSCODE_FOLDER/lab-guide/bin/server.js --host 0.0.0.0 --port 3000 > /dev/null 2>&1 &
+  cd $CODESPACE_VSCODE_FOLDER/lab-guide/
+  nohup node bin/server.js --host 0.0.0.0 --port 3000 > /dev/null 2>&1 &
+  cd -
 }
 
 buildLabGuide(){
-
   printInfoSection "Building the Lab-guide in port 3000"
   cd $CODESPACE_VSCODE_FOLDER/lab-guide/
   node bin/generator.js
@@ -523,5 +524,10 @@ showMessage(){
   
   printInfo "Lab guide exposed in $LAB_GUIDE_URL"
   printInfo "Astroshop exposed in $ASTROSHOP_URL"
+}
 
+showOpenPorts(){
+  sudo netstat -tulnp
+  # another alternative is 
+  # sudo ss -tulnp
 }
