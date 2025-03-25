@@ -41,6 +41,9 @@
 	// eg. ./init.sh or python installer.py
 	"postCreateCommand": "./.devcontainer/post-create.sh",
 
+	// Use 'postStartCommand' to run commands after the container starts.
+	"postStartCommand": "./.devcontainer/post-start.sh",
+
 	// Add recommended secrets
 	"secrets": {
 		"DT_TENANT": {

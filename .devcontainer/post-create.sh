@@ -69,8 +69,5 @@ else
     #     \"demo\": \"demo-PLACEHOLDER\",
     #     \"codespace.name\": \"$CODESPACE_NAME\"
     #   }"
-
-    showMessage
-    exposeAstroshop
-    exposeLabguide
+    printInfo "dev.container finished creating"
 fi
