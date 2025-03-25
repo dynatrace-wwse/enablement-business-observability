@@ -1,4 +1,4 @@
-ingressHostUrl: "astroshop-frontendproxy.astroshop.svc.cluster.local"
+ingressHostUrl: "astroshop-frontendproxy"
 collector_tenant_endpoint: donotstore
 collector_tenant_token: donotstore
 
@@ -7,7 +7,7 @@ opentelemetry-demo:
     loadgenerator:
       envOverrides:
         - name: LOCUST_HOST
-          value: "https://astroshop-frontendproxy.astroshop.svc.cluster.local"
+          value: "http://astroshop-frontendproxy"
     frontend:
       envOverrides:
       - name: DT_LOGLEVELCON # https://www.dynatrace.com/support/help/shortlink/agent-logging
@@ -33,4 +33,4 @@ opentelemetry-demo:
       - name: NEXT_OTEL_VERBOSE
         value: '0'
       - name: ENV_PLATFORM
-        value: 'DEV'
+        value: 'DEVCONTAINER'

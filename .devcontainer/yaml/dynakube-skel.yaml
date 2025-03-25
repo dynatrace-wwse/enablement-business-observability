@@ -285,10 +285,10 @@ spec:
     # For more information on TopologySpreadConstraints, see https://kubernetes.io/docs/concepts/scheduling-eviction/topology-spread-constraints/
     #
     # topologySpreadConstraints: []
-  templates:
-    extensionExecutionController:
-      imageRef:
-        repository: public.ecr.aws/dynatrace/dynatrace-eec
-        tag: 1.305.99.20250115-133014
-  extensions: {}
-  logMonitoring: {}
+  #templates:
+  #  extensionExecutionController:
+  #    imageRef:
+  #      repository: public.ecr.aws/dynatrace/dynatrace-eec
+  #      tag: 1.305.99.20250115-133014
+  #extensions: {}
+  #logMonitoring: {}
