@@ -1,0 +1,138 @@
+metadata:
+  version: "1"
+  dependencies:
+    apps:
+      - id: dynatrace.automations
+        version: ^1.1547.2
+  inputs: []
+workflow:
+  title: Astroshop - Order Shipped
+  tasks:
+    add_on_some_time:
+      name: add_on_some_time
+      description: Run custom JavaScript code.
+      action: dynatrace.automations:run-javascript
+      input:
+        script: >-
+          import { execution } from '@dynatrace-sdk/automation-utils';
+
+
+          export default async function ({ executionId }) {
+
+            const ex = await execution(executionId);
+
+            const minMinutes = 1;
+            const maxMinutes = 2;
+            const randomMinutes = Math.random() * (maxMinutes - minMinutes) + minMinutes;
+
+            const randomMilliseconds = Math.floor(randomMinutes * 60 * 1000);
+            const currentTime = new Date(ex.params?.event['timestamp']);
+            const newTime = new Date(currentTime.getTime() + randomMilliseconds);
+
+            console.log("Original timestamp: " + ex.params?.event['timestamp']);
+            console.log("New timestamp: " + newTime.toISOString());
+            
+            return newTime.toISOString();
+          }
+      position:
+        x: 0
+        y: 3
+      predecessors:
+        - check_for_order_and_fraud
+      conditions:
+        states:
+          check_for_order_and_fraud: SUCCESS
+        custom: '{{ result("check_for_order_and_fraud")["records"][0].check == true }}'
+    insert_biz_event:
+      name: insert_biz_event
+      description: Issue an HTTP request to any API.
+      action: dynatrace.automations:http-function
+      active: true
+      input:
+        url: "{{ result(\"js_set_parameters\")['BIZEVENTS_API_URL'] }}"
+        method: POST
+        headers:
+          Content-Type: application/json
+          Authorization: Api-Token {{ result("js_set_parameters")['BIZEVENTS_API_TOKEN'] }}
+        payload: |-
+          {
+            "event.provider": "{{ event()["event.provider"] }}",
+            "orderId": "{{ event()["orderId"] }}",
+            "event.type": "astroshop.ordershipped.success",
+            "timestamp": "{{ result("add_on_some_time") }}"
+          }
+        failOnResponseCodes: 400-599
+      position:
+        x: 0
+        y: 4
+      predecessors:
+        - add_on_some_time
+      conditions:
+        states:
+          add_on_some_time: SUCCESS
+    js_set_parameters:
+      name: js_set_parameters
+      description: Set the parameters for this workflow
+      action: dynatrace.automations:run-javascript
+      input:
+        script: >-
+          export default async function () {
+
+            let PARAMETERS = {
+
+              // BIZEVENTS_API_URL - the URL to Business Events INGEST API
+              BIZEVENTS_API_URL: "https://<tenant-id-env>/api/v2/bizevents/ingest", 
+              
+              // BIZEVENTS_API_TOKEN - token value with biz events ingest scope
+              BIZEVENTS_API_TOKEN: "",
+              
+            }
+            
+            return PARAMETERS;
+          }
+      position:
+        x: 0
+        y: 1
+      predecessors: []
+    check_for_order_and_fraud:
+      name: check_for_order_and_fraud
+      description: Make use of Dynatrace Grail data in your workflow.
+      action: dynatrace.automations:execute-dql-query
+      input:
+        query: >-
+          fetch bizevents
+
+          | filter event.provider == "astroshop"
+
+          | filter orderId == "{{event()["orderId"]}}"
+
+          | summarize placeOrder = countIf(event.type ==
+          "astroshop.placeorder.success"), by:{orderId}
+
+          | fieldsAdd check = if(placeOrder > 0, true, else:{false})
+      position:
+        x: 0
+        y: 2
+      predecessors:
+        - js_set_parameters
+      conditions:
+        states:
+          js_set_parameters: SUCCESS
+  description: ""
+  trigger:
+    eventTrigger:
+      filterQuery: matchesValue(event.provider, "astroshop") and
+        matchesValue(event.type, "astroshop.fraudcheck.success")
+      isActive: false
+      uniqueExpression: null
+      triggerConfiguration:
+        type: event
+        value:
+          query: matchesValue(event.provider, "astroshop") and matchesValue(event.type,
+            "astroshop.fraudcheck.success")
+          eventType: bizevents
+  schemaVersion: 3
+  result: null
+  input: {}
+  hourlyExecutionLimit: 1000
+  type: STANDARD

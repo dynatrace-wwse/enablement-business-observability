@@ -47,12 +47,17 @@ astroshop.placeorder.success
 
 ![Flow Step 1](../../../assets/images/06_bizevents_business_flow_config_step1.png)
 
-5. For Flow Step 2, click the `Place Order` step.  Select the + button on the bottom .  The will add a new step under the `Place Order` step.  Use the following:
+After picking `astroshop.placeorder.success`, the `Place Order` step shoud look like this below:
+
+![Flow Step 1](../../../assets/images/06_bizevents_business_flow_config_step1_b.png)
+
+
+5. For Flow Step 2, click the `Place Order` step.  Select the + button on the bottom .  This will add a new step under the `Place Order` step. Use the following:
 
 Name:
 
 ```txt
-Fraud Detection
+Fraud Check
 ```
 
 Drop-down event box:
@@ -61,9 +66,13 @@ Drop-down event box:
 astroshop.fraudcheck.success
 ```
 
-![Step 2](../../../assets/images/06_bizevents_business_flow_config_step2.png)
+![Flow Step 2](../../../assets/images/06_bizevents_business_flow_config_step2.png)
 
-5. For Flow Step 3, click the `Fraud Detection` step.  Select the + button on the bottom .  The will add a new step under the `Fraud Detection` step.  Use the following:
+After picking `astroshop.fraudcheck.success`, the `Fraud Check` step shoud look like this below:
+
+![Flow Step 2](../../../assets/images/06_bizevents_business_flow_config_step2_b.png)
+
+5. For Flow Step 3, click the `Fraud Check` step.  Select the + button on the bottom.  This will add a new step under the `Fraud Check` step.  Use the following:
 
 Name:
 
@@ -78,6 +87,10 @@ astroshop.ordershipped.success
 ```
 
 ![Flow Step 3](../../../assets/images/06_bizevents_business_flow_config_step3.png)
+
+After picking `astroshop.ordershipped.success`, the `Order Shipped` step shoud look like this below:
+
+![Flow Step 2](../../../assets/images/06_bizevents_business_flow_config_step3_b.png)
 
 6. For the KPI is extracted from the event to calculate revenue section, use the following:
 

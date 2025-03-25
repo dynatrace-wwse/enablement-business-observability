@@ -39,4 +39,4 @@ The Tree view displays all steps with the corresponding numbers of unique flows 
 
 ### Conclusion
 
-We have completed the `Business Flow` for the Astroshop `Order to Shipped` business process data validation.
+We have completed data validation for the Astroshop `Order to Shipped` Business Flow.

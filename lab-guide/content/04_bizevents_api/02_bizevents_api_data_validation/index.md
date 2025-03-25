@@ -20,4 +20,4 @@ Result:
 
 ### Conclusion
 
-We have completed the Business Event data validation for the `Order Shipped` step of the `Order to Shipped` business process.
+We have completed data validation for the `Order Shipped` step of the `Order to Shipped` business process.
