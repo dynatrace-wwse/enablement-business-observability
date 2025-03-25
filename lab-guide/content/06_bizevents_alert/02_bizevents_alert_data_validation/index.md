@@ -10,4 +10,4 @@ Open Problems's App,  you should see `Astroshop - Orders with Zero Values` probl
 
 ### Conclusion
 
-We have completed the `Place Order` Business Alert data validation.
+We have completed data validation for the `Place Order` business alert.

@@ -16,4 +16,4 @@ Result:
 
 ### Conclusion
 
-We have completed the Business Event metric data validation for the `Place Order` metric.
+We have completed data validation for the `Place Order` business metric.
