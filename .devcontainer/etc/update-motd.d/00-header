@@ -3,11 +3,11 @@
 printf "%s"
 
 if [[ $CODESPACES == true ]]; then
-  KUBERNETES_DASHBOARD_URL="https://${CODESPACE_NAME}-8001.app.github.dev"
-  HELM_DASHBOARD_URL="https://${CODESPACE_NAME}-8002.app.github.dev"
+  LAB_GUIDE_URL="https://${CODESPACE_NAME}-3000.app.github.dev"
+  ASTROSHOP_URL="https://${CODESPACE_NAME}-8080.app.github.dev"
 else
-  KUBERNETES_DASHBOARD_URL="https://localhost:8001"
-  HELM_DASHBOARD_URL="http://localhost:8002"
+  LAB_GUIDE_URL="https://localhost:3000"
+  ASTROSHOP_URL="http://localhost:8080"
 fi
 printf "\n"
 printf '\e[33;0;36m'"Welcome! You are running in a DevContainer.\n"

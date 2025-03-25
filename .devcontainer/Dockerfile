@@ -24,6 +24,9 @@ COPY ./etc/update-motd.d/00-header /etc/update-motd.d/
 # Install Python
 RUN apt install python3 python3-pip -y
 
+# Install NodeJS
+RUN apt install nodejs
+
 # Install yq
 RUN wget https://github.com/mikefarah/yq/releases/download/$YQ_VERSION/$YQ_BINARY -O /usr/bin/yq && sudo chmod +x /usr/bin/yq
 

@@ -129,22 +129,32 @@ installK9s() {
   curl -sS https://webinstall.dev/k9s | bash
 }
 
-setupAliases() {
-  printInfoSection "Adding Bash and Kubectl Pro CLI aliases to .bash_aliases for user $USER and root "
+bindFunctionsInShell() {
+  printInfoSection "Binding functions.sh in the .zshrc for user $USER "
   echo "
-      # Alias for ease of use of the CLI
-      alias las='ls -las' 
-      alias c='clear' 
-      alias hg='history | grep' 
-      alias h='history' 
-      alias gita='git add -A'
-      alias gitc='git commit -s -m'
-      alias gitp='git push'
-      alias gits='git status'
-      alias gith='git log --graph --pretty=\"%C(yellow)[%h] %C(reset)%s by %C(green)%an - %C(cyan)%ad %C(auto)%d\" --decorate --all --date=human'
-      alias vaml='vi -c \"set syntax:yaml\" -' 
-      alias vson='vi -c \"set syntax:json\" -' 
-      alias pg='ps -aux | grep' " >/"$HOME"/.bash_aliases
+# Loading all this functions in CLI
+source $CODESPACE_VSCODE_FOLDER/.devcontainer/util/functions.sh
+" >> /"$HOME"/.zshrc
+
+}
+
+setupAliases() {
+  printInfoSection "Adding Bash and Kubectl Pro CLI aliases to the end of the .zshrc for user $USER "
+  echo "
+# Alias for ease of use of the CLI
+alias las='ls -las' 
+alias c='clear' 
+alias hg='history | grep' 
+alias h='history' 
+alias gita='git add -A'
+alias gitc='git commit -s -m'
+alias gitp='git push'
+alias gits='git status'
+alias gith='git log --graph --pretty=\"%C(yellow)[%h] %C(reset)%s by %C(green)%an - %C(cyan)%ad %C(auto)%d\" --decorate --all --date=human'
+alias vaml='vi -c \"set syntax:yaml\" -' 
+alias vson='vi -c \"set syntax:json\" -' 
+alias pg='ps -aux | grep' 
+" >> /"$HOME"/.zshrc
 }
 
 installRunme() {
@@ -428,50 +438,38 @@ deployAstroshop(){
   # read the credentials and variables
   saveReadCredentials 
 
-# To override the Dynatrace values call the function with the following order
-#saveReadCredentials $DT_TENANT $DT_API_TOKEN $DT_INGEST_TOKEN $DT_OTEL_API_TOKEN $DT_OTEL_ENDPOINT
+  # To override the Dynatrace values call the function with the following order
+  #saveReadCredentials $DT_TENANT $DT_API_TOKEN $DT_INGEST_TOKEN $DT_OTEL_API_TOKEN $DT_OTEL_ENDPOINT
 
-: <<'EOF'
+  ###
+  # Instructions to install Astroshop with Helm Chart from R&D and images built in shinojos repo (including code modifications from R&D)
+  ####
+  #sed -i 's~domain.placeholder~'"$DOMAIN"'~' $CODESPACE_VSCODE_FOLDER/.devcontainer/astroshop/helm/dt-otel-demo-helm/values.yaml
+  #sed -i 's~domain.placeholder~'"$DOMAIN"'~' $CODESPACE_VSCODE_FOLDER/.devcontainer/astroshop/helm/dt-otel-demo-helm-deployments/values.yaml
 
-# Dynatrace needs to be installed,
-# achieved with this flag dynatrace_deploy_cloudnative=true
-# DT_OTEL_API_TOKEN and DT_OTEL_ENDPOINT are exported
+  helm repo add open-telemetry https://open-telemetry.github.io/opentelemetry-helm-charts
 
-## Certmanager needs to be installed 
-# enable the FF to install certmanager and call the functions
-#certmanager_install=true; certmanager_enable=true
-#certmanagerInstall && certmanagerEnable
-EOF
+  helm dependency build $CODESPACE_VSCODE_FOLDER/.devcontainer/astroshop/helm/dt-otel-demo-helm
 
-###
-# Instructions to install Astroshop with Helm Chart from R&D and images built in shinojos repo (including code modifications from R&D)
-####
-#sed -i 's~domain.placeholder~'"$DOMAIN"'~' $CODESPACE_VSCODE_FOLDER/.devcontainer/astroshop/helm/dt-otel-demo-helm/values.yaml
-#sed -i 's~domain.placeholder~'"$DOMAIN"'~' $CODESPACE_VSCODE_FOLDER/.devcontainer/astroshop/helm/dt-otel-demo-helm-deployments/values.yaml
+  kubectl create namespace astroshop
 
-helm repo add open-telemetry https://open-telemetry.github.io/opentelemetry-helm-charts
+  DT_OTEL_ENDPOINT=$DT_TENANT/api/v2/otlp
 
-helm dependency build $CODESPACE_VSCODE_FOLDER/.devcontainer/astroshop/helm/dt-otel-demo-helm
+  printInfo "OTEL Configuration URL $DT_OTEL_ENDPOINT and Token $DT_OTEL_API_TOKEN"  
 
-kubectl create namespace astroshop
+  helm upgrade --install astroshop -f $CODESPACE_VSCODE_FOLDER/.devcontainer/astroshop/helm/dt-otel-demo-helm-deployments/values.yaml --set default.image.repository=docker.io/shinojosa/astroshop --set default.image.tag=1.12.0 --set collector_tenant_endpoint=$DT_OTEL_ENDPOINT --set collector_tenant_token=$DT_OTEL_API_TOKEN -n astroshop $CODESPACE_VSCODE_FOLDER/.devcontainer/astroshop/helm/dt-otel-demo-helm
 
-DT_OTEL_ENDPOINT=$DT_TENANT/api/v2/otlp
+  printInfo "Stopping all cronjobs from Demo Live since they are not needed with this scenario"
 
-echo "OTEL Configuration URL $DT_OTEL_ENDPOINT and Token $DT_OTEL_API_TOKEN"  
+  kubectl get cronjobs -n astroshop -o json | jq -r '.items[] | .metadata.name' | xargs -I {} kubectl patch cronjob {} -n astroshop --patch '{"spec": {"suspend": true}}'
 
-helm upgrade --install astroshop -f $CODESPACE_VSCODE_FOLDER/.devcontainer/astroshop/helm/dt-otel-demo-helm-deployments/values.yaml --set default.image.repository=docker.io/shinojosa/astroshop --set default.image.tag=1.12.0 --set collector_tenant_endpoint=$DT_OTEL_ENDPOINT --set collector_tenant_token=$DT_OTEL_API_TOKEN -n astroshop $CODESPACE_VSCODE_FOLDER/.devcontainer/astroshop/helm/dt-otel-demo-helm
+  # Listing all cronjobs
+  kubectl get cronjobs -n astroshop
 
-printInfo "Stopping all cronjobs from Demo Live since they are not needed with this scenario"
+  waitForAllPods astroshop
 
-kubectl get cronjobs -n astroshop -o json | jq -r '.items[] | .metadata.name' | xargs -I {} kubectl patch cronjob {} -n astroshop --patch '{"spec": {"suspend": true}}'
+  printInfo "Astroshop deployed succesfully, now is being exposed in you dev.container"
 
-# Listing all cronjobs
-kubectl get cronjobs -n astroshop
-
-waitForAllPods astroshop
-
-nohup kubectl port-forward service/astroshop-frontendproxy 8080:8080  -n astroshop --address="0.0.0.0" > /tmp/kubectl-port-forward.log 2>&1 &
-
-printInfo "Astroshop available at: "
-
+  nohup kubectl port-forward service/astroshop-frontendproxy 8080:8080  -n astroshop --address="0.0.0.0" > /tmp/kubectl-port-forward.log 2>&1 &
+ 
 }

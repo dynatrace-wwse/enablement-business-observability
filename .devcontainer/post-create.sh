@@ -12,6 +12,8 @@ createKindCluster
 
 installK9s
 
+bindFunctionsInShell
+
 setupAliases
 
 certmanagerInstall
@@ -47,7 +49,7 @@ if [[ "$CODESPACE_NAME" == dttest-* ]]; then
     gh codespace delete --codespace "$CODESPACE_NAME" --force
 else
 
-    echo "doing nothing"
+    
     # Your content here
     # TODO
 
@@ -60,4 +62,6 @@ else
     #     \"demo\": \"demo-PLACEHOLDER\",
     #     \"codespace.name\": \"$CODESPACE_NAME\"
     #   }"
+
+    showMessage
 fi
