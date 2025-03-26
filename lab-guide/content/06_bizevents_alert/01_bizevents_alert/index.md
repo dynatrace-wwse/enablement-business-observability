@@ -12,7 +12,7 @@ Examples of where this could occur:
 
 1. Launch the OpenPipeline app
 
-2. Select `Business events` in the OpenPipline tree
+2. Select `Business events` in the OpenPipeline tree
 
 3. Select `Pipelines` tab
 
@@ -24,7 +24,11 @@ Examples of where this could occur:
 
 1. Select `Data extraction` tab
 
-2. Fill out the fields with the following data:
+2. Select the `+ Processor` button (left side of the screen), then select `Davis event`
+
+![Pipeline Part 1](../../../assets/images/06_bizevents_alert_open_pipeline_1.png)
+
+3. Fill out the fields with the following data:
 
 Name: 
 
@@ -80,9 +84,9 @@ Right side value:   {dt.entity.process_group}
 
 4. Select the Save Button at the top right of the screen
 
-![Pipeline Processing Rule Part 2](../../../assets/images/05_bizevents_metric_placeorder_openpipline_rule_2.png)
+![Pipeline Part 2](../../../assets/images/06_bizevents_alert_open_pipeline_2.png)
 
 ### Conclusion
 
-We have completed the for `Place Order` Business Alert.  In the next section we will validate the data using the `Problems's App`.
+We have completed the `Place Order` Business Alert.  The next section will validate the data.
 

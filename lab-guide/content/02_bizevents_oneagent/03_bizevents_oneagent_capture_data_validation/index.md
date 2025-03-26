@@ -4,7 +4,7 @@ In this section of the lab we will validate the data for the `Place Order` step 
 
 ### Query Business Events in Dynatrace
 
-Using the Notebook's App, execute the below DQL query, which retrieves the buisness events for `astroshop.placeorder.success` step.  
+Using a Notebook execute the below DQL query which retrieves the buisness events for `astroshop.placeorder.success` step.  
 
 DQL:
 ```sql

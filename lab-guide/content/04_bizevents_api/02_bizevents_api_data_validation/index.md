@@ -4,7 +4,7 @@ In this section of the lab we will validate the data for the `Order Shipped` ste
 
 ### Query Business Events in Dynatrace
 
-In the Notebook App, execute the below DQL query, which retrieves the buisness events for `astroshop.ordershipped.success` step.  
+Using a Notebook execute the below DQL query which retrieves the business events for `astroshop.ordershipped.success` step.  
 
 DQL:
 ```sql

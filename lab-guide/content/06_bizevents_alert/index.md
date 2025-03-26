@@ -1,11 +1,10 @@
-## Business Events - Alerts
+## Business Events - Alert
 
-Business event metric extraction is a convenient way to create your own business metrics. It enables you to:
+Real-time business metric alerting in Dynatrace is crucial for proactive issue identification, rapid response, and optimized business outcomes by enabling businesses to monitor and react to performance issues impacting key business processes and user experience before they escalate. 
 
-* Create custom alerts, such as when a certain value surges or drops. Alerts can be based on attribute values or specific business event occurrences.
-* Reduce your DDU consumption and lower your costs.
+By proactively addressing performance issues and optimizing business processes, Dynatrace helps organizations achieve better business outcomes, such as increased revenue, higher conversion rates, and improved customer satisfaction. 
 
-This lab will we will use the `Place Order` Business Events Revenue data to create an alert for data  using Business Events that have revenue = 0.   This is example scenario for this lab,  but synchronization failures do happen where Business Events and Davis Events could help provide your cusotomers immediate notification.
+This lab will we will use the `Place Order` business events `Revenue` data to create an alert when `Orders` have revenue = 0.   This is example scenario for this lab, but synchronization failures do happen where Dynatrace can provide immediate notification.
 
 Examples of where this could occur:
 
@@ -13,4 +12,4 @@ Examples of where this could occur:
 * Different Coding Systems
 * Bidirectional Syncing
 
-![Place Order Barchart](../../assets/images/05_bizevents_metric_place_order_barchart.png)
+![Zero Dollar Orders](../../assets/images/06_bizevents_alert_table.png)

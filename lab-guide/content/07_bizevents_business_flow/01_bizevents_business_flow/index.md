@@ -7,7 +7,7 @@ In this section of the lab we will create a Business Flow using the Business Eve
 
 1. Launch the Business Flow app
 
-2. Select `+ Business Flow `to get to the configuration page
+2. Select `+ Business Flow ` to get to the configuration page
 
 ![Business Flow Config 1](../../../assets/images/06_bizevents_business_flow_config_1.png)
 
@@ -31,7 +31,7 @@ orderId
 
 ![Correlation ID](../../../assets/images/06_bizevents_business_flow_config_correlationid.png)
 
-5. For Flow Step 1,  use the following:
+5. For Flow Step 1, use the following:
 
 Name:
 
@@ -47,12 +47,12 @@ astroshop.placeorder.success
 
 ![Flow Step 1](../../../assets/images/06_bizevents_business_flow_config_step1.png)
 
-After picking `astroshop.placeorder.success`, the `Place Order` step shoud look like this below:
+After picking `astroshop.placeorder.success`, the `Place Order` step should look like this below:
 
 ![Flow Step 1](../../../assets/images/06_bizevents_business_flow_config_step1_b.png)
 
 
-5. For Flow Step 2, click the `Place Order` step.  Select the + button on the bottom .  This will add a new step under the `Place Order` step. Use the following:
+5. For Flow Step 2, click the `Place Order` step.  Select the + button on the bottom.  This will add a new step under the `Place Order` step. Use the following:
 
 Name:
 
@@ -68,7 +68,7 @@ astroshop.fraudcheck.success
 
 ![Flow Step 2](../../../assets/images/06_bizevents_business_flow_config_step2.png)
 
-After picking `astroshop.fraudcheck.success`, the `Fraud Check` step shoud look like this below:
+After picking `astroshop.fraudcheck.success`, the `Fraud Check` step should look like this below:
 
 ![Flow Step 2](../../../assets/images/06_bizevents_business_flow_config_step2_b.png)
 
@@ -88,7 +88,7 @@ astroshop.ordershipped.success
 
 ![Flow Step 3](../../../assets/images/06_bizevents_business_flow_config_step3.png)
 
-After picking `astroshop.ordershipped.success`, the `Order Shipped` step shoud look like this below:
+After picking `astroshop.ordershipped.success`, the `Order Shipped` step should look like this below:
 
 ![Flow Step 2](../../../assets/images/06_bizevents_business_flow_config_step3_b.png)
 
@@ -118,4 +118,4 @@ revenue
 
 ### Conclusion
 
-We have completed the Business Flow configuration for the Astroshop `Order to Shipped` business process.  The next section we will do data validation.
+We have completed the Business Flow configuration for the Astroshop `Order to Shipped` business process. The next section will validate the data.

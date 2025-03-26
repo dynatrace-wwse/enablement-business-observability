@@ -4,7 +4,7 @@ In this section of the lab we will use OpenPipeline to convert incoming logs to 
 
 ### Logs - Fraud Check
 
-In the Notebook App, execute the below DQL query, which retrieves the buisness events that will be used for the `Fraud Check` step of the `Order to Shipped` business process.
+Using a Notebook execute the below DQL query which retrieves the log lines that will be converted into business events for the `Fraud Check` step of the `Order to Shipped` business process.
 
 DQL:
 ```sql
@@ -22,7 +22,7 @@ Result:
 
 ## Logs - Fraud Check orderID Extraction
 
-In the Notebook App, execute the below DQL query, which retrieves the buisness events that will be used for the `Fraud Check` step of the `Order to Shipped` business process and parses the logs line to extract the orderId that will be import when we convert this to a business event.
+Using a Notebook execute the below DQL query which retrieves the business events that will be used for the `Fraud Check` step of the `Order to Shipped` business process.  We will parse the logs lines to extract the orderId. 
 
 DQL:
 ```sql
@@ -57,7 +57,7 @@ Astroshop_Fraud_Check
 
 2. Select the `Processing` tab
 
-3. Select the `+ Processor` button on the left and select DQL
+3. Select the `+ Processor` button (left side of the screen), then select DQL
 
 ![Pipeline Processing Rule Part 1](../../../assets/images/03_bizevents_logs_fraudcheck_openpipline_rule_1.png)
 
@@ -92,7 +92,7 @@ parse content, """DATA 'Consumed record with orderId: ' ld:orderId ','"""
       "k8s.container.name": "frauddetectionservice"
 }
 ```
-6. Run sample data and Preview the result.  
+6. Select the `Run sample data` button and Preview the results.  
 
 7. Validate the orderId field exists in the results
 
@@ -102,7 +102,7 @@ parse content, """DATA 'Consumed record with orderId: ' ld:orderId ','"""
 
 1. Select the `Data extraction` tab
 
-2. Select the `+ Processor` button on the left and select Business event
+2. Select the `+ Processor` button (left side of the screen), then select Business event
 
 ![Pipeline Data Extraction Rule Part 1](../../../assets/images/03_bizevents_logs_fraudcheck_openpipline_rule_3.png)
 
@@ -138,7 +138,7 @@ astroshop
 
 Field extraction: 
 
-Select the Fields to extract radio button.  We will add 3 fields to extract.  The fields need to be added seperately.
+Select the Fields to extract radio button.  We will add 3 fields to extract.  The fields need to be added independently.
 
 Click the Add button for:
 
@@ -165,7 +165,7 @@ trace_id
 
 Now we need to create a Dynamic route for the `Astroshop_Fraud_Check` pipeline. Dynamic routes give you the option to route your ingested data into a pipeline with a matching condition.
 
-1. Select + Dynamic route button
+1. In the Logs section, Select `+ Dynamic route` button
 
 ![Pipeline Dynamic Route Part 1](../../../assets/images/03_bizevents_logs_fraudcheck_openpipline_rule_5.png)
 
@@ -197,10 +197,12 @@ Astroshop_Fraud_Check
 
 4.  Select Save button
 
-A warning icon with this message will appear "Do you want to save your changes to this table?", Select the Save button.
+A warning icon with this message will appear "Do you want to save your changes to this table?" 
+
+Select the Save button.
 
 ![Pipeline Dynamic Route Part 2](../../../assets/images/03_bizevents_logs_fraudcheck_openpipline_rule_7.png)
 
 ### Conclusion
 
-We have completed the Business Event capture for `Fraud Check` step  of the `Order to Shipped` business process.  In the next section we will validate the data using the `Notebook's App`.
+We have completed the Business Event capture using log line and OpenPipeline for `Fraud Check` step  of the `Order to Shipped` business process.  The next section will validate the data.

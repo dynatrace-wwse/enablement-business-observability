@@ -1,12 +1,12 @@
 ## OpenPipeline
 
-In this section of the lab we will use OpenPipeline to replace the  `orderId`, `revenue`, `country` fields values when they are null. We will use the `ResBdy` field to extract the correct values needed for the `Place Order` Business Event.
+In this section of the lab we will use OpenPipeline to replace the  `orderId`, `revenue`, `country` fields values when they are null. Using OpenPipeline, the `ResBdy` field will be used to extract the correct values needed for the `Place Order` Business Event.
 
 ## Business Events - OpenPipeline - Place Order
 
 1. Launch the OpenPipeline app
 
-2. Select `Business events` in the OpenPipline tree
+2. Select `Business events` in the OpenPipeline tree
 
 3. Select `Pipelines` tab
 
@@ -24,7 +24,7 @@ Astroshop
 
 2. Select the `Processing` tab
 
-3. Select the `+ Processor` button on the left and select `DQL`
+3. Select the `+ Processor` button (left side of the screen), then select `DQL`
 
 ![OpenPipeline Processing Part 1](../../../assets/images/02_bizevents_oneagent_placeorder_success_open_pipeline_2.png)
 
@@ -65,7 +65,7 @@ Sample data:
 
 ## Business Events - OpenPipeline - Processing - Remove ResBody Field
 
-1. Select the `+ Processor` button on the left and select `Remove fields`
+1. Select the `+ Processor` button (left side of the screen), then select `Remove fields`
 
 ![OpenPipeline Processing Part 3](../../../assets/images/02_bizevents_oneagent_placeorder_success_open_pipeline_4.png)
 
@@ -97,9 +97,9 @@ ResBody
 
 ## Business Events - OpenPipeline Dynamic Route - Place Order
 
-Now we need to create a Dynamic route for the Astroshop pipeline. Dynamic routes give you the option to route your ingested data into a pipeline with a matching condition.
+Now we need to create a Dynamic route for the Astroshop Business Events pipeline. Dynamic routes give you the option to route your ingested data into a pipeline with a matching condition.
 
-1. Select `Business events` in the OpenPipline tree 
+1. Select `Business events` in the OpenPipeline tree 
 
 2. Select `Dynamic routing` tab
 
@@ -144,4 +144,4 @@ Select the `Save` button
 
 ### Conclusion
 
-We have completed the Business Event OpenPipeline section for `Placer Order` step  of the `Order to Shipped` business process.  This section covered how to use OpenPipleline to replace the null value fields for  `orderId`, `revenue`, `country` with the correct values. In the next section we will validate the data using the `Notebook's App`.
+We have completed the Business Event OpenPipeline section for `Place Order` step of the `Order to Shipped` business process.  This section covered how to use OpenPipeline to replace the null values  for `orderId`, `revenue`, `country` with the correct values.  The next section will validate the data.
