@@ -393,7 +393,17 @@ Click the Save changes button
 
 ### Query Business Events in Dynatrace
 
-Using a Notebook execute the below DQL query which retrieves the business events for `astroshop.placeorder.success` step.  
+Using a Notebook execute the below DQL query which retrieves the business events for `astroshop.placeorder.success` step.
+
+Provided Notebook
+
+`Astroshop_SE_Training_Business_Observability_Notebook`
+
+Import the Notebook using the source file [Astroshop_SE_Training_Business_Observability_Notebook](https://github.com/dynatrace-wwse/enablement-business-observability/blob/main/lab-guide/assets/Astroshop_SE_Training_Business_Observability_Notebook.json) by downloading to your local system and upload to the Notebooks app. This can be during the labs exercises.
+
+![Astroshop Notebook](../../../assets/images/astroshop_notebook_github_download.png)
+
+Or, you open your own notebook and do the following:
 
 DQL:
 ```sql
@@ -402,10 +412,6 @@ fetch bizevents
 | fields timestamp, event.provider, event.type, userId, orderId, revenue, country,trace_id,ResBody
 | sort timestamp desc
 ```
-
-`Astroshop_SE_Training_Business_Observability_Notebook`
-
-Import the Notebook using the source file [Astroshop_SE_Training_Business_Observability_Notebook](https://github.com/dynatrace-wwse/enablement-business-observability/blob/main/lab-guide/assets/lab-guide/assets/Astroshop_SE_Training_Business_Observability_Notebook.json) by downloading to your local system and upload to the Notebooks app. This can be during the labs exercises.
 
 Result:
 
