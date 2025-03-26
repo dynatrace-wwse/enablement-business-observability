@@ -1,12 +1,12 @@
 ## Place Order Metric
 
-In this section of the lab we will create a count metric for `Place Order` step.  We also want to report by Country.
+In this section of the lab we will create a counter metric for `Place Order` step.  We also want to report by Country.
 
 ## Business Metric - OpenPipeline - Place Order
 
 1. Launch the OpenPipeline app
 
-2. Select `Business events` in the OpenPipline tree
+2. Select `Business events` in the OpenPipeline tree
 
 3. Select `Pipelines` tab
 
@@ -19,7 +19,7 @@ In this section of the lab we will create a count metric for `Place Order` step.
 
 1. Select the `Metric Extraction` tab
 
-2. Select the `+ Processor` button on the left and select `Counter metric`
+2. Select the `+ Processor` button (left side of the screen), then select `Counter metric`
 
 ![Pipeline Processing Rule Part 1](../../../assets/images/05_bizevents_metric_placeorder_openpipline_rule_1_a.png)
 
@@ -28,7 +28,7 @@ In this section of the lab we will create a count metric for `Place Order` step.
 * `Counter metric` 
 
 ```text
-Where you want to only count the number `Place Order` occurrences.
+Where you want to count the number `Place Order` occurrences.
 ```
 
 * `Value metric` 
@@ -56,7 +56,7 @@ Dimensions:
 
 Select the Custom radio button.
 
-For both `Field name on record` and `Dimension name` sections use:
+For the `Field name on record` and `Dimension name` sections use:
 
 ```text
 country
@@ -64,10 +64,10 @@ country
 
 Click the `Add dimension` button.  This will add both fields. 
 
-4. Select the Save Button at the top right of the screen
+4. Select the Save button at the top right of the screen
 
 ![Pipeline Processing Rule Part 2](../../../assets/images/05_bizevents_metric_placeorder_openpipline_rule_2.png)
 
 ### Conclusion
 
-We have completed the Business Metric capture for `Placer Order` step  of the `Order to Shipped` business process.  In the next section we will validate the data using the `Notebook's App`.
+We have completed the Business Metric capture for `Placer Order` step  of the `Order to Shipped` business process. The next section will validate the data.

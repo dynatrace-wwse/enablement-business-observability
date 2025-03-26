@@ -149,11 +149,13 @@ The `Event Category` is optional.  For this lab we will leave the defaults.
 
 ### Business Event - Event Meta Data
 
-The steps so far concludes the configuration of a business event that will be generated each time the trigger criteria are matched. This might be sufficient if all you need is to count the number of matching events for example, to answer the question of how many `astroshop_placeorder_success` were made. 
+The steps so far conclude the configuration of a business event that will be generated each time the trigger criteria is matched. This might be sufficient if all you need is to answer the question of how many `astroshop_placeorder_success` events were called. 
 
-In most cases, however, you will want to add event attributes for more granular insight. `Attributes` are data fields extracted from the event `JSON` or `XML` payload.
+In most cases you will want to add event attributes to provide granular insight. `Attributes` are data fields extracted from the event `JSON` or `XML` payload.
 
-Below is sample response payload for the `Place Order` transaction.  The following steps will cover how to extract the `orderId` and `units` (units will be used for the revenue number)  from the response payload.   Capturing the `orderId` is critical for this business process as it will be unique identifier (correlation ID) that is common to all process steps.
+Below is sample response payload for the `Place Order` transaction.  The following steps will cover how to extract the `orderId` and `units` (units will be used for the revenue number) and more from the response payload.  
+
+Capturing the `orderId` is critical for this business process as it will be unique identifier (correlation ID) that is common to all of the process steps.
 
 **Note:** Use must use exact letter casing for fields that you define for data extraction. 
 
@@ -376,7 +378,9 @@ In the `Path` section use:
 *
 ```
 
-`Note:` Some use cases might require capturing the full response body to then use a OpenPipeline for Business Events to extract needed fields,  or mask a field, then you can drop the full response body field keeping only what you need.  This might also be helpful for data validation when working on intial setup but not using when you fully deploy.   Lastly,  using * for the path field value will capture everything.   For this lab will use the full response body.
+`Note:` Some use cases might require capturing and store the full response body.  OpenPipeline can be used for Business Events to extract needed fields, masking.   You can also drop the full response body field keeping only what extract.  
+
+This approach is also helpful for data validation/debugging during initial setup but not using when you fully deploy.  Lastly, using * for the path field value will capture everything. For this lab will use the full response body.
 
 
 ![Event Data revenue](../../../assets/images/02_bizevents_oneagent_placeorder_success_rule_8.png)
@@ -389,7 +393,7 @@ Click the Save changes button
 
 ### Query Business Events in Dynatrace
 
-Using the Notebook's App, execute the below DQL query, which retrieves the buisness events for `astroshop.placeorder.success` step.  
+Using a Notebook execute the below DQL query which retrieves the business events for `astroshop.placeorder.success` step.  
 
 DQL:
 ```sql
@@ -399,18 +403,22 @@ fetch bizevents
 | sort timestamp desc
 ```
 
+`Astroshop_SE_Training_Business_Observability_Notebook`
+
+Import the Notebook using the source file [Astroshop_SE_Training_Business_Observability_Notebook](https://github.com/dynatrace-wwse/enablement-business-observability/blob/main/lab-guide/assets/lab-guide/assets/Astroshop_SE_Training_Business_Observability_Notebook.json) by downloading to your local system and upload to the Notebooks app. This can be during the labs exercises.
+
 Result:
 
 ![DQL Query](../../../assets/images/02_bizevents_oneagent_placeorder_success_dql_before_pioeline.png)
 
 Notice we have null values for `orderId`, `revenue`, `country` fields.   
 
-When reviewing the Reponse Payload, there are multiple references for the string '\u0019'. This is a unicode string that denotes End Of Medium.   JSON parsing from the OneAgent capture won't work for this use case.   
+When reviewing the Response Payload, there are multiple references for the string '\u0019'. This is a unicode string that denotes End Of Medium.  JSON parsing from the OneAgent capture won't work for this use case.   
 
 ![JSON parsingn unicode](../../../assets/images/02_bizevents_oneagent_placeorder_success_parse_unicode.png)
 
-This would be probably rare in your customer environments,  but the demo app we are using does.   Don't worry,  for this lab we can fix capturing  `orderId`, `revenue`, `country` fields using a OpenPipeline.
+This would be probably rare in your most environments.  Don't worry, for this lab we can fix capturing  `orderId`, `revenue`, `country` fields using a OpenPipeline rule.
 
 ### Conclusion
 
-We have completed the Business Event capture for `Place Order Success` step  of the `Order to Shipped` business process.  In the next section we will use OpenPipeline to replace the null fields with correct data.
+We have completed the Business Event capture using the OneAgent for `Place Order Success` step of the `Order to Shipped` business process.  The next section will cover using OpenPipeline to replace the null fields with correct data.

@@ -1,14 +1,18 @@
 ## Order Shipped
 
-In this section of the lab we will use a Dynatrace Workflow to send simulated events that represent the Astroshop Shipping system when an Order is shipped.  These events will leverage the Business Events API for the `Order Shipped` step of the Astroshop `Order to Shipped` business process.  
+In this section of the lab we will use a Dynatrace Workflow to send simulated events that represent the `Astroshop Shipping` system when an Order is shipped.  These events will leverage the Business Events API for the `Order Shipped` step of the Astroshop `Order to Shipped` business process.  
 
 ### Workflow - Import
 
 1.  Open the Dynatrace Workflow app
 
-2.  Import the workflow 'Astroshop - Order Shipped' using the source file [Astroshop - Order Shipped](https://github.com/dynatrace-wwse/enablement-workflow-essentials/blob/main/lab-guide/assets/lab-guide/assets/dt_wftpl_astroshop_-_order_shipped.yaml)
+2.  Import the workflow `Astroshop - Order Shipped` using the source file [Astroshop - Order Shipped](https://github.com/dynatrace-wwse/enablement-business-observability/blob/main/lab-guide/assets/lab-guide/assets/dt_wftpl_astroshop_-_order_shipped.yaml)
 
-3.  Workflows are imported using the Upload button.  Upload the `Astroshop - Order Shipped` workflow from your local system, the select `Import` button.
+3.  Workflows are imported using the Upload button.  
+
+![Upload Button](../../../assets/images/04_bizevents_api_workflow_upload_button.png)
+
+Upload the `Astroshop - Order Shipped` workflow from your local system, the select `Import` button.
 
 ![Workflow Import](../../../assets/images/04_bizevents_api_ordershipped_worklow_import.png)
 
@@ -18,7 +22,7 @@ In this section of the lab we will use a Dynatrace Workflow to send simulated ev
 
 `Note:` Good best practice for any workflow you create. This will be the task/action that defines the parameters/variables that will be used by subsequent tasks and returns them in the result. By setting the parameters as nested attribute key:value pairs within a single variable, as additional parameters are needed they can easily be added without modifying any other code.
 
-2. In the `Input section` set the values of the missing variables wiht the following:
+2. In the `Input section` set the values of the missing variables with the following:
 
 -  BIZEVENTS_API_URL:
 
@@ -31,7 +35,7 @@ In this section of the lab we will use a Dynatrace Workflow to send simulated ev
 
 - BIZEVENTS_API_TOKEN:
 
-    * Use the API token we created in the Environment Setup
+    * Use the Business Event API Token we created in the Environment Setup.  Paste your token in between the quotes.
 
 ![js_set_parameters](../../../assets/images/04_bizevents_api_ordershipped_worklow_js_set_parameters.png)
 
@@ -49,9 +53,9 @@ Example should look like below:
 
 ###  Workflow - Review
 
-We will review the task(s)/action(s) of the `Astroshop - Order Shipped` Workflow.  As discussed above, the workflow is sending simulated events that represent the Astroshop Shipping system when an Order is shipped.
+We will review the task(s)/action(s) of the `Astroshop - Order Shipped` Workflow.  As discussed above, the workflow is sending simulated events that represent the `Astroshop Shipping` system when an Order is shipped.
 
-The most important task/action of this workflow is `insert_biz_event` task/action.  The included parameters match the required paramaters as if your customer was sending Business Events programatically from their Environment/System to Dynatrace Business Events API.
+The most important task/action of this workflow is `insert_biz_event` task/action.  The included parameters match the required paramaters as if your customer was sending Business Events from their Environment/System to Dynatrace Business Events API.
 
 Below are the settings used in the `insert_biz_event` task/action of the `Astroshop - Order Shipped` workflow.
 
@@ -63,10 +67,6 @@ Below are the settings used in the `insert_biz_event` task/action of the `Astros
 
 ![Enable and Save Workflow](../../../assets/images/04_bizevents_api_doc_screen_2.png)
 
-###  Workflow - Validate
-
-
-
 ### Conclusion
 
-We have completed the step of using a Dynatrace Workflow to send simulated events that represent the Astroshop Shipping system when an Order is shipped.  In the next section we will validate `Order Shipped` step of the `Order to Shipped` business process Business Events are being generated using the `Notebook's App`.
+We have completed the step of using a Dynatrace Workflow to send simulated events that represent the Astroshop Shipping system when an Order is shipped. The next section will validate the data.
