@@ -6,11 +6,13 @@ In this section of the lab we will use a Dynatrace Workflow to send simulated ev
 
 1.  Open the Dynatrace Workflow app
 
-2.  Import the workflow `Astroshop - Order Shipped` using the source file [Astroshop - Order Shipped](https://github.com/dynatrace-wwse/enablement-business-observability/blob/main/lab-guide/assets/lab-guide/assets/dt_wftpl_astroshop_-_order_shipped.yaml)
+2.  Import the workflow `Astroshop - Order Shipped` using the source file [Astroshop - Order Shipped](https://github.com/dynatrace-wwse/enablement-business-observability/blob/main/lab-guide/assets/dt_wftpl_astroshop_-_order_shipped.yaml) by downloading to your local system.
+
+![Upload Button](../../../assets/images/astroshop_workflow_github_download.png)
 
 3.  Workflows are imported using the Upload button.  
 
-![Upload Button](../../../assets/images/04_bizevents_api_workflow_upload_button.png)
+
 
 Upload the `Astroshop - Order Shipped` workflow from your local system, the select `Import` button.
 
