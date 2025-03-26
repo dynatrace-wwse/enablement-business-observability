@@ -19,3 +19,5 @@ This lab will utilize the Dynatrace OneAgent to capture business events for the 
 * Validate Business Event data with a Notebook
 
 ![FlowStepOne](../../assets/images/02_bizevents_oneagent_flow.png)
+
+![FlowRaw](../../assets/images/astroshop_flow_raw.png)
