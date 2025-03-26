@@ -403,6 +403,10 @@ fetch bizevents
 | sort timestamp desc
 ```
 
+`Astroshop_SE_Training_Business_Observability_Notebook`
+
+Import the Notebook using the source file [Astroshop_SE_Training_Business_Observability_Notebook](https://github.com/dynatrace-wwse/enablement-business-observability/blob/main/lab-guide/assets/lab-guide/assets/Astroshop_SE_Training_Business_Observability_Notebook.json) by downloading to your local system and upload to the Notebooks app. This can be during the labs exercises.
+
 Result:
 
 ![DQL Query](../../../assets/images/02_bizevents_oneagent_placeorder_success_dql_before_pioeline.png)
