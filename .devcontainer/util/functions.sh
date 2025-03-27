@@ -202,7 +202,7 @@ certmanagerInstall() {
   printInfoSection "Install CertManager $CERTMANAGER_VERSION"
   kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v$CERTMANAGER_VERSION/cert-manager.yaml
   # shellcheck disable=SC2119
-  waitForAllPods
+  waitForAllPods cert-manager
 }
 
 generateRandomEmail() {
@@ -243,7 +243,7 @@ certmanagerEnable() {
               kubectl get events
               "
 
-  waitForAllPods
+  waitForAllPods cert-manager
   # Not needed
   #bashas "cd $K8S_PLAY_DIR/cluster-setup/resources/ingress && bash add-ssl-certificates.sh"
 }
