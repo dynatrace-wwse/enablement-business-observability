@@ -29,11 +29,11 @@ printInfoSection() {
 }
 
 printWarn() {
-  echo -e "${GREEN}[$LOGNAME| ${YELLOW}WARN${GREEN} |$(timestamp) ${LILA}|  $1  |"
+  echo -e "${GREEN}[$LOGNAME| ${YELLOW}WARN${GREEN} |$(timestamp) ${LILA}|  ${RESET}$1${LILA}  |"
 }
 
 printError() {
-  echo -e "${GREEN}[$LOGNAME| ${RED}ERROR${GREEN} |$(timestamp) ${LILA}|  $1  |"
+  echo -e "${GREEN}[$LOGNAME| ${RED}ERROR${GREEN} |$(timestamp) ${LILA}|  ${RESET}$1${LILA}  |"
 }
 
 postCodespaceTracker(){
@@ -491,6 +491,10 @@ deployAstroshop(){
   printInfo "Astroshop deployed succesfully"
 }
 
+deleteCodespace(){
+  printWarn "Warning! Codespace $CODESPACE_NAME will be deleted, the connection will be lost in a sec... " 
+  gh codespace delete --codespace "$CODESPACE_NAME" --force
+}
 
 showMessage(){
   printInfo "Lab guide exposed in $LAB_GUIDE_URL"
