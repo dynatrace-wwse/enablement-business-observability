@@ -39,7 +39,7 @@ OrdersWithZeroValues
 Matching condition: 
 
 ```text
-event.provider == "astroshop" and event.type == "astroshop.placeorder.success" and revenue == 0"
+event.provider == "astroshop" and event.type == "astroshop.placeorder.success" and revenue == 0
 ```
 
 Event template: 
@@ -60,8 +60,13 @@ Davis events are enriched with additional fields, as detailed in the [Davis even
 
 ```text
 The event.type, event.name and event.description sections should be 
-pre-filled from the previous entries you configured above.  Nothing should 
-be needed for these fields.
+pre-filled from the previous entries you configured above.  
+We will only change the event.type field.
+```
+Plese update the event.type field to use the following:
+
+```text
+Right side value:   ERROR_EVENT
 ```
 
 Please add new entries for Event properties section using the following:

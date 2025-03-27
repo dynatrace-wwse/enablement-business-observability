@@ -4,7 +4,7 @@ In this section of the lab we will validate the data for the `Place Order` busin
 
 ### Query Business Events in Dynatrace
 
-Using a Notebook execute the below DQL query which retrieves the business metric `bizevents.astroshop.placeorder.success`.  
+Using a Notebook execute the below DQL query which retrieves the business metric `bizevents.astroshop.placeorder.success`.  Note, you shoud see data within 3-5 minutes.
 
 DQL:
 ```sql

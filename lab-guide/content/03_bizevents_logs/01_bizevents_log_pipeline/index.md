@@ -191,7 +191,7 @@ In the dropdown list select the following
 Astroshop_Fraud_Check
 ```
 
-3. Select Save button
+3. Select Add button
 
 ![Pipeline Dynamic Route Part 1](../../../assets/images/03_bizevents_logs_fraudcheck_openpipline_rule_6.png)
 
