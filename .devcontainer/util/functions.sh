@@ -439,14 +439,14 @@ exposeAstroshop(){
 }
 
 exposeLabguide(){
-  printInfo "Exposing Lab Guide in your dev.container"
+  printInfo "Exposing Lab Guide in your dev.container in port 3000"
   cd $CODESPACE_VSCODE_FOLDER/lab-guide/
   nohup node bin/server.js --host 0.0.0.0 --port 3000 > /dev/null 2>&1 &
   cd -
 }
 
 buildLabGuide(){
-  printInfoSection "Building the Lab-guide in port 3000"
+  printInfoSection "Building the Lab-guide in DTU Format"
   cd $CODESPACE_VSCODE_FOLDER/lab-guide/
   node bin/generator.js
   cd -
