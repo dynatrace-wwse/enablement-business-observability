@@ -1,2 +1,3 @@
 # enablement-business-observability
-dynatrace business observability powered by bizevents
+Dynatrace Business Observability powered by bizevents
+  
