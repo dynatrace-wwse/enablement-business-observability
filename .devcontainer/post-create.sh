@@ -56,18 +56,9 @@ if [[ "$CODESPACE_NAME" == dttest-* ]]; then
     gh codespace delete --codespace "$CODESPACE_NAME" --force
 else
 
-    
     # Your content here
-    # TODO
+    printInfo "Sending BizEvent to track usage of enablement-business-observability"
+    postCodespaceTracker enablement-business-observability
 
-    # Creation Ping
-    # TODO: Uncomment and update the PLACEHOLDER when you're ready to go live
-    # curl -X POST https://grzxx1q7wd.execute-api.us-east-1.amazonaws.com/default/codespace-tracker \
-    #   -H "Content-Type: application/json" \
-    #   -d "{
-    #     \"repo\": \"$GITHUB_REPOSITORY\",
-    #     \"demo\": \"demo-PLACEHOLDER\",
-    #     \"codespace.name\": \"$CODESPACE_NAME\"
-    #   }"
-    printInfo "dev.container finished creating"
+    printInfo "Finished creating"
 fi
