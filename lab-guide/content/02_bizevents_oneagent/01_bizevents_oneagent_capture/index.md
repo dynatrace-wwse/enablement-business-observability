@@ -205,7 +205,7 @@ Capturing the `orderId` is critical for this business process as it will be uniq
 }
 ```
 
-Below is sample response payload for the `Place Order` transaction.  The following steps will cover how to extract the `userId` from the response payload. 
+Below is sample request payload for the `Place Order` transaction.  The following steps will cover how to extract the `userId` from the response payload. 
 
 **Note:** Use must use exact letter casing for fields that you define for data extraction.
 
@@ -321,7 +321,7 @@ revenue
 In the `Data Source` drop down list select:
 
 ```text
-Request - Body
+Response - Body
 ```
 
 In the `Path` section use:
@@ -369,7 +369,7 @@ ResBody
 In the `Data Source` drop down list select:
 
 ```text
-Request - Body
+Response - Body
 ```
 
 In the `Path` section use:
@@ -378,12 +378,12 @@ In the `Path` section use:
 *
 ```
 
+![Event Data ResBody](../../../assets/images/02_bizevents_oneagent_placeorder_success_rule_8b.png)
+
 `Note:` Some use cases might require capturing and store the full response body.  OpenPipeline can be used for Business Events to extract needed fields, masking.   You can also drop the full response body field keeping only what extract.  
 
 This approach is also helpful for data validation/debugging during initial setup but not using when you fully deploy.  Lastly, using * for the path field value will capture everything. For this lab will use the full response body.
 
-
-![Event Data revenue](../../../assets/images/02_bizevents_oneagent_placeorder_success_rule_8.png)
 
 ### Business Event - Save Rule
 
@@ -393,8 +393,6 @@ Click the Save changes button
 
 ### Query Business Events in Dynatrace
 
-Using a Notebook execute the below DQL query which retrieves the business events for `astroshop.placeorder.success` step.
-
 Provided Notebook
 
 `Astroshop_SE_Training_Business_Observability_Notebook`
@@ -403,7 +401,7 @@ Import the Notebook using the source file [Astroshop_SE_Training_Business_Observ
 
 ![Astroshop Notebook](../../../assets/images/astroshop_notebook_github_download.png)
 
-Or, you open your own notebook and do the following:
+Or, using your own Notebook execute the below DQL query which retrieves the business events for `astroshop.placeorder.success` step.
 
 DQL:
 ```sql

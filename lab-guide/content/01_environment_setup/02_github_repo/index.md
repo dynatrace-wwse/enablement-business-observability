@@ -56,11 +56,7 @@ The Codespace instance will run the post initialization scripts.
 
 ![github codespace ](../../../assets/images/prereq-github_codespace_create.png)
 
-When the Codespace instance is idle, validate the `astronomy-shop` pods are running.
+When the Codespace instance is idle, validate the `astroshop` pods are running.
 
-Command:
-```sh
-kubectl get pods -n astronomy-shop
-```
 
 ![github codespace ready](../../../assets/images/prereq-github_codespace_ready.png)

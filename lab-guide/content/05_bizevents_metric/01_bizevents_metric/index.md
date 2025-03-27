@@ -52,6 +52,12 @@ Matching condition:
 event.provider == "astroshop" and event.type == "astroshop.placeorder.success"
 ```
 
+Metric key: 
+
+```text
+astroshop.placeorder.success
+```
+
 Dimensions: 
 
 Select the Custom radio button.

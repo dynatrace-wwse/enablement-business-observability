@@ -50,11 +50,20 @@ parse ResBody, """DATA 'orderId":' DQS:orderId LD 'shippingTrackingId":' DQS:shi
 
 Sample data:
 
-```txt
-{
-      "orderId": null,
-      "ResBody": "{\"orderId\":\"5404d0d7-086c-11f0-895b-0e326b3139ca\",\"shippingTrackingId\":\"c564bb96-9d8e-4e88-b869-a1b64278beb6\",\"shippingCost\":{\"currencyCode\":\"USD\",\"units\":172,\"nanos\":800000000},\"shippingAddress\":{\"streetAddress\":\"One Microsoft Way\",\"city\":\"Redmond\",\"state\":\"WA\",\"country\":\"United States\",\"zipCode\":\"98052\"},\"items\":[{\"cost\":{\"currencyCode\":\"USD\",\"units\":349,\"nanos\":949999999},\"item\":{\"productId\":\"66VCHSJNUP\",\"quantity\":3,\"product\":{\"id\":\"66VCHSJNUP\",\"name\":\"Starsense Explorer Refractor Telescope\",\"description\":\"The first telescope that uses your smartphone to analyze the night sky and calculate its position in real time. StarSense Explorer is ideal for beginners thanks to the app\u0019s user-friendly interface and detailed tutorials. It\u0019s like having your own personal tour guide of the night sky\",\"picture\":\"StarsenseExplorer.jpg\",\"priceUsd\":{\"currencyCode\":\"USD\",\"units\":349,\"nanos\":950000000},\"categories\":[\"telescopes\"]}}}]}"
-}
+```json
+
+     {
+           "timestamp": "2025-03-26T23:39:04.840000000-04:00",
+           "event.provider": "astroshop",
+           "event.type": "astroshop.placeorder.success",
+           "userId": "ae844c70-5b7e-471f-9cfb-07715a46bc8d",
+           "orderId": null,
+           "revenue": null,
+           "country": null,
+           "trace_id": "104a1ee54db91be0ff9acbcb65cdfee4",
+           "ResBody": "{\"orderId\":\"07fa8ff2-0abd-11f0-92d2-0e1e3ab12988\",\"shippingTrackingId\":\"6fd4c157-ca6b-465e-bc39-a5096d6ee08c\",\"shippingCost\":{\"currencyCode\":\"USD\",\"units\":84,\"nanos\":400000000},\"shippingAddress\":{\"streetAddress\":\"1 Hacker Way\",\"city\":\"Menlo Park\",\"state\":\"CA\",\"country\":\"United States\",\"zipCode\":\"94025\"},\"items\":[{\"cost\":{\"currencyCode\":\"USD\",\"units\":209,\"nanos\":949999999},\"item\":{\"productId\":\"2ZYFJ3GM2N\",\"quantity\":2,\"product\":{\"id\":\"2ZYFJ3GM2N\",\"name\":\"Roof Binoculars\",\"description\":\"This versatile, all-around binocular is a great choice for the trail, the stadium, the arena, or just about anywhere you want a close-up view of the action without sacrificing brightness or detail. It\u0019s an especially great companion for nature observation and bird watching, with ED glass that helps you spot the subtlest field markings and a close focus of just 6.5 feet.\",\"picture\":\"RoofBinoculars.jpg\",\"priceUsd\":{\"currencyCode\":\"USD\",\"units\":209,\"nanos\":950000000},\"categories\":[\"binoculars\"]}}}]}"
+         }
+     
 ```
 
 5. Select the `Run sample data` button
