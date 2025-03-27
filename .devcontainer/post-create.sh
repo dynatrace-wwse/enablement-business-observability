@@ -57,7 +57,8 @@ if [[ "$CODESPACE_NAME" == dttest-* ]]; then
 else
 
     # Your content here
-    # postCodespaceTracker enablement-business-observability
+    printInfo "Sending BizEvent to track usage of enablement-business-observability"
+    postCodespaceTracker enablement-business-observability
 
     printInfo "Finished creating"
 fi
