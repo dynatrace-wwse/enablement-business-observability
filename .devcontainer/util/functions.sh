@@ -11,37 +11,7 @@
 # ======================================================================
 
 # VARIABLES DECLARATION
-#https://cert-manager.io/docs/release-notes/
-CERTMANAGER_VERSION=1.15.3
-
-# RUNME Version
-RUNME_CLI_VERSION=3.10.2
-
-# Setting up the variable since its not set when instantiating the vscode folder.
-CODESPACE_VSCODE_FOLDER="/workspaces/enablement-business-observability"
-
-# ColorCoding
-GREEN="\e[32m"
-BLUE="\e[34m"
-LILA="\e[35m"
-YELLOW="\e[38;5;226m"
-RED="\e[38;5;196m"
-
-thickline="======================================================================"
-halfline="============"
-thinline="______________________________________________________________________"
-LOGNAME="dynatrace.enablement"
-
-# LabGuidePort
-LABGUIDEPORT=3000
-ASTROSHOPPORT=8080
-if [[ $CODESPACES == true ]]; then
-  LAB_GUIDE_URL="https://${CODESPACE_NAME}-$LABGUIDEPORT.app.github.dev"
-  ASTROSHOP_URL="https://${CODESPACE_NAME}-$ASTROSHOPPORT.app.github.dev"
-else
-  LAB_GUIDE_URL="https://localhost:$LABGUIDEPORT"
-  ASTROSHOP_URL="http://localhost:$ASTROSHOPPORT"
-fi
+source $CODESPACE_VSCODE_FOLDER/.devcontainer/util/variables.sh
 
 # FUNCTIONS DECLARATIONS
 timestamp() {
@@ -49,13 +19,13 @@ timestamp() {
 }
 
 printInfo() {
-  echo -e "${GREEN}[$LOGNAME| ${BLUE}INFO${GREEN} |$(timestamp) ${LILA}| $1 |"
+  echo -e "${GREEN}[$LOGNAME| ${BLUE}INFO${CYAN} |$(timestamp) ${LILA}|${RESET} $1 ${LILA}|"
 }
 
 printInfoSection() {
-  echo -e "${GREEN}[$LOGNAME| ${BLUE}INFO${GREEN} |$(timestamp) ${LILA}|$thickline"
-  echo -e "${GREEN}[$LOGNAME| ${BLUE}INFO${GREEN} |$(timestamp) ${LILA}|$halfline $1 $halfline"
-  echo -e "${GREEN}[$LOGNAME| ${BLUE}INFO${GREEN} |$(timestamp) ${LILA}|$thinline"
+  echo -e "${GREEN}[$LOGNAME| ${BLUE}INFO${CYAN} |$(timestamp) ${LILA}|$thickline"
+  echo -e "${GREEN}[$LOGNAME| ${BLUE}INFO${CYAN} |$(timestamp) ${LILA}|$halfline ${RESET}$1${LILA} $halfline"
+  echo -e "${GREEN}[$LOGNAME| ${BLUE}INFO${CYAN} |$(timestamp) ${LILA}|$thinline"
 }
 
 printWarn() {
@@ -64,6 +34,28 @@ printWarn() {
 
 printError() {
   echo -e "${GREEN}[$LOGNAME| ${RED}ERROR${GREEN} |$(timestamp) ${LILA}|  $1  |"
+}
+
+postCodespaceTracker(){
+  # Set demo name
+  if [[ $# -eq 1 ]]; then
+    DEMOPLACEHOLDER="demo-$1"
+  else
+    namespace_filter="demo-placeholder"
+  fi
+  #Creation Ping
+  # TODO: Uncomment and update the PLACEHOLDER when you're ready to go live
+  curl -X POST https://grzxx1q7wd.execute-api.us-east-1.amazonaws.com/default/codespace-tracker \
+  -H "Content-Type: application/json" \
+  -d "{
+  \"repo\": \"$GITHUB_REPOSITORY\",
+  \"demo\": \"$DEMOPLACEHOLDER\",
+  \"codespace.name\": \"$CODESPACE_NAME\"
+  }"
+}
+
+printGreeting(){
+  bash $CODESPACE_VSCODE_FOLDER/.devcontainer/util/greeting.sh
 }
 
 # shellcheck disable=SC2120
@@ -159,10 +151,13 @@ installK9s() {
 }
 
 bindFunctionsInShell() {
-  printInfoSection "Binding functions.sh in the .zshrc for user $USER "
+  printInfoSection "Binding functions.sh and adding a Greeting in the .zshrc for user $USER "
   echo "
 # Loading all this functions in CLI
 source $CODESPACE_VSCODE_FOLDER/.devcontainer/util/functions.sh
+
+#print greeting everytime a Terminal is opened
+printGreeting
 " >> /"$HOME"/.zshrc
 
 }
