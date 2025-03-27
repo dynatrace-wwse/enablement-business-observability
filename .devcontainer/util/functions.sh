@@ -11,7 +11,7 @@
 # ======================================================================
 
 # VARIABLES DECLARATION
-source $CODESPACE_VSCODE_FOLDER/.devcontainer/util/variables.sh
+source /workspaces/enablement-business-observability/.devcontainer/util/variables.sh
 
 # FUNCTIONS DECLARATIONS
 timestamp() {
