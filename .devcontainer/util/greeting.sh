@@ -5,8 +5,8 @@ source /workspaces/enablement-business-observability/.devcontainer/util/variable
 
 echo -e "${thickline}"
 echo -e ""
-echo -e "      ${CYAN}                 Welcome to your your Dev Container                ${RESET}                "
-echo -e "       This enablement was made with ${RED}${HEART}${RESET} from the Dynatrace SE Enablement Team                                                                                             "
+echo -e "      ${CYAN}                 Welcome to your Dev Container                ${RESET}                "
+echo -e "       This enablement was made with ${RED}${HEART}${RESET} from the Dynatrace SE Center of Excellence Team                                                                                             "
 echo -e "${GREEN} "
 echo -e "      ${CYAN}.oyyyyyson+${GREEN}.          sh                               hs                                                         "
 echo -e "  ${CYAN}.:yhhhhhhhhh/ ${GREEN}oy.   .:HHHHhd /:      /: .:HHH:.   :mHHHm.  dh//-  .mmmm. -mHHHm:   -HHHH.   .:HHHH:.                  "
