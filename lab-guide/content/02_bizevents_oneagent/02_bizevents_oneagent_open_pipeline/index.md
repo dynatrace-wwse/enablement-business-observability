@@ -4,31 +4,31 @@ In this section of the lab we will use OpenPipeline to replace the  `orderId`, `
 
 ## Business Events - OpenPipeline - Place Order
 
-1. Launch the OpenPipeline app
+Launch the OpenPipeline app.
 
-2. Select `Business events` in the OpenPipeline tree
+Select `Business events` in the OpenPipeline tree.
 
-3. Select `Pipelines` tab
+Select `Pipelines` tab.
 
-4. Select the `+ Pipeline` button
+Select the `+ Pipeline` button.
 
 ![Launch OpenPipeline](../../../assets/images/02_bizevents_oneagent_placeorder_success_open_pipeline_1.png)
 
 ## Business Events - OpenPipeline - Processing - Place Order
 
-1. Name your OpenPipeline rule using the following name: 
+Name your OpenPipeline rule using the following name: 
 
 ```text
 Astroshop
 ```
 
-2. Select the `Processing` tab
+Select the `Processing` tab.
 
-3. Select the `+ Processor` button (left side of the screen), then select `DQL`
+Select the `+ Processor` button (left side of the screen), then select `DQL`.
 
 ![OpenPipeline Processing Part 1](../../../assets/images/02_bizevents_oneagent_placeorder_success_open_pipeline_2.png)
 
-4. Fill out the fields with the following data:
+Fill out the fields with the following data:
 
 Name: 
 
@@ -66,19 +66,19 @@ Sample data:
      
 ```
 
-5. Select the `Run sample data` button
+Select the `Run sample data` button.
 
-6. Under the `Preview result` section validate `orderId`, `country` and `revenue` fields have values.
+Under the `Preview result` section validate `orderId`, `country` and `revenue` fields have values.
 
 ![OpenPipeline Processing Part 2](../../../assets/images/02_bizevents_oneagent_placeorder_success_open_pipeline_3.png)
 
 ## Business Events - OpenPipeline - Processing - Remove ResBody Field
 
-1. Select the `+ Processor` button (left side of the screen), then select `Remove fields`
+Select the `+ Processor` button (left side of the screen), then select `Remove fields`
 
 ![OpenPipeline Processing Part 3](../../../assets/images/02_bizevents_oneagent_placeorder_success_open_pipeline_4.png)
 
-2. Fill out the fields with the following data:
+Fill out the fields with the following data:
 
 Name: 
 
@@ -94,13 +94,13 @@ event.type == "astroshop.placeorder.success"
 
 Remove fields:
 
-After adding the below field to remove, select the Add button
+After adding the below field to remove, select the Add button.
 
 ```text
 ResBody
 ```
 
-3. Select the Save Button at the top right of the screen
+Select the Save Button at the top right of the screen.
 
 ![OpenPipeline Processing Part 4](../../../assets/images/02_bizevents_oneagent_placeorder_success_open_pipeline_5.png)
 
@@ -108,15 +108,15 @@ ResBody
 
 Now we need to create a Dynamic route for the Astroshop Business Events pipeline. Dynamic routes give you the option to route your ingested data into a pipeline with a matching condition.
 
-1. Select `Business events` in the OpenPipeline tree 
+Select `Business events` in the OpenPipeline tree. 
 
-2. Select `Dynamic routing` tab
+Select `Dynamic routing` tab.
 
-3. Select `+ Dynamic route` button
+Select `+ Dynamic route` button.
 
 ![Pipeline Dynamic Route Part 1](../../../assets/images/05_bizevents_metric_placeorder_openpipline_rule_3.png)
 
-4. Configure the Dynamic route with the following
+Configure the Dynamic route with the following:
 
 Name:
 
@@ -132,22 +132,22 @@ event.provider == "astroshop"
 
 Pipeline:
 
-In the dropdown list select the following
+In the dropdown list select the following:
 
 ```text
 Astroshop
 ```
 
-4. Select the `Add` button
+Select the `Add` button.
 
 ![Pipeline Dynamic Route Part 2](../../../assets/images/05_bizevents_metric_placeorder_openpipline_rule_4.png)
 
-5.  Select the `Save` button
+Select the `Save` button.
 
 ```text
 A warning icon with this message will appear "Do you want to save your changes to this table?" 
 ```
-Select the `Save` button
+Select the `Save` button.
 
 ![Pipeline Dynamic Route Part 3](../../../assets/images/05_bizevents_metric_placeorder_openpipline_rule_5.png)
 

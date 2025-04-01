@@ -8,8 +8,6 @@ Navigate to the GitHub Codespaces page at [https://github.com/codespaces/](https
 
 Locate your instance, click the `...` button, and click `Delete`.
 
-When you're finished with the repository, you can delete your fork as well.
-
 
   
 

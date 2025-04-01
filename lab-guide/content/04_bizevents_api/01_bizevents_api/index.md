@@ -1,59 +1,82 @@
 ## Order Shipped
 
-In this section of the lab we will use a Dynatrace Workflow to send simulated events that represent the `Astroshop Shipping` system when an Order is shipped.  These events will leverage the Business Events API for the `Order Shipped` step of the Astroshop `Order to Shipped` business process.  
+In this section of the lab we will use a Dynatrace Workflow to send simulated events that represent the `Astroshop Shipping` system when an Order is Shipped.  These events will leverage the Business Events API for the `Order Shipped` step of the Astroshop `Order to Shipped` business process.  
 
-### Workflow - Import
-
-1.  Open the Dynatrace Workflow app
-
-2.  Import the workflow `Astroshop - Order Shipped` using the source file [Astroshop - Order Shipped](https://github.com/dynatrace-wwse/enablement-business-observability/blob/main/lab-guide/assets/dt_wftpl_astroshop_-_order_shipped.yaml) by downloading to your local system.
-
-![Upload Button](../../../assets/images/astroshop_workflow_github_download.png)
-
-3.  Workflows are imported using the Upload button.  
+### Workflow - Order Shipped - Download
 
 
+Download the workflow `Astroshop - Order Shipped` using the source file [Astroshop - Order Shipped](https://github.com/dynatrace-wwse/enablement-business-observability/blob/main/lab-guide/assets/dt_wftpl_astroshop_-_order_shipped.yaml) to your local system.
 
-Upload the `Astroshop - Order Shipped` workflow from your local system, the select `Import` button.
+![Astroshop - Order Shipped - Github Download](../../../assets/images/astroshop_workflow_github_download.png)
+
+### Workflow - Order Shipped - Upload and Import
+
+Open the Dynatrace Workflow app.
+
+Workflows are imported using the Upload button. 
+
+![Workflow Import](../../../assets/images/04_bizevents_api_ordershipped_worklow_upload.png)
+
+Pick the `dt_wftpl_astroshop_-_order_shipped.yaml` from your local system.
+
+When loaded a screen will appear called `Import workflow "Astroshop - Order Shipped"`
+
+Select `Import` button.
 
 ![Workflow Import](../../../assets/images/04_bizevents_api_ordershipped_worklow_import.png)
 
-###  Workflow - js_set_parameters
+###  Workflow - Order Shipped - js_set_parameters
 
-1. Select the `js_set_parameters`
+Select the `js_set_parameters`.
 
-`Note:` Good best practice for any workflow you create. This will be the task/action that defines the parameters/variables that will be used by subsequent tasks and returns them in the result. By setting the parameters as nested attribute key:value pairs within a single variable, as additional parameters are needed they can easily be added without modifying any other code.
+`Note:`  This will be the task/action that defines the parameters/variables that will be used by subsequent tasks and returns them in the result. By setting the parameters as nested attribute key:value pairs within a single variable, as additional parameters are needed they can easily be added without modifying any other code. Great best practice for any workflows you create.
 
-2. In the `Input section` set the values of the missing variables with the following:
+In the `Input section` set the values of the missing variables with the following:
 
--  BIZEVENTS_API_URL:
+```txt
+BIZEVENTS_API_URL:
 
-    * Replace `<tenant-id-env>` with your Dynatrace environment ID and Env
+Replace `<tenant-id-env>` with your Dynatrace environment ID and Env.
     
-    ```txt
-    Prod Example:   `xxxxxx.live.dynatrace.com`  
-    Sprint Example: `xxxxxx.sprint.dynatracelabs.com`
-    ```
+Prod Example:   `xxxxxx.live.dynatrace.com`  
+Sprint Example: `xxxxxx.sprint.dynatracelabs.com`
+```
+```txt
+BIZEVENTS_API_TOKEN:
 
-- BIZEVENTS_API_TOKEN:
+Use the Business Event API Token we created in the Environment Setup.  
 
-    * Use the Business Event API Token we created in the Environment Setup.  Paste your token in between the quotes.
-
+Paste your token in between the quotes.
+```
 ![js_set_parameters](../../../assets/images/04_bizevents_api_ordershipped_worklow_js_set_parameters.png)
 
 Example should look like below:
 
 ![js_set_parameters example](../../../assets/images/04_bizevents_api_ordershipped_worklow_js_set_parameters_example.png)
 
-###  Workflow - Enable and Save
+###  Workflow - Order Shipped - Enable, Save and Run
 
-1. Enable the `Event Trigger` flow
+Enable the `Event Trigger` flow.
 
-2. Select Save button
+Select Save button.
 
 ![Enable and Save Workflow](../../../assets/images/04_bizevents_api_ordershipped_worklow_enable_save.png)
 
-###  Workflow - Review
+When you run a workflow in an environment for the first time, Dynatrace asks to allow the AutomationEngine to run workflows for you.
+
+Click the Run button.
+
+![Run Workflow](../../../assets/images/04_bizevents_api_ordershipped_worklow_run_1st_time.png)
+
+In the Run workflow window, click the Run button.
+
+![Run Workflow 2](../../../assets/images/04_bizevents_api_ordershipped_worklow_run_1st_time_b.png)
+
+Click Allow and Run button.
+
+![Run Workflow Allow](../../../assets/images/04_bizevents_api_ordershipped_worklow_run_1st_time_accept.png)
+
+###  Workflow - Order Shipped - Review
 
 We will review the task(s)/action(s) of the `Astroshop - Order Shipped` Workflow.  As discussed above, the workflow is sending simulated events that represent the `Astroshop Shipping` system when an Order is shipped.
 
@@ -71,4 +94,4 @@ Below are the settings used in the `insert_biz_event` task/action of the `Astros
 
 ### Conclusion
 
-We have completed the step of using a Dynatrace Workflow to send simulated events that represent the Astroshop Shipping system when an Order is shipped. The next section will validate the data.
+We have completed the step of using a Dynatrace Workflow to send simulated events that represent the Astroshop Shipping system when an `Order Shipped` events occur. The next section will validate the data.

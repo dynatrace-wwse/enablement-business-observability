@@ -4,9 +4,9 @@ In this section of the lab we will configure a Business Event capture rule for `
 
 ### Business Event - Source Settings
 
-1. Go to Settings Classic > Business Analytics > OneAgent Business Event Sources
+Go to Settings Classic > Business Analytics > OneAgent Business Event Sources.
 
-2. Select the Incoming tab
+Select the Incoming tab.
 
 ![Rule 1](../../../assets/images/02_bizevents_oneagent_rule_1.png)
 
@@ -28,7 +28,7 @@ We will use 3 triggers:
 
 **Trigger 1**
 
-Select the Add trigger button
+Select the Add trigger button.
 
 In the `Data source` drop down list select:  
 
@@ -52,7 +52,7 @@ In the `Value` field use:
 
 **Trigger 2**
 
-Select the Add trigger button
+Select the Add trigger button.
 
 In the `Data source` drop down list select:  
 
@@ -82,7 +82,7 @@ orderId
 
 **Trigger 3**
 
-Select the Add trigger button
+Select the Add trigger button.
 
 In the `Data source` drop down list select:  
 
@@ -145,7 +145,11 @@ astroshop.placeorder.success
 
 ![Event Type](../../../assets/images/02_bizevents_oneagent_placeorder_success_rule_4.png)
 
-The `Event Category` is optional.  For this lab we will leave the defaults.
+## Business Event - Event Category
+
+The `Event Category` is optional.  
+
+For this lab we will leave the default value which should be empty.
 
 ### Business Event - Event Meta Data
 
@@ -238,7 +242,7 @@ The following table shows additional examples of how to extract data from JSON p
 
 ### Business Event - orderId Capture
 
-Under the Event data section, select the Add data field button
+Under the Event data section, select the Add data field button.
 
 In the `Field name` section use: 
 
@@ -262,7 +266,7 @@ orderId
 
 ### Business Event - country Capture
 
-Under the Event data section, select the Add data field button
+Under the Event data section, select the Add data field button.
 
 In the `Field name` section use: 
 
@@ -286,7 +290,7 @@ shippingAddress.country
 
 ### Business Event - userId Capture
 
-Under the Event data section, select the Add data field button
+Under the Event data section, select the Add data field button.
 
 In the `Field name` section use: 
 
@@ -310,7 +314,7 @@ userId
 
 ### Business Event - revenue Capture
 
-Under the Event data section, select the Add data field button
+Under the Event data section, select the Add data field button.
 
 In the `Field name` section use: 
 
@@ -334,7 +338,7 @@ items.0.cost.units
 
 ### Business Event - shippingTrackingId Capture
 
-Under the Event data section, select the Add data field button
+Under the Event data section, select the Add data field button.
 
 In the `Field name` section use: 
 
@@ -358,7 +362,7 @@ shippingTrackingId
 
 ### Business Event - Full Response Body Capture
 
-Under the Event data section, select the Add data field button
+Under the Event data section, select the Add data field button.
 
 In the `Field name` section use: 
 
@@ -384,10 +388,9 @@ In the `Path` section use:
 
 This approach is also helpful for data validation/debugging during initial setup but not using when you fully deploy.  Lastly, using * for the path field value will capture everything. For this lab will use the full response body.
 
-
 ### Business Event - Save Rule
 
-Click the Save changes button
+Click the Save changes button.
 
 ![Save changes](../../../assets/images/02_bizevents_oneagent_placeorder_success_rule_9.png)
 

@@ -15,7 +15,7 @@ and application monitoring to ensure the lossless precision many business use ca
 time data with interactive Dashboards, drilling down and analyzing data in Notebooks,
 optimizing business processes with purpose-built apps like Business Flow, and automating tasks
 with Workflows -- to access precise, real-time business data all in context of IT to unlock and
-enhance critical business use cases
+enhance critical business use cases.
 
 
   
