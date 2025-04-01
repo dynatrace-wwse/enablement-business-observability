@@ -10,9 +10,5 @@ This view is available, live, in the Playground environment for both internal an
 
 [Retail Order Delivery](https://wkf10640.apps.dynatrace.com/ui/apps/dynatrace.dashboards/dashboard/869f7565-899b-4aa0-91f9-dfeecac7f861#from=-24h&to=now%28%29)
 
-![Retail Order Delivery](../../../assets/images/08_01_retail_example_dashboard.png)
 
-  
-
-
-
+![Retail Order Delivery Dashboard](../../assets/images/08_01_dashboard_retail_example_2.png)

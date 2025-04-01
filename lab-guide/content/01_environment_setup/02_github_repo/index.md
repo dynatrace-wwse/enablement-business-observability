@@ -126,7 +126,7 @@ Open the `Logs` app.
 In the filter section copy and paste this below:
 
 ```txt
-content = "*frauddetectionservice - Consumed record with orderId*" AND Endpoint = "/api/checkout"
+content = "*frauddetectionservice - Consumed record with orderId*"
 ```
 
 Select the `Run query` button.
