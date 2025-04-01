@@ -4,22 +4,21 @@ In this section of the lab we will create a counter metric for `Place Order` ste
 
 ## Business Metric - OpenPipeline - Place Order
 
-1. Launch the OpenPipeline app
+Launch the OpenPipeline app.
 
-2. Select `Business events` in the OpenPipeline tree
+Select `Business events` in the OpenPipeline tree.
 
-3. Select `Pipelines` tab
+Select `Pipelines` tab.
 
-4. Select the `Astroshop` Pipeline
+Select the `Astroshop` Pipeline.
 
 ![Launch OpenPipeline](../../../assets/images/05_bizevents_metric_placeorder_openpipline_launch_a.png)
 
 ## Business Metric - OpenPipeline Processing - Place Order
 
+Select the `Metric Extraction` tab.
 
-1. Select the `Metric Extraction` tab
-
-2. Select the `+ Processor` button (left side of the screen), then select `Counter metric`
+Select the `+ Processor` button (left side of the screen), then select `Counter metric`
 
 ![Pipeline Processing Rule Part 1](../../../assets/images/05_bizevents_metric_placeorder_openpipline_rule_1_a.png)
 
@@ -35,10 +34,10 @@ Where you want to count the number `Place Order` occurrences.
 
 ```text
 Where you want to report on `Revenue`. The revenue field captured in the `Place Order` 
-Business Event data would be extracted and used as the metric value. 
+Business Event data values would be extracted and used as the metric value. 
 ```
 
-3. Fill out the fields with the following data:
+Fill out the fields with the following data:
 
 Name: 
 
@@ -70,7 +69,7 @@ country
 
 Click the `Add dimension` button.  This will add both fields. 
 
-4. Select the Save button at the top right of the screen
+Select the Save button at the top right of the screen.
 
 ![Pipeline Processing Rule Part 2](../../../assets/images/05_bizevents_metric_placeorder_openpipline_rule_2.png)
 

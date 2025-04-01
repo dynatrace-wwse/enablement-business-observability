@@ -4,7 +4,9 @@ In this section of the lab we will validate the data for the `Business Flow` for
 
 ### Business Flow App
 
-Business processes are the automation backbone of modern businesses, and they must operate efficiently to meet business goals. Most of those processes can impact customer experience, either positively or negatively. Most organizations rely on hundreds, if not thousands, of business processes, from procurement to order fulfillment. These processes depend on your IT systems to achieve their goals efficiently and at scale. The `Business Flow` app makes it easier than ever to monitor complex business processes
+Business processes are the automation backbone of modern businesses, and they must operate efficiently to meet business goals. Most of those processes can impact customer experience, either positively or negatively. 
+
+Most organizations rely on hundreds, if not thousands, of business processes, from procurement to order fulfillment. These processes depend on your IT systems to achieve their goals efficiently and at scale. The `Business Flow` app makes it easier than ever to monitor complex business processes.
 
 ### Reported KPIs
 

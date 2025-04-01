@@ -2,16 +2,15 @@
   
 In this section of the lab we will create a Business Flow using the Business Events we have defined for the Astroshop `Order to Shipped` business process.
 
+## Business Flow - Order to Shipped - Configuration Name
 
-## Business Flow - OpenPipeline - Place Order
+Launch the Business Flow app.
 
-1. Launch the Business Flow app
-
-2. Select `+ Business Flow ` to get to the configuration page
+Select `+ Business Flow ` to get to the configuration page.
 
 ![Business Flow Config 1](../../../assets/images/06_bizevents_business_flow_config_1.png)
 
-3. Select the Pencil icon at the top left and rename the Configuration using the following:
+Select the Pencil icon at the top left and rename the Configuration using the following:
 
 Name:
 
@@ -23,17 +22,11 @@ Select the Save button.
 
 ![Business Flow Config 2](../../../assets/images/06_bizevents_business_flow_config_2.png)
 
-4. In the `Correlation ID` section use the following:
+## Business Flow - Place Order Step
 
-```txt
-orderId
-```
+For `Step 1` configuration use the following:
 
-![Correlation ID](../../../assets/images/06_bizevents_business_flow_config_correlationid.png)
-
-5. For Flow Step 1, use the following:
-
-Name:
+Name - (click the Step 1 box to edit):
 
 ```txt
 Place Order
@@ -51,10 +44,17 @@ After picking `astroshop.placeorder.success`, the `Place Order` step should look
 
 ![Flow Step 1](../../../assets/images/06_bizevents_business_flow_config_step1_b.png)
 
+## Business Flow - Fraud Check Step
 
-5. For Flow Step 2, click the `Place Order` step.  Select the + button on the bottom.  This will add a new step under the `Place Order` step. Use the following:
+Click the `Place Order` step.  
 
-Name:
+Select the + button on the bottom.  
+
+This will add a new step under the `Place Order` called `Step 2`. 
+
+For `Step 2` configuration use the following:
+
+Name - (click the Step 2 box to edit):
 
 ```txt
 Fraud Check
@@ -72,9 +72,17 @@ After picking `astroshop.fraudcheck.success`, the `Fraud Check` step should look
 
 ![Flow Step 2](../../../assets/images/06_bizevents_business_flow_config_step2_b.png)
 
-5. For Flow Step 3, click the `Fraud Check` step.  Select the + button on the bottom.  This will add a new step under the `Fraud Check` step.  Use the following:
+## Business Flow - Order Shipped Step
 
-Name:
+Click the `Fraud Check` step.  
+
+Select the + button on the bottom.  
+
+This will add a new step under the `Fraud Check` called `Step 3`.
+
+For `Step 3` configuration use the following:
+
+Name - (click the Step 3 box to edit):
 
 ```txt
 Order Shipped
@@ -90,9 +98,21 @@ astroshop.ordershipped.success
 
 After picking `astroshop.ordershipped.success`, the `Order Shipped` step should look like this below:
 
-![Flow Step 2](../../../assets/images/06_bizevents_business_flow_config_step3_b.png)
+![Flow Step 3](../../../assets/images/06_bizevents_business_flow_config_step3_b.png)
 
-6. For the KPI is extracted from the event to calculate revenue section, use the following:
+## Business Flow - Correlation ID
+
+In the Global settings section use the following for the `Correlation ID` field:
+
+```txt
+orderId
+```
+
+![Correlation ID](../../../assets/images/06_bizevents_business_flow_config_correlationid.png)
+
+## Business Flow - KPI
+
+For the KPI is extracted from the event to calculate revenue field, use the following:
 
 Mapping event dropdown list pick:
 
@@ -108,11 +128,15 @@ revenue
 
 ![KPI](../../../assets/images/06_bizevents_business_flow_config_kpi.png)
 
-7. Select the `Validate & Save` button at the top right of the page
+## Business Flow - Validate & Save
+
+Select the `Validate & Save` button at the top right of the screen.
 
 ![Validate and Save](../../../assets/images/06_bizevents_business_flow_config_save.png)
 
-8. Select the `View flow` button at the top right of the page
+## Business Flow - View flow
+
+Select the `View flow` button at the top right of the screen.
 
 ![View Flow](../../../assets/images/06_bizevents_business_flow_config_viewflow.png)
 

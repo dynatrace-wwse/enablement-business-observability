@@ -22,7 +22,7 @@ Result:
 
 ## Logs - Fraud Check orderID Extraction
 
-Using a Notebook execute the below DQL query which retrieves the business events that will be used for the `Fraud Check` step of the `Order to Shipped` business process.  We will parse the logs lines to extract the orderId. 
+Using a Notebook execute the below DQL query which retrieves the log lines that will be converted into business events for the `Fraud Check` step of the `Order to Shipped` business process.  We will parse the logs lines to extract the orderId. 
 
 DQL:
 ```sql
@@ -39,29 +39,31 @@ Result:
 
 ## Business Event - OpenPipeline - Fraud Check
 
-1. Launch the OpenPipeline app
+Launch the OpenPipeline app.
 
-2. Go to Logs and select the Pipelines tab
+Select Logs in the tree. 
 
-3. Select the + Pipeline button
+Select the Pipelines tab.
+
+Select the + Pipeline button.
 
 ![Launch OpenPipeline](../../../assets/images/03_bizevents_logs_fraudcheck_openpipline_launch.png)
 
 ## Business Event - OpenPipeline Processing - Fraud Check
 
-1. Name your OpenPipeline rule using the following name: 
+Name your OpenPipeline rule using the following name: 
 
 ```text
 Astroshop_Fraud_Check
 ```
 
-2. Select the `Processing` tab
+Select the `Processing` tab
 
-3. Select the `+ Processor` button (left side of the screen), then select DQL
+Select the `+ Processor` button (left side of the screen), then select DQL
 
 ![Pipeline Processing Rule Part 1](../../../assets/images/03_bizevents_logs_fraudcheck_openpipline_rule_1.png)
 
-4. Fill out the fields with the following data:
+Fill out the fields with the following data:
 
 Name: 
 
@@ -83,7 +85,7 @@ parse content, """DATA 'Consumed record with orderId: ' ld:orderId ','"""
 | fieldsAdd timestamp = add1second
 ```
 
-5. In the sample data section use the following:
+In the sample data section use the following:
 
 ```json
 {
@@ -92,21 +94,21 @@ parse content, """DATA 'Consumed record with orderId: ' ld:orderId ','"""
       "k8s.container.name": "frauddetectionservice"
 }
 ```
-6. Select the `Run sample data` button and Preview the results.  
+Select the `Run sample data` button and Preview the results.  
 
-7. Validate the orderId field exists in the results
+Validate the orderId field exists in the results.
 
 ![Pipeline Processing Rule Part 2](../../../assets/images/03_bizevents_logs_fraudcheck_openpipline_rule_2.png)
 
-## Business Event - Data extraction - Fraud Check
+## Business Event - OpenPipeline Data extraction - Fraud Check
 
-1. Select the `Data extraction` tab
+Select the `Data extraction` tab.
 
-2. Select the `+ Processor` button (left side of the screen), then select Business event
+Select the `+ Processor` button (left side of the screen), then select Business event.
 
 ![Pipeline Data Extraction Rule Part 1](../../../assets/images/03_bizevents_logs_fraudcheck_openpipline_rule_3.png)
 
-3. Fill out the fields with the following data:
+Fill out the fields with the following data:
 
 Name:
 
@@ -138,7 +140,7 @@ astroshop
 
 Field extraction: 
 
-Select the Fields to extract radio button.  We will add 3 fields to extract.  The fields need to be added independently.
+Select the Fields to extract radio button.  We will add 3 fields to extract (keep).  The fields need to be added independently.
 
 Click the Add button for:
 
@@ -157,19 +159,25 @@ Click the Add button for:
 trace_id
 ```
 
-4. Select the Save Button at the top right of the screen
+Select the Save Button at the top right of the screen.
 
 ![Pipeline Data Extraction Rule Part 2](../../../assets/images/03_bizevents_logs_fraudcheck_openpipline_rule_4.png)
 
 ## Business Event - OpenPipeline Dynamic Route - Fraud Check
 
-Now we need to create a Dynamic route for the `Astroshop_Fraud_Check` pipeline. Dynamic routes give you the option to route your ingested data into a pipeline with a matching condition.
+Now we need to create a Dynamic route for the `Astroshop_Fraud_Check` pipeline. 
 
-1. In the Logs section, Select `+ Dynamic route` button
+Dynamic routes give you the option to route your ingested data into a pipeline with a matching condition.
+
+In the OpenPipeline App, select Logs in the tree.
+
+Select the Dynamic routing tab.
+
+Select `+ Dynamic route` button.
 
 ![Pipeline Dynamic Route Part 1](../../../assets/images/03_bizevents_logs_fraudcheck_openpipline_rule_5.png)
 
-2. Configure the Dynamic route with the following
+Configure the Dynamic route with the following:
 
 Name:
 
@@ -191,11 +199,11 @@ In the dropdown list select the following
 Astroshop_Fraud_Check
 ```
 
-3. Select Add button
+Select Add button.
 
 ![Pipeline Dynamic Route Part 1](../../../assets/images/03_bizevents_logs_fraudcheck_openpipline_rule_6.png)
 
-4.  Select Save button
+Select Save button.
 
 A warning icon with this message will appear "Do you want to save your changes to this table?" 
 
@@ -205,4 +213,4 @@ Select the Save button.
 
 ### Conclusion
 
-We have completed the Business Event capture using log line and OpenPipeline for `Fraud Check` step  of the `Order to Shipped` business process.  The next section will validate the data.
+We have completed the Business Event capture using log lines and OpenPipeline for `Fraud Check` step of the `Order to Shipped` business process.  The next section will validate the data.
