@@ -4,7 +4,7 @@ In this section of the lab we will validate the data for the `Fraud Check` step 
 
 ### Query Business Events in Dynatrace
 
-Using a Notebook execute the below DQL query which retrieves the buisness events for `astroshop.fraudcheck.success` step.  
+Using a Notebook execute the below DQL query which retrieves the buisness events for `astroshop.fraudcheck.success` step.  Note, this may take 3-5 minutes for new data to appear.
 
 DQL:
 ```sql
