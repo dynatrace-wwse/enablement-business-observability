@@ -40,7 +40,7 @@ Static threshold is anomaly detection
 Please use the following value in the `Threshold` field:
 
 ```txt
-1,000,000,000
+60,000,000,000
 ```
 
 In the `Alert condition` confirm the setting selected is the following: 

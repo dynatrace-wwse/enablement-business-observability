@@ -71,7 +71,7 @@ Click the `IT` link in the drilldown section under the `Place Order` Step.  This
 
 ![Place Order - Business Issue 1](../../../assets/images/08_01_dashboard_astroshop_review_business_issue_1.png)
 
-Click the `Business` link in the drilldown section under the `Place Order` Step.  This will open the Business Problem that was generated from our previous lab, `Avg. duration` greater than 1 second for the `Astroshop - Order to Shipped` Business Process.
+Click the `Business` link in the drilldown section under the `Place Order` Step.  This will open the Business Problem that was generated from our previous lab, `Avg. duration` greater than 60 seconds for the `Astroshop - Order to Shipped` Business Process.
 
 ![Place Order - Business Issue 2](../../../assets/images/08_01_dashboard_astroshop_review_business_issue_2.png)
 
@@ -82,6 +82,56 @@ Click the `Business` link in the drilldown section under the `Place Order` Step.
 Click the `Security` link in the drilldown section under the `Place Order` Step.  This will open all open vulnerabilities for the Astroshop-Frontend workload,  which supports `Place Order` Step of the Business Process.
 
 ![Place Order - Security Issue 2](../../../assets/images/08_01_dashboard_astroshop_review_security_issue_2.png)
+
+## Business Observability OrderID Lookup Dashboard
+
+We have provided one more dashboard.  The OrderID Lookup dashboard provides the following:
+
+```txt
+
+Real-time Status KPI's for all Orders
+
+Look up any OrderID and get the status
+
+Filter on all Failed Orders 
+
+Drilldown to Distributed Traces
+
+Context to the health of backend IT Service where Orders start
+```
+### Astroshop - OrderID Lookup Dashboard - Downlaod
+
+Download the dashboard `Astroshop - OrderID Lookup Dashboard` using the source file [Astroshop_-_OrderID_Lookup_Dashboard.json](https://github.com/dynatrace-wwse/enablement-business-observability/blob/main/lab-guide/assets/Astroshop_-_OrderID_Lookup_Dashboard.json) to your local system.
+
+### Astroshop - OrderID Lookup Dashboard - Upload
+
+Open the `Dashboards` app.
+
+Select the `Upload` button and pick the Astroshop_-_OrderID_Lookup_Dashboard.json from your local system.
+
+![Dashboard Upload](../../../assets/images/08_01_dashboard_upload.png)
+
+When the Astroshop_-_OrderID_Lookup_Dashboard first loads a `Review all code` button appears.  
+
+Select the `Review all code` button.
+
+![Dashboard Review all Code 1](../../../assets/images/08_01_dashboard_astroshop_order_lookup_review_all_code_1.png)
+
+A `Review Code` box will appear.
+
+Select the checkbox for "Always trust code in this document".
+
+Then select the `Accept and run` button.
+
+![Dashboard Review all Code 2](../../../assets/images/08_01_dashboard_review_all_code_2.png)
+
+When uploaded,  you should see all tiles with data.
+
+![Dashboard Review all Code 2](../../../assets/images/08_01_dashboard_astroshop_order_lookup_review_1.png)
+
+![Dashboard Order Lookup Failed](../../../assets/images/08_01_dashboard_astroshop_order_lookup_review_2.png)
+
+![Dashboard Order Lookup Trace](../../../assets/images/08_01_dashboard_astroshop_order_lookup_trace_review_1.png)
 
 ### Conclusion
 
