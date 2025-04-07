@@ -129,6 +129,13 @@ If you caught in time you could also select the Open in Browser pop up at the ve
 
 ![Astroshop UI 1](../../../assets/images/prereq-github_codespace_ready_astroshop_1_b.png)
 
+If for some reason Astroshop is not connecting when opening in new tab run the below command in the terminal.
+
+```txt
+exposeAstroshop
+```
+Then in the  `Astroshop UI` section,  cmd + click the url or copy and paste the url in a new browser tab.  This will launch `Astroshop UI`.
+
 Take a minute to navigate around.
 
 ![Astroshop UI 2](../../../assets/images/prereq-github_codespace_ready_astroshop_2.png)
@@ -172,6 +179,104 @@ Select the `Run query` button.
 Validate you see log lines for "frauddetectionservice - Consumed record with orderId:".
 
 ![Dynatrace Logs 2](../../../assets/images/prereq-github_codespace_ready_dynatrace_logs_2.png)
+
+### Troubleshooting
+
+If you don't see data for Distributed Traces and Logs data validation steps above do the following.
+
+Environment Variables Validation:
+
+In the Codespaces terminal run the following commands:
+
+```txt
+
+echo $DT_TENANT
+
+echo $DT_OPERATOR_TOKEN
+
+echo $DT_INGEST_TOKEN
+```
+
+Validate the variables output to what you configured in the `Configure Codespaces Settings - Secrets` section above in this training.   
+
+Make sure to check for:
+
+```txt
+⚠️ No apps in the URL! ⚠️
+
+⚠️ Make sure there is no trailing / at the end of the DT_TENANT ⚠️
+
+⚠️ Make sure the $DT_OPERATOR_TOKEN & $DT_INGEST_TOKEN are not the same ⚠️
+```
+
+![Lab Guide Troubleshooting Variables](../../../assets/images/prereq-github_codespace_troubleshooting_variables.png)
+
+If there are mistakes,  navigate to the GitHub Codespaces page at [https://github.com/codespaces/](https://github.com/codespaces/)
+
+Locate your instance, click the `...` button, and click `Delete`.
+
+![Codespaces Cleanup](../../../assets/images/09_02_codespaces_cleanup.png)
+
+Then go back and collect the correct information needed for:
+
+```txt
+DT_INGEST_TOKEN
+
+DT_OPERATOR_TOKEN
+
+DT_TENANT
+```
+
+Then resume the lab starting at the `Codespaces Cluster Set Up` section above in this training.
+
+If the variables are correct, we need to confirm Astroshop and Dynatrace are running correctly.
+
+Astroshop Validation:
+
+In the Codespaces terminal run the following commands:
+
+```txt
+kubectl get pods -n astroshop
+```
+
+![Lab Guide Troubleshooting Astroshop Running](../../../assets/images/prereq-github_codespace_troubleshooting_astroshop_running.png)
+
+Dynatrace Validation:
+
+In the Codespaces terminal run the following commands:
+
+```txt
+kubectl get pods -n dynatrace
+```
+![Lab Guide Troubleshooting Dynatrace Running](../../../assets/images/prereq-github_codespace_troubleshooting_dynatrace_running.png)
+
+If any of the Astroshop or Dynatrace Pods are not in a STATUS of running it would be best to Delete this Codespace instance.
+
+Navigate to the GitHub Codespaces page at [https://github.com/codespaces/](https://github.com/codespaces/)
+
+Locate your instance, click the `...` button, and click `Delete`.
+
+![Codespaces Cleanup](../../../assets/images/09_02_codespaces_cleanup.png)
+
+Then resume the lab starting at the `Codespaces Cluster Set Up` section above in this training.
+
+### Codespace Disconnected
+
+When your Codespace for this training is up and running and you accidently close the Codespace browser tab, or network reconnection errors occur, don't worry, we can relaunch it.    
+
+Navigate to the GitHub Codespaces page at [https://github.com/codespaces/](https://github.com/codespaces/)
+
+At the bottom of the page under the `Owned by` section, you should see your Codespace instance in an `Active` state.
+
+Select the `...` to the right of Active.
+
+This will open a menu of items.  
+
+Select `Open in Browser`.   
+
+![Codespaces Disconnect 1](../../../assets/images/prereq-github_codespace_disconnect_1.png)
+
+This launch your running Codespace instance in a new browser tab.
 
 ### Conclusion
 
