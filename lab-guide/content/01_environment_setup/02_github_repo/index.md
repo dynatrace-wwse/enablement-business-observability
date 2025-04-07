@@ -1,14 +1,65 @@
 ## GitHub Repository Setup
 
-You will need a GitHub account.
+You will need a GitHub account.  
+
+Make sure you are logged in.
+
+### Configure Codespaces Settings - Secrets
+
+If you previously participated in a Dynatrace training using Codespaces, you may have existing secrets that will conflict with our training today.
+
+Open the `GitHub Codespaces settings` link: [https://github.com/settings/codespaces](https://github.com/settings/codespaces) in a new tab in your browser.
+
+Under the Secrets section,  Codespace user secrets,  check if these secrets exist.
+
+```txt
+DT_INGEST_TOKEN
+
+DT_OPERATOR_TOKEN
+
+DT_TENANT
+```
+
+If found, select the delete icon for each secret that exists.
+
+![Codespaces Secrets Delete 1](../../../assets/images/00_01_readme_lab_guide_codespaces_secrets_1.png)
+
+You will get a `Delete secret` prompt, select the `Yes, delete this secret` button.
+
+![Codespaces Secrets Delete 2](../../../assets/images/00_01_readme_lab_guide_codespaces_secrets_2.png)
+
+You may get a `Confirm access` prompt, enter your Github password and then select the `Confirm` button.
+
+![Codespaces Secrets Delete 3](../../../assets/images/00_01_readme_lab_guide_codespaces_secrets_3.png)
+
+Leave the `GitHub Codespaces settings` browser tab open. 
+
+In next section of this lab we will be changing another setting.
+
+### Configure Codespaces Settings - Default idle timeout
+
+By default, codespaces instances will suspend after 30 minutes of inactivity.  This may cause problems with your lab.  
+
+Scroll down GitHub Codespaces settings section and find the section called `Default idle timeout`.
+
+Increase the `Default idle timeout` setting in the minutes section to use the following:
+
+```txt
+240
+```
+Select the `Save` button.
+
+![Codespaces Settings Default idle timeout](../../../assets/images/00_01_readme_lab_guide_codespaces_default_idle_timeout.png)
+
+When complete you can close the `GitHub Codespaces settings` browser tab.
+
+### Codespaces Cluster Set Up
 
 The source repository for this lab is: 
 
 [enablement-business-observability](https://github.com/dynatrace-wwse/enablement-business-observability)
 
-Open the link above in your browser.
-
-## Codespaces Cluster Set Up
+Open the link above in a new tab in your browser.
 
 Click on `Code`.  Click on `Codespaces`.  Click on `New with options`.
 
@@ -27,36 +78,21 @@ Choose Machine Type `4-core`.
 Fill in recommend secrets sections for the following that you have in your saved notepad:
 
 ```txt
-* DT_TENANT
+DT_TENANT
 
-* DT_OPERATOR_TOKEN
+DT_OPERATOR_TOKEN
 
-* DT_INGEST_TOKEN
+DT_INGEST_TOKEN
 ```
 When done select the Create codespace button.
 
 ![github new codespaces secrets](../../../assets/images/prereq-github_cluster_new_secrets.png)
 
-If you have already defined the environment variables in your repository, you'll see a screen asking you to associate those secrets with this repository. 
+⚠️ If any of the secrets sections have a checkbox Associated with repository?, leave this browser tab open. 
+Go back to Configure Codespaces Settings - Secrets section above in this lab and complete that section.
+Refresh this browser tab and you should now be able to fill in the secrets. ⚠️
 
-You can either update or delete those existing secrets.  If you delete the secretes, you will need to start over.
-
-If you want to update those secretes, click the Codespaces Settings link in the Recommended secrets section of this page.  This open up a new window for Codespace user secrets section for your account.  For each of the secrets below, edit with the pencil icon,  update with the values for collected for this lab and save changes.   
-
-```txt
-* DT_TENANT
-
-* DT_OPERATOR_TOKEN
-
-* DT_INGEST_TOKEN
-```
-Then code back to you codespace setup page you have open and boxes as shown below.
-
-When done select the Create codespace button.
-
-![github new codespaces secrets](../../../assets/images/prereq-github_cluster_new_secrets_2.png)
-
-## Codespaces Codespace Instance
+### Codespaces Codespace Instance
 
 Your browser tab will change to the Codespace initialize screen.
 
@@ -78,7 +114,7 @@ When fully finished you see below.
 
 ![github codespace ready](../../../assets/images/prereq-github_codespace_ready.png)
 
-## Astroshop Validation
+### Astroshop Validation
 
 In the Codespace window,  you will see a section called: 
 
@@ -97,7 +133,7 @@ Take a minute to navigate around.
 
 ![Astroshop UI 2](../../../assets/images/prereq-github_codespace_ready_astroshop_2.png)
 
-## Dynatrace Data Validation - Distributed Traces
+### Dynatrace Data Validation - Distributed Traces
 
 Open the `Distributed Tracing` app.
 
@@ -119,7 +155,7 @@ Select a single trace to see the single trace details.
 
 ![Dynatrace Distributed Tracing 3](../../../assets/images/prereq-github_codespace_ready_dynatrace_distributed_tracing_3.png)
 
-## Dynatrace Data Validation - Logs
+### Dynatrace Data Validation - Logs
 
 Open the `Logs` app.
 
