@@ -509,7 +509,7 @@ Select `Open in Browser`.
 
 ![Codespaces Disconnect 1](lab-guide/assets/images/prereq-github_codespace_disconnect_1.png)
 
-This launch your running Codespace instance in a new browser tab.
+This will launch your running Codespace instance in a new browser tab.
 
 ### Hands On Lab Guide
 
