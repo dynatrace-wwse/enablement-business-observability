@@ -372,11 +372,23 @@ dynatraceEvalReadSaveCredentials() {
 }
 
 deployCloudNative() {
-
+  printInfoSection "Deploying Dynatrace in CloudNativeFullStack mode for $DT_TENANT"
+  if [ -n "${DT_TENANT}" ]; then
     # Check if the Webhook has been created and is ready
     kubectl -n dynatrace wait pod --for=condition=ready --selector=app.kubernetes.io/name=dynatrace-operator,app.kubernetes.io/component=webhook --timeout=300s
-
+    
     kubectl -n dynatrace apply -f $CODESPACE_VSCODE_FOLDER/.devcontainer/yaml/gen/dynakube-cloudnative.yaml
+
+    printInfo "Log capturing will be handled by the Host agent."
+    # We wait for 5 seconds for the pods to be scheduled, otherwise it will mark it as passed since the pods have not been scheduled
+    sleep 5
+    waitForAllPods dynatrace
+    #TODO: Verify dependency of AG and OS being ready.
+    waitForAllReadyPods dynatrace
+  else
+    printInfo "Not deploying the Dynatrace Operator, no credentials found"
+  fi
+
 }
 
 undeployDynakubes() {
