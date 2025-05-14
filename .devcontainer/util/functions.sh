@@ -89,8 +89,8 @@ waitForAllPods() {
   fi
 }
 
-() {
-  # FunctionwaitForAllReadyPods to filter by Namespace, default is ALL
+waitForAllReadyPods() {
+  # Function to filter by Namespace, default is ALL
   if [[ $# -eq 1 ]]; then
     namespace_filter="-n $1"
   else
