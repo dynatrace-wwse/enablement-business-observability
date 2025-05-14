@@ -89,6 +89,36 @@ waitForAllPods() {
   fi
 }
 
+() {
+  # FunctionwaitForAllReadyPods to filter by Namespace, default is ALL
+  if [[ $# -eq 1 ]]; then
+    namespace_filter="-n $1"
+  else
+    namespace_filter="--all-namespaces"
+  fi
+  RETRY=0
+  RETRY_MAX=60
+  # Get all pods, count and invert the search for not running nor completed. Status is for deleting the last line of the output
+  CMD="kubectl get pods $namespace_filter 2>&1 | grep -c -v -E '(1\/1|2\/2|3\/3|4\/4|5\/5|6\/6|READY)'"
+  printInfo "Checking and wait for all pods in \"$namespace_filter\" to be running and ready (max of 6 containers per pod)"
+  while [[ $RETRY -lt $RETRY_MAX ]]; do
+    pods_not_ok=$(eval "$CMD")
+    if [[ "$pods_not_ok" == '0' ]]; then
+      printInfo "All pods are running."
+      break
+    fi
+    RETRY=$(($RETRY + 1))
+    printWarn "Retry: ${RETRY}/${RETRY_MAX} - Wait 10s for $pods_not_ok PoDs to finish or be in state Ready & Running ..."
+    sleep 10
+  done
+
+  if [[ $RETRY == $RETRY_MAX ]]; then
+    printError "Following pods are not still not running. Please check their events. Exiting installation..."
+    kubectl get pods --field-selector=status.phase!=Running -A
+    exit 1
+  fi
+}
+
 installHelm() {
   # https://helm.sh/docs/intro/install/#from-script
   printInfoSection " Installing Helm"

@@ -27,7 +27,7 @@ dynatraceEvalReadSaveCredentials
 
 dynatraceDeployOperator
 
-waitForAllPods dynatrace
+waitForAllReadyPods dynatrace
 
 deployAstroshop
 
@@ -61,4 +61,4 @@ else
     postCodespaceTracker enablement-business-observability
 
     printInfo "Finished creating"
-fi
+fi0
