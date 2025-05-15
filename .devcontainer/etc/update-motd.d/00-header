@@ -4,10 +4,10 @@ printf "%s"
 
 if [[ $CODESPACES == true ]]; then
   LAB_GUIDE_URL="https://${CODESPACE_NAME}-3000.app.github.dev"
-  ASTROSHOP_URL="https://${CODESPACE_NAME}-8080.app.github.dev"
+  ASTROSHOP_URL="https://${CODESPACE_NAME}-30100.app.github.dev"
 else
-  LAB_GUIDE_URL="https://localhost:3000"
-  ASTROSHOP_URL="http://localhost:8080"
+  LAB_GUIDE_URL="https://localhost:3000"  
+  ASTROSHOP_URL="http://localhost:30100"
 fi
 printf "\n"
 printf '\e[33;0;36m'"Welcome! You are running in a DevContainer.\n"
