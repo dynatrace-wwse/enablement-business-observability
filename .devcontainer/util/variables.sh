@@ -14,7 +14,7 @@ CERTMANAGER_VERSION=1.15.3
 RUNME_CLI_VERSION=3.10.2
 
 # Setting up the variable since its not set when instantiating the vscode folder.
-CODESPACE_VSCODE_FOLDER="/workspaces/enablement-business-observability"
+CODESPACE_VSCODE_FOLDER="/workspaces/$RepositoryName"
 
 # ColorCoding
 GREEN="\e[32m"
@@ -48,11 +48,11 @@ LOGNAME="dynatrace.enablement"
 
 # LabGuidePort
 LABGUIDEPORT=3000
-ASTROSHOPPORT=8080
+WEBAPPPORT=30100
 if [[ $CODESPACES == true ]]; then
   LAB_GUIDE_URL="https://${CODESPACE_NAME}-$LABGUIDEPORT.app.github.dev"
-  ASTROSHOP_URL="https://${CODESPACE_NAME}-$ASTROSHOPPORT.app.github.dev"
+  WEBAPP_URL="https://${CODESPACE_NAME}-$WEBAPPPORT.app.github.dev"
 else
   LAB_GUIDE_URL="https://localhost:$LABGUIDEPORT"
-  ASTROSHOP_URL="http://localhost:$ASTROSHOPPORT"
+  WEBAPP_URL="http://localhost:$ASTROSHOPPORT"
 fi

@@ -3,7 +3,7 @@
 # Install RunMe
 # RunMe makes markdown files runnable
 # Used during end2end testing to execute the code snippets
-source /workspaces/enablement-business-observability/.devcontainer/util/functions.sh
+source /workspaces/$RepositoryName/.devcontainer/util/functions.sh
 
 bindFunctionsInShell
 
@@ -27,7 +27,9 @@ dynatraceEvalReadSaveCredentials
 
 dynatraceDeployOperator
 
-waitForAllReadyPods dynatrace
+sleep 5
+
+waitForAllPods dynatrace
 
 deployAstroshop
 

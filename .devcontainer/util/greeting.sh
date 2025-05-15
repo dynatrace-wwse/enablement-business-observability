@@ -1,11 +1,11 @@
 #!/bin/bash
 
 # VARIABLES DECLARATION
-source /workspaces/enablement-business-observability/.devcontainer/util/variables.sh
+source /workspaces/$RepositoryName/.devcontainer/util/variables.sh
 
 echo -e "${thickline}"
 echo -e ""
-echo -e "      ${CYAN}                 Welcome to your Dev Container                ${RESET}                "
+echo -e "      ${CYAN}                 Welcome to your your Dev Container                ${RESET}                "
 echo -e "       This enablement was made with ${RED}${HEART}${RESET} from the Dynatrace SE Center of Excellence Team                                                                                             "
 echo -e "${GREEN} "
 echo -e "      ${CYAN}.oyyyyyson+${GREEN}.          sh                               hs                                                         "
@@ -26,16 +26,17 @@ echo
 echo -e " ${LILA}Kubernetes Cluster ${NORMAL}       "
 kubectl version
 echo -e "                                                                                                             "
-echo -e "${thinline}"                                                                     
-echo -e " ${LILA}GitHub Repository ${NORMAL}       "
-echo -e "${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}      "
+echo -e "${RESET}${thinline}"                                                                     
 echo -e "                                                                                                             "
-echo -e " ${LILA}Codespace information ${NORMAL}       "
+echo -e " ${LILA}GitHub Pages: ${RESET}https://dynatrace-wwse.github.io/${RepositoryName}    "
+echo -e " ${LILA}GitHub Repository: ${RESET}${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}      "
+echo -e " ${LILA}Dynatrace Tenant: ${RESET}${DT_TENANT}"
+echo -e "                                                                                                             "
+echo -e " ${LILA}Codespace information: ${NORMAL}   "
 echo -e "Codespace ${RESET}${CODESPACE_NAME}${NORMAL} running for github user ${RESET}${GITHUB_USER}    "
 echo -e "                                                                                                             "
-echo -e "${CYAN}This devcontainer is exposing the following processes${RESET} "
-echo -e "  ${LILA}Lab Guide:${RESET} ${LAB_GUIDE_URL} "
-echo -e "  ${LILA}Astroshop UI:${RESET} ${ASTROSHOP_URL} "
+echo -e "${CYAN}This devcontainer is exposing the following processes:${RESET} "
+echo -e "  ${LILA}App UI:${RESET} ${WEBAPP_URL} "
 echo -e "                                                                                                             "
 echo -e "${CYAN}This container has the following tools installed and configured for your best experience:${RESET} "
 echo -e "  ${RESET}k9s kubectl helm node jq python3 gh ${RESET} "

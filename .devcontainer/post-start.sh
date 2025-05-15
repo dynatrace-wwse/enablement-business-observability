@@ -1,8 +1,9 @@
 #!/bin/bash
 
-source /workspaces/enablement-business-observability/.devcontainer/util/functions.sh
+source /workspaces/$RepositoryName/.devcontainer/util/functions.sh
 
-exposeAstroshop
+#exposeAstroshop
+
 exposeLabguide
 
 showMessage
