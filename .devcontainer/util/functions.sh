@@ -119,6 +119,34 @@ waitForAllReadyPods() {
   fi
 }
 
+waitForPod() {
+  # Function to filter by Namespace and POD string, default is ALL namespaces
+  # If 2 parameters then the first is Namespace the second is Pod-String
+  # If 1 parameters then Namespace == all-namespaces the first is Pod-String
+  if [[ $# -eq 2 ]]; then
+    namespace_filter="-n $1"
+    pod_filter="$2"
+  elif [[ $# -eq 1 ]]; then
+    namespace_filter="--all-namespaces"
+    pod_filter="$1"
+  fi
+  RETRY=0
+  RETRY_MAX=60
+  # Get all pods, count and invert the search for not running nor completed. Status is for deleting the last line of the output
+  CMD="kubectl get pods $namespace_filter 2>&1 | grep -c -E '$pod_filter'"
+  printInfo "Verifying that pods in \"$namespace_filter\" with name \"$pod_filter\" is scheduled in a workernode "
+  while [[ $RETRY -lt $RETRY_MAX ]]; do
+    pods_running=$(eval "$CMD")
+    if [[ "$pods_running" != '0' ]]; then
+      printInfo "\"$pods_running\" pods are running on \"$namespace_filter\" with name \"$pod_filter\" exiting loop."
+      break
+    fi
+    RETRY=$(($RETRY + 1))
+    printWarn "Retry: ${RETRY}/${RETRY_MAX} - No pods are running on  \"$namespace_filter\" with name \"$pod_filter\". Wait 10s for $pod_filter PoDs to be scheduled..."
+    sleep 10
+  done
+}
+
 installHelm() {
   # https://helm.sh/docs/intro/install/#from-script
   printInfoSection " Installing Helm"
@@ -376,19 +404,19 @@ deployCloudNative() {
   if [ -n "${DT_TENANT}" ]; then
     # Check if the Webhook has been created and is ready
     kubectl -n dynatrace wait pod --for=condition=ready --selector=app.kubernetes.io/name=dynatrace-operator,app.kubernetes.io/component=webhook --timeout=300s
-    
+
     kubectl -n dynatrace apply -f $CODESPACE_VSCODE_FOLDER/.devcontainer/yaml/gen/dynakube-cloudnative.yaml
 
     printInfo "Log capturing will be handled by the Host agent."
-    # We wait for 5 seconds for the pods to be scheduled, otherwise it will mark it as passed since the pods have not been scheduled
-    sleep 5
-    waitForAllPods dynatrace
+    
+    # We wait for the pods to be scheduled, otherwise it will mark it as passed since the pods have not been scheduled
+    waitForPod dynatrace activegate
+    
     #TODO: Verify dependency of AG and OS being ready.
     waitForAllReadyPods dynatrace
   else
     printInfo "Not deploying the Dynatrace Operator, no credentials found"
   fi
-
 }
 
 undeployDynakubes() {
@@ -413,22 +441,17 @@ uninstallDynatrace() {
 # shellcheck disable=SC2120
 dynatraceDeployOperator() {
 
+  printInfoSection "Deploying Dynatrace Operator via Helm."
   # posssibility to load functions.sh and call dynatraceDeployOperator A B C to save credentials and override
   # or just run in normal deployment
   saveReadCredentials $@
   # new lines, needed for workflow-k8s-playground, cluster in dt needs to have the name k8s-playground-{requestuser} to be able to spin up multiple instances per tenant
 
   if [ -n "${DT_TENANT}" ]; then
-    printInfoSection "Deploying Dynatrace Operator"
     # Deploy Operator
 
     deployOperatorViaHelm
     waitForAllPods dynatrace
-
-    printInfoSection "Deploying Dynakube with CloudNative FullStack Monitoring for $DT_TENANT"
-
-    deployCloudNative
-    waitForAllPods
 
     #TODO: Fix this 
     #printInfoSection "Instrumenting NGINX Ingress"

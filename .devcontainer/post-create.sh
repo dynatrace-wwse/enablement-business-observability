@@ -27,13 +27,9 @@ dynatraceEvalReadSaveCredentials
 
 dynatraceDeployOperator
 
-sleep 5
-
-waitForAllPods dynatrace
+deployCloudNative
 
 deployAstroshop
-
-waitForAllPods astroshop
 
 # e2e testing
 # If the codespace is created (eg. via a Dynatrace workflow)
