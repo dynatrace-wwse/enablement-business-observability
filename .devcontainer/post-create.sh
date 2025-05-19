@@ -59,4 +59,4 @@ else
     postCodespaceTracker enablement-business-observability
 
     printInfo "Finished creating"
-fi0
+fi
