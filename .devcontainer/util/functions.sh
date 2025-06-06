@@ -538,6 +538,46 @@ deployOperatorViaHelm(){
 }
 
 
+deployAITravelAdvisorApp(){
+  printInfoSection "Deploying AI Travel Advisor App & it's LLM"
+
+  kubectl apply -f /workspaces/$RepositoryName/app/k8s/namespace.yaml
+
+  kubectl -n ai-travel-advisor create secret generic dynatrace --from-literal=token=$DT_TOKEN --from-literal=endpoint=$DT_TENANT/api/v2/otlp
+
+  # Start OLLAMA
+  printInfo "Deploying our LLM => Ollama"
+  kubectl apply -f /workspaces/$RepositoryName/app/k8s/ollama.yaml
+  waitForPod ai-travel-advisor ollama
+  printInfo "Waiting for Ollama to get ready"
+  kubectl -n ai-travel-advisor wait --for=condition=Ready pod --all --timeout=10m
+  printInfo "Ollama is ready"
+
+  # Start Weaviate
+  printInfo "Deploying our VectorDB => Weaviate"
+  kubectl apply -f /workspaces/$RepositoryName/app/k8s/weaviate.yaml
+
+  waitForPod ai-travel-advisor weaviate
+  printInfo "Waiting for Weaviate to get ready"
+  kubectl -n ai-travel-advisor wait --for=condition=Ready pod --all --timeout=10m
+  printInfo "Weaviate is ready"
+
+
+  # Start AI Travel Advisor
+  printInfo "Deploying AI App => AI Travel Advisor"
+  kubectl apply -f /workspaces/$RepositoryName/app/k8s/ai-travel-advisor.yaml
+  
+  waitForPod ai-travel-advisor ai-travel-advisor
+  printInfo "Waiting for AI Travel Advisor to get ready"
+  kubectl -n ai-travel-advisor wait --for=condition=Ready pod --all --timeout=10m
+  printInfo "AI Travel Advisor is ready"
+
+  # Define the NodePort to expose the app from the Cluster
+  kubectl patch service ai-travel-advisor --namespace=ai-travel-advisor --type='json' --patch='[{"op": "replace", "path": "/spec/ports/0/nodePort", "value":30100}]'
+  printInfo "AI Travel Advisor is available via NodePort=30100"
+
+}
+
 deployTodoApp(){
   printInfoSection "Deploying Todo App"
 
