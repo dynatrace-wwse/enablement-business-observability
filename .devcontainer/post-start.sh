@@ -6,4 +6,5 @@ source /workspaces/$RepositoryName/.devcontainer/util/functions.sh
 
 exposeLabguide
 
-showMessage
+printInfo "Lab guide exposed in $LAB_GUIDE_URL"
+printInfo "Astroshop exposed in $ASTROSHOP_URL"
