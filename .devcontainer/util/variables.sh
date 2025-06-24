@@ -6,7 +6,6 @@
 # ======================================================================
 
 # VARIABLES DECLARATION
-
 #https://cert-manager.io/docs/release-notes/
 CERTMANAGER_VERSION=1.15.3
 
@@ -15,6 +14,20 @@ RUNME_CLI_VERSION=3.10.2
 
 # Setting up the variable since its not set when instantiating the vscode folder.
 CODESPACE_VSCODE_FOLDER="/workspaces/$RepositoryName"
+# Codespace Persisted share folder
+CODESPACE_PSHARE_FOLDER="/workspaces/.codespaces/.persistedshare"
+
+# Dynamic Variables between phases
+ENV_FILE="$CODESPACE_VSCODE_FOLDER/.devcontainer/util/.env"
+
+if [ -e "$ENV_FILE" ]; then
+  # file exists
+  source $ENV_FILE
+else
+  # create .env file and add variables
+  echo -e "DURATION=0\nERROR_COUNT=0" > $ENV_FILE
+  source $ENV_FILE
+fi
 
 # ColorCoding
 GREEN="\e[32m"

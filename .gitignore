@@ -21,3 +21,6 @@ site/*
 # No tmp folders
 **tmp**
 **/tmp/**
+
+# no env files
+.devcontainer/util/.env

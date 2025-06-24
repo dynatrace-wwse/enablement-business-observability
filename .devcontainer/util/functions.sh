@@ -37,17 +37,15 @@ printError() {
 }
 
 postCodespaceTracker(){
-  # Set demo name
-  if [[ $# -eq 1 ]]; then
-    DEMOPLACEHOLDER="demo-$1"
-  else
-    namespace_filter="demo-placeholder"
-  fi
+  printInfo "Sending bizevent for $RepositoryName with $ERROR_COUNT issues built in $DURATION seconds"
+
   curl -X POST https://grzxx1q7wd.execute-api.us-east-1.amazonaws.com/default/codespace-tracker \
   -H "Content-Type: application/json" \
   -d "{
   \"repo\": \"$GITHUB_REPOSITORY\",
-  \"demo\": \"$DEMOPLACEHOLDER\",
+  \"demo\": \"$RepositoryName\",
+  \"codespace.error\": \"$ERROR_COUNT\",
+  \"codespace.creation\": \"$DURATION\",
   \"codespace.name\": \"$CODESPACE_NAME\"
   }"
 }
@@ -709,4 +707,51 @@ deployGhdocs(){
 deployCronJobs() {
   printInfoSection "Deploying CronJobs for Astroshop for this lab"
   kubectl apply -f $CODESPACE_VSCODE_FOLDER/.devcontainer/manifests/cronjobs.yaml
+}
+
+verifyCodespaceCreation(){
+  printInfoSection "Verify Codespace creation"
+  calculateTime
+  CODESPACE_ERRORS=$(cat $CODESPACE_PSHARE_FOLDER/creation.log | grep -i -E 'error|failed')
+  if [ -n "$CODESPACE_ERRORS" ]; then
+      ERROR_COUNT=$(printf "%s" "$CODESPACE_ERRORS" | wc -l) 
+  else
+      ERROR_COUNT=0
+  fi
+  printInfo "$ERROR_COUNT issues detected in the creation of the codespace: $CODESPACE_ERRORS" 
+
+  export CODESPACE_ERRORS
+  updateEnvVariable ERROR_COUNT
+ 
+}
+
+calculateTime(){
+  # Read from file
+  if [ -e "$ENV_FILE" ]; then
+    source $ENV_FILE
+  fi
+  # if equal 0 then set duration and update file
+  if [ "$DURATION" -eq 0 ]; then 
+    DURATION="$SECONDS"
+    updateEnvVariable DURATION
+  fi
+  printInfo "It took $(($DURATION / 60)) minutes and $(($DURATION % 60)) seconds the post-creation of the codespace."
+}
+
+updateEnvVariable(){
+  local variable="$1"
+  # Checking the process name (zsh/bash)
+  if [[ "$(ps -p $$ -o comm=)" == "zsh" ]]; then
+    #printInfo "ZSH"
+    #printInfo "update [$variable:${(P)variable}]"
+    # indirect variable expansion in ZSH
+    sed -i "s|^$variable=.*|$variable=${(P)variable}|" $ENV_FILE
+  else
+    #printInfo "BASH"
+    #printInfo "update [$variable:${!variable}]"
+    # indirect variable expansion in BASH
+    sed -i "s|^$variable=.*|$variable=${!variable}|" $ENV_FILE
+  fi
+  
+  export $variable
 }

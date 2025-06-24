@@ -4,6 +4,7 @@
 # RunMe makes markdown files runnable
 # Used during end2end testing to execute the code snippets
 source /workspaces/$RepositoryName/.devcontainer/util/functions.sh
+export SECONDS=0
 
 bindFunctionsInShell
 
@@ -54,9 +55,10 @@ if [[ "$CODESPACE_NAME" == dttest-* ]]; then
     gh codespace delete --codespace "$CODESPACE_NAME" --force
 else
 
-    # Your content here
-    printInfo "Sending BizEvent to track usage of enablement-business-observability"
-    postCodespaceTracker enablement-business-observability
+    verifyCodespaceCreation
+    
+    postCodespaceTracker
+  
+    printInfo "Finished creating devcontainer"
 
-    printInfo "Finished creating"
 fi

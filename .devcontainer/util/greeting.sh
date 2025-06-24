@@ -43,5 +43,10 @@ echo -e "  ${RESET}k9s kubectl helm node jq python3 gh ${RESET} "
 echo -e "                                                                                                             "
 echo -e "${CYAN}If you want to make the endpoints public accesible, just go to the ports section in VsCode, right click on them and change the visibility to public ${NORMAL}"
 echo -e "${CYAN}When you are finished with your codespace, you can comfortably delete it by typing in the Terminal${RESET} deleteCodespace"
-echo -e "                                       "                                                         
+echo -e "                                       " 
+if [ "$ERROR_COUNT" -gt 0 ]; then 
+    echo -e "${RED} There has been $ERROR_COUNT errors detected in the creation of the codespace, type ${RESET}verifyCodespaceCreation${RED} to understand more. ${RESET}                          " 
+else
+    echo -e "${GREEN} There has been no errors detected in the creation of the codespace. ${RESET}                          " 
+fi
 echo -e "${thinline}"
