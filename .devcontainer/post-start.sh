@@ -2,9 +2,8 @@
 
 source /workspaces/$RepositoryName/.devcontainer/util/functions.sh
 
-#exposeAstroshop
-
+#TODO: BeforeGoLive comment this so the Mkdocs are not exposed in the container.
+# we want to monitor all interactions of the users in the live github pages.
 exposeLabguide
 
-printInfo "Lab guide exposed in $LAB_GUIDE_URL"
-printInfo "Astroshop exposed in $ASTROSHOP_URL"
+printInfoSection "Your dev.container finished creating"

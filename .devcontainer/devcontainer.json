@@ -1,29 +1,37 @@
-// For format details, see https://aka.ms/devcontainer.json. For config options, see the
-// README at: https://github.com/devcontainers/templates/tree/main/src/kubernetes-helm
 {
-	"name": "Enablement Business Observability",
-	"dockerFile": "Dockerfile",
+  "name": "Dynatrace Enablement Container",
+  // Pulling the image from the Dockerhub, runs on AMD64 and ARM64. Pulling is normally faster.
+  "image":"shinojosa/dt-enablement:v1.0",
+  /*
+  // Building the image from the Dockerfile
+  "build": {
+    "dockerfile": "Dockerfile"
+    },
+    */
+  // When running locally we pass the 'secrets' as env variables via runArgs "--env-file",".devcontainer/runlocal/.env"
+  "runArgs": ["--init", "--privileged", "--network=host"],
+  "mounts": ["source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind"],
+  // Entrypoint and CMD are overwritten by VSCode
+  "overrideCommand": false,
 
-	// do not change these if you want Docker in Docker support
-	"runArgs": ["--init", "--privileged", "--network=host"],
-	"mounts": [ "source=/var/run/docker.sock,target=/var/run/docker-host.sock,type=bind" ],
-	"overrideCommand": false,
-
-	// some base images require a specific user name
+  // some base images require a specific user name.
 	"remoteUser": "vscode",
+  
+  "postCreateCommand": "./.devcontainer/post-create.sh",
 
-	// Install extensions
-	"customizations": {
-		"vscode": {	
-			// Set container specific settings
+  "postStartCommand": "./.devcontainer/post-start.sh",
+  
+  "features": {},
+  "customizations": {
+    "vscode": {
+      // Set container specific settings
 			"settings": {
 				"terminal.integrated.defaultProfile.linux": "zsh"
-			},			
-			"extensions": []
-		}
-	},
-
-	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+			},
+      "extensions": [ ]
+    }
+  },
+  	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	"forwardPorts": [
 		30100, 3000
 	],
@@ -32,19 +40,13 @@
 		"3000": { "label": "Lab Guide" },
 		"30100": { "label": "Astroshop Web UI" }
 	},
-
+  // minimal CPU when running DT components and apps.
 	"hostRequirements": {
 		"cpus": 4
 	},
 
-	// Use 'postCreateCommand' to run commands after the container is created.
-	// eg. ./init.sh or python installer.py
-	"postCreateCommand": "./.devcontainer/post-create.sh",
-
-	// Use 'postStartCommand' to run commands after the container starts.
-	"postStartCommand": "./.devcontainer/post-start.sh",
-
 	// Add recommended secrets
+	// Commented out since we are not deploying Dynatrace in the template.
 	"secrets": {
 		"DT_TENANT": {
 			 "description": "eg. abc123 for live -> https://abc123.live.dynatrace.com or sprint -> https://abc123.sprint.dynatracelabs.com no apps in the URL"
@@ -55,5 +57,8 @@
 		"DT_INGEST_TOKEN": {
 			 "description": "Dynatrace Ingest Token, it will be created automatically when adding a new Cluster over the UI. It contains the following permissions: 'Ingest logs' 'Ingest metrics' 'Ingest OpenTelemetry traces' "
 	 }
+  },
+  "remoteEnv": {
+    "RepositoryName": "enablement-business-observability"
   }
 }

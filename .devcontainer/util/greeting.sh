@@ -29,11 +29,11 @@ echo -e "                                                                       
 echo -e "${RESET}${thinline}"                                                                     
 echo -e "                                                                                                             "
 echo -e " ${LILA}GitHub Pages: ${RESET}https://dynatrace-wwse.github.io/${RepositoryName}    "
-echo -e " ${LILA}GitHub Repository: ${RESET}${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}      "
+echo -e " ${LILA}GitHub Repository: ${RESET}$(git remote get-url origin)     "
 echo -e " ${LILA}Dynatrace Tenant: ${RESET}${DT_TENANT}"
 echo -e "                                                                                                             "
 echo -e " ${LILA}Codespace information: ${NORMAL}   "
-echo -e "Codespace ${RESET}${CODESPACE_NAME}${NORMAL} running for github user ${RESET}${GITHUB_USER}    "
+echo -e "Codespace ${RESET}${CODESPACE_NAME}${NORMAL} running for user ${RESET}${PRINT_USER}    "
 echo -e "                                                                                                             "
 echo -e "${CYAN}This devcontainer is exposing the following processes:${RESET} "
 echo -e "  ${LILA}App UI:${RESET} ${WEBAPP_URL} "
@@ -44,9 +44,13 @@ echo -e "                                                                       
 echo -e "${CYAN}If you want to make the endpoints public accesible, just go to the ports section in VsCode, right click on them and change the visibility to public ${NORMAL}"
 echo -e "${CYAN}When you are finished with your codespace, you can comfortably delete it by typing in the Terminal${RESET} deleteCodespace"
 echo -e "                                       " 
-if [ "$ERROR_COUNT" -gt 0 ]; then 
-    echo -e "${RED} There has been $ERROR_COUNT errors detected in the creation of the codespace, type ${RESET}verifyCodespaceCreation${RED} to understand more. ${RESET}                          " 
-else
-    echo -e "${GREEN} There has been no errors detected in the creation of the codespace. ${RESET}                          " 
+if [[ $CODESPACES == true ]]; then
+    if [ "$ERROR_COUNT" -gt 0 ]; then 
+        echo -e "${RED} There has been $ERROR_COUNT errors detected in the creation of the codespace, type ${RESET}verifyCodespaceCreation${RED} to understand more. ${RESET}                          " 
+    else
+        echo -e "${GREEN} There has been no errors detected in the creation of the codespace. ${RESET}                          " 
+    fi
+else 
+    echo -e "${BLUE} You are running the enablement in a container, amazing! at the moment automatic error detection on creation is not implemented.${RESET}                " 
 fi
 echo -e "${thinline}"
