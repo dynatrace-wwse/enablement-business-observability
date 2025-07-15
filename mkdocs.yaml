@@ -1,13 +1,22 @@
-site_name: "Dynatrace Observability Lab: PLACEHOLDER"
+site_name: "Dynatrace Observability Lab: Business Observability"
 repo_name: "View Code on GitHub"
-repo_url: "https://github.com/dynatrace/PLACEHOLDER"
+repo_url: "https://github.com/dynatrace-wwse/enablement-business-observability"
 nav:
   - '1. About': index.md
   - '2. Getting Started': getting-started.md
+  - '3. Codespaces': codespaces.md
+  - '4. Business Events Capture - OneAgent': 04_bizevents_oneagent.md
+  - '5. Business Events Capture - Logs': 05_bizevents_logs.md
+  - '6. Business Events Capture - API': 06_bizevents_api.md
+  - '7. Business Events - Metric': 07_bizevents_metric.md
+  - '8. Business Events - Alerts': 08_bizevents_alerts.md
+  - '9. Business Flows': 09_bizevents_business_flow.md
+  - '10. Business Dashboard': 10_bizevents_dashboard.md
+  - '11. Wrap Up': 11_wrapup.md
   # ...
-  - '8. Cleanup': cleanup.md
-  - '9. Resources': resources.md
-  - "10. What's Next?": whats-next.md
+  - '12. Cleanup': cleanup.md
+  - '13. Resources': resources.md
+  - "14. What's Next?": whats-next.md
 theme:
   name: material
   custom_dir: docs/overrides
