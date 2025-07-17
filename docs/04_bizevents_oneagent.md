@@ -1,6 +1,6 @@
---8<-- "snippets/send-bizevent/file.js"
+--8<-- "snippets/send-bizevent/bizevent-04-bizevents-oneagent.js"
 
-## Business Events Capture - OneAgent
+# Business Events Capture - OneAgent
 
 Using the Dynatrace OneAgent to capture Business Events provides real-time business observability, enabling data-driven decision-making and improved business outcomes by offering precise metrics and context, lossless access to data, and the ability to explore large datasets without pre-indexing.
 
@@ -661,16 +661,10 @@ Result:
 
 We have completed data validation for the `Place Order` step of the `Order to Shipped` business process.
 
-### Subtopic
-
-The demo application in this lab, AstroShop, contains OpenTelemetry instrumentation that can be picked up by OneAgent.
-
-![OpenTelemetry OneAgent Features](./img/getting-started_dynatrace_oneagent_features_opentelemetry.png)
-
 ## Continue
 
-In the next section, we'll launch our Codespaces instance.
+In the next section, we'll capture Business Events from Logs using OpenPipeline.
 
 <div class="grid cards" markdown>
-- [Continue to Codespaces:octicons-arrow-right-24:](3-codespaces.md)
+- [Continue to Business Event Capture with Logs:octicons-arrow-right-24:](05_bizevents_logs.md)
 </div>

@@ -1,7 +1,5 @@
---8<-- "snippets/send-bizevent/file.js"
-
-* Key Takeaways
-* Codespaces Cleanup
+--8<-- "snippets/send-bizevent/bizevent-wrapup.js"
+# Wrap Up
 
 ## Key Takeaways
 
@@ -22,28 +20,10 @@ optimizing business processes with purpose-built apps like Business Flow, and au
 with Workflows -- to access precise, real-time business data all in context of IT to unlock and
 enhance critical business use cases.
 
-## Codespaces Cleanup
-
-Delete your codespaces instance when you are finished.
-
-Navigate to the GitHub Codespaces page at [https://github.com/codespaces/](https://github.com/codespaces/)
-
-![Codespaces Cleanup](././img/09_02_codespaces_cleanup.png)
-
-Locate your instance, click the `...` button, and click `Delete`.
-
-
-
-### Subtopic
-
-The demo application in this lab, AstroShop, contains OpenTelemetry instrumentation that can be picked up by OneAgent.
-
-![OpenTelemetry OneAgent Features](./img/getting-started_dynatrace_oneagent_features_opentelemetry.png)
-
 ## Continue
 
-In the next section, we'll launch our Codespaces instance.
+Now that the lab has been completed, in the next section we will clean up the codespaces instance.
 
 <div class="grid cards" markdown>
-- [Continue to Codespaces:octicons-arrow-right-24:](3-codespaces.md)
+- [Continue to cleanup:octicons-arrow-right-24:](cleanup.md)
 </div>

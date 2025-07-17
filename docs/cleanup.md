@@ -1,9 +1,9 @@
 --8<-- "snippets/bizevent-cleanup.js"
+# Clean Up
 
-To cleanup resources, go to [https://github.com/codespaces](https://github.com/codespaces){target=_blank} and delete the codespace.
+!!! tip "Deleting the codespace from inside the container"
+    We like to make your life easier, for convenience there is a function loaded in the shell of the Codespace for deleting the codespace, just type `deleteCodespace`. This will trigger the deletion of the codespace.
 
-You may also want to deactivate or delete the API token.
+Another way to do this is by going to [https://github.com/codespaces](https://github.com/codespaces){target=_blank} and delete the codespace.
 
-<div class="grid cards" markdown>
-- [What's Next? :octicons-arrow-right-24:](whats-next.md)
-</div>
+You may also want to deactivate or delete the API token needed for this lab.
