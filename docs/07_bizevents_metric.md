@@ -1,4 +1,4 @@
---8<-- "snippets/send-bizevent/file.js"
+--8<-- "snippets/send-bizevent/bizevent-07-bizevents-metric.js"
 
 ## Business Events - Metric
 

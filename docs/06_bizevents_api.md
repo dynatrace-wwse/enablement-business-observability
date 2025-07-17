@@ -1,6 +1,6 @@
---8<-- "snippets/send-bizevent/file.js"
+--8<-- "snippets/send-bizevent/bizevent-06-bizevents-api.js"
 
-## Business Events Capture - API
+# Business Events Capture - API
 
 Organizations in today’s data-driven world often struggle with fragmented data sources that hinder comprehensive business insights.  Using the Dynatrace Business Event API, external business or IT systems can be used as another data source to send for business event data Dynatrace.
 
@@ -144,16 +144,10 @@ Result:
 
 We have completed data validation for the `Order Shipped` step of the `Order to Shipped` business process.
 
-### Subtopic
-
-The demo application in this lab, AstroShop, contains OpenTelemetry instrumentation that can be picked up by OneAgent.
-
-![OpenTelemetry OneAgent Features](./img/getting-started_dynatrace_oneagent_features_opentelemetry.png)
-
 ## Continue
 
-In the next section, we'll launch our Codespaces instance.
+In the next section, we'll use the captured Buisness Events to build a Buisness Metric utilizing OpenPipeline. 
 
 <div class="grid cards" markdown>
-- [Continue to Codespaces:octicons-arrow-right-24:](3-codespaces.md)
+- [Continue to Business Event Capture with Metric:octicons-arrow-right-24:](07_bizevents_metric.md)
 </div>
