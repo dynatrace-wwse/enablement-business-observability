@@ -15,8 +15,6 @@ nav:
   - '11. Wrap Up': 11_wrapup.md
   # ...
   - '12. Cleanup': cleanup.md
-  - '13. Resources': resources.md
-  - "14. What's Next?": whats-next.md
 theme:
   name: material
   custom_dir: docs/overrides
