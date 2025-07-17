@@ -1,6 +1,6 @@
 --8<-- "snippets/send-bizevent/bizevent-07-bizevents-metric.js"
 
-## Business Events - Metric
+# Business Events - Metric
 
 Business event metric extraction is a convenient way to create your own business metrics. 
 
