@@ -1,6 +1,6 @@
---8<-- "snippets/send-bizevent/file.js"
+--8<-- "snippets/send-bizevent/bizevent-08-bizevents-alerts.js"
 
-## Business Events - Alert
+# Business Events - Alert
 
 Real-time business metric alerting in Dynatrace is crucial for proactive issue identification, rapid response, and optimized business outcomes by enabling businesses to monitor and react to performance issues impacting key business processes and user experience before they escalate. 
 
