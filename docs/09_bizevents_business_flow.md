@@ -1,6 +1,6 @@
---8<-- "snippets/send-bizevent/file.js"
+--8<-- "snippets/send-bizevent/bizevents-09-business-flow.js"
 
-## Business Events - Business Flow
+# Business Events - Business Flow
   
 IT teams and business owners can use Business Flow Business Flow App to monitor and analyze critical business process flows. You can track end-to-end process delays, detect process anomalies, and report business key performance indicators (KPIs).
 
@@ -284,16 +284,9 @@ Click the `Business Flow Astroshop - Order to Shipped - Avg. duration` which wil
 
 We have completed data validation for the Business Flow Davis Anomaly Detector for `Avg. duration`.
 
-### Subtopic
-
-The demo application in this lab, AstroShop, contains OpenTelemetry instrumentation that can be picked up by OneAgent.
-
-![OpenTelemetry OneAgent Features](./img/getting-started_dynatrace_oneagent_features_opentelemetry.png)
-
 ## Continue
 
-In the next section, we'll launch our Codespaces instance.
-
+In the next section, we'll learn how to use Business Dashboard to support customers.
 <div class="grid cards" markdown>
-- [Continue to Codespaces:octicons-arrow-right-24:](3-codespaces.md)
+- [Continue to Business Dashboard:octicons-arrow-right-24:](10_bizevents_dashboard.md)
 </div>

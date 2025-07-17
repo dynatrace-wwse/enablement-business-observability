@@ -1,6 +1,6 @@
---8<-- "snippets/send-bizevent/file.js"
+--8<-- "snippets/send-bizevent/bizevent-08-bizevents-alert.js"
 
-## Business Events - Alert
+# Business Events - Alert
 
 Real-time business metric alerting in Dynatrace is crucial for proactive issue identification, rapid response, and optimized business outcomes by enabling businesses to monitor and react to performance issues impacting key business processes and user experience before they escalate. 
 
@@ -124,16 +124,9 @@ Open Problems App,  you should see `Astroshop - Orders with Zero Values` problem
 
 We have completed data validation for the `Place Order` Business Alert.
 
-### Subtopic
-
-The demo application in this lab, AstroShop, contains OpenTelemetry instrumentation that can be picked up by OneAgent.
-
-![OpenTelemetry OneAgent Features](./img/getting-started_dynatrace_oneagent_features_opentelemetry.png)
-
 ## Continue
 
-In the next section, we'll launch our Codespaces instance.
-
+In the next section, we'll use Business Events to create a Business Flow.
 <div class="grid cards" markdown>
-- [Continue to Codespaces:octicons-arrow-right-24:](3-codespaces.md)
+- [Continue to Business Flow with Business Events:octicons-arrow-right-24:](09_bizevents_business_flow.md)
 </div>
