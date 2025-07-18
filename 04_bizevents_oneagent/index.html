@@ -1,0 +1,1639 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../codespaces/">
+      
+      
+        <link rel="next" href="../05_bizevents_logs/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.42">
+    
+    
+      
+        <title>4. Business Events via OneAgent - Dynatrace Observability Lab: Business Observability</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.0253249f.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+  <!-- Add scripts that need to run before here -->
+  
+      
+    
+  <!-- Add scripts that need to run afterwards here -->
+  <!-- TODO
+   1. Create an agentless application in Dynatrace
+   2. Replace this snippet with your RUM Snippet
+  <script type="text/javascript" src="https://js-cdn.dynatrace.com/jstag/PLACEHOLDEr/REPLACE_WITH_YOUR_SNIPPET/1234abcd1234abcd_complete.js" crossorigin="anonymous"></script>
+  -->
+
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#business-events-capture-oneagent" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Dynatrace Observability Lab: Business Observability" class="md-header__button md-logo" aria-label="Dynatrace Observability Lab: Business Observability" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Dynatrace Observability Lab: Business Observability
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              4. Business Events via OneAgent
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9zM20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12zm-9.15 3.96h2.3L12 9z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/dynatrace-wwse/enablement-business-observability" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    View Code on GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Dynatrace Observability Lab: Business Observability" class="md-nav__button md-logo" aria-label="Dynatrace Observability Lab: Business Observability" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Dynatrace Observability Lab: Business Observability
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/dynatrace-wwse/enablement-business-observability" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    View Code on GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1. About
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../getting-started/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2. Getting Started
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../codespaces/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    3. Codespaces
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    4. Business Events via OneAgent
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    4. Business Events via OneAgent
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#place-order" class="md-nav__link">
+    <span class="md-ellipsis">
+      Place Order
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Place Order">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#business-event-source-settings" class="md-nav__link">
+    <span class="md-ellipsis">
+      Business Event - Source Settings
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#business-event-capture-rule" class="md-nav__link">
+    <span class="md-ellipsis">
+      Business Event - Capture Rule
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#business-event-triggers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Business Event - Triggers
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#business-event-event-provider" class="md-nav__link">
+    <span class="md-ellipsis">
+      Business Event - Event Provider
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#business-event-event-type" class="md-nav__link">
+    <span class="md-ellipsis">
+      Business Event - Event Type
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#business-event-event-category" class="md-nav__link">
+    <span class="md-ellipsis">
+      Business Event - Event Category
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Business Event - Event Category">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#business-event-event-meta-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      Business Event - Event Meta Data
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#business-event-orderid-capture" class="md-nav__link">
+    <span class="md-ellipsis">
+      Business Event - orderId Capture
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#business-event-country-capture" class="md-nav__link">
+    <span class="md-ellipsis">
+      Business Event - country Capture
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#business-event-userid-capture" class="md-nav__link">
+    <span class="md-ellipsis">
+      Business Event - userId Capture
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#business-event-revenue-capture" class="md-nav__link">
+    <span class="md-ellipsis">
+      Business Event - revenue Capture
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#business-event-shippingtrackingid-capture" class="md-nav__link">
+    <span class="md-ellipsis">
+      Business Event - shippingTrackingId Capture
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#business-event-full-response-body-capture" class="md-nav__link">
+    <span class="md-ellipsis">
+      Business Event - Full Response Body Capture
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#business-event-save-rule" class="md-nav__link">
+    <span class="md-ellipsis">
+      Business Event - Save Rule
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#query-business-events-in-dynatrace" class="md-nav__link">
+    <span class="md-ellipsis">
+      Query Business Events in Dynatrace
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#conclusion" class="md-nav__link">
+    <span class="md-ellipsis">
+      Conclusion
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#openpipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      OpenPipeline
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#business-events-openpipeline-place-order" class="md-nav__link">
+    <span class="md-ellipsis">
+      Business Events - OpenPipeline - Place Order
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#business-events-openpipeline-processing-place-order" class="md-nav__link">
+    <span class="md-ellipsis">
+      Business Events - OpenPipeline - Processing - Place Order
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#business-events-openpipeline-processing-remove-resbody-field" class="md-nav__link">
+    <span class="md-ellipsis">
+      Business Events - OpenPipeline - Processing - Remove ResBody Field
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#business-events-openpipeline-dynamic-route-place-order" class="md-nav__link">
+    <span class="md-ellipsis">
+      Business Events - OpenPipeline Dynamic Route - Place Order
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Business Events - OpenPipeline Dynamic Route - Place Order">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#conclusion_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Conclusion
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data Validation
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Data Validation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#query-business-events-in-dynatrace_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Query Business Events in Dynatrace
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#conclusion_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Conclusion
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-validation_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data Validation
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Data Validation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#query-business-events-in-dynatrace_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Query Business Events in Dynatrace
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#conclusion_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Conclusion
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#continue" class="md-nav__link">
+    <span class="md-ellipsis">
+      Continue
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05_bizevents_logs/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    5. Business Events via Logs
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06_bizevents_api/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    6. Business Events via API
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07_bizevents_metric/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    7. Business Events Metrics
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../08_bizevents_alerts/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    8. Business Events Alerts
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../09_bizevents_business_flow/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    9. Business Flows
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../10_bizevents_dashboard/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    10. Business Dashboard
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../11_wrapup/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    11. Wrap Up
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cleanup/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    12. Cleanup
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#place-order" class="md-nav__link">
+    <span class="md-ellipsis">
+      Place Order
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Place Order">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#business-event-source-settings" class="md-nav__link">
+    <span class="md-ellipsis">
+      Business Event - Source Settings
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#business-event-capture-rule" class="md-nav__link">
+    <span class="md-ellipsis">
+      Business Event - Capture Rule
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#business-event-triggers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Business Event - Triggers
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#business-event-event-provider" class="md-nav__link">
+    <span class="md-ellipsis">
+      Business Event - Event Provider
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#business-event-event-type" class="md-nav__link">
+    <span class="md-ellipsis">
+      Business Event - Event Type
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#business-event-event-category" class="md-nav__link">
+    <span class="md-ellipsis">
+      Business Event - Event Category
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Business Event - Event Category">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#business-event-event-meta-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      Business Event - Event Meta Data
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#business-event-orderid-capture" class="md-nav__link">
+    <span class="md-ellipsis">
+      Business Event - orderId Capture
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#business-event-country-capture" class="md-nav__link">
+    <span class="md-ellipsis">
+      Business Event - country Capture
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#business-event-userid-capture" class="md-nav__link">
+    <span class="md-ellipsis">
+      Business Event - userId Capture
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#business-event-revenue-capture" class="md-nav__link">
+    <span class="md-ellipsis">
+      Business Event - revenue Capture
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#business-event-shippingtrackingid-capture" class="md-nav__link">
+    <span class="md-ellipsis">
+      Business Event - shippingTrackingId Capture
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#business-event-full-response-body-capture" class="md-nav__link">
+    <span class="md-ellipsis">
+      Business Event - Full Response Body Capture
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#business-event-save-rule" class="md-nav__link">
+    <span class="md-ellipsis">
+      Business Event - Save Rule
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#query-business-events-in-dynatrace" class="md-nav__link">
+    <span class="md-ellipsis">
+      Query Business Events in Dynatrace
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#conclusion" class="md-nav__link">
+    <span class="md-ellipsis">
+      Conclusion
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#openpipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      OpenPipeline
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#business-events-openpipeline-place-order" class="md-nav__link">
+    <span class="md-ellipsis">
+      Business Events - OpenPipeline - Place Order
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#business-events-openpipeline-processing-place-order" class="md-nav__link">
+    <span class="md-ellipsis">
+      Business Events - OpenPipeline - Processing - Place Order
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#business-events-openpipeline-processing-remove-resbody-field" class="md-nav__link">
+    <span class="md-ellipsis">
+      Business Events - OpenPipeline - Processing - Remove ResBody Field
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#business-events-openpipeline-dynamic-route-place-order" class="md-nav__link">
+    <span class="md-ellipsis">
+      Business Events - OpenPipeline Dynamic Route - Place Order
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Business Events - OpenPipeline Dynamic Route - Place Order">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#conclusion_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Conclusion
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data Validation
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Data Validation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#query-business-events-in-dynatrace_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Query Business Events in Dynatrace
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#conclusion_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Conclusion
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-validation_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data Validation
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Data Validation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#query-business-events-in-dynatrace_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Query Business Events in Dynatrace
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#conclusion_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Conclusion
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#continue" class="md-nav__link">
+    <span class="md-ellipsis">
+      Continue
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  dynatrace.sendBizEvent('page_load', {"page": "4. Business Events Capture - OneAgent"})
+});
+</script>
+
+<h1 id="business-events-capture-oneagent">Business Events Capture - OneAgent<a class="headerlink" href="#business-events-capture-oneagent" title="Permanent link">#</a></h1>
+<p>Using the Dynatrace OneAgent to capture Business Events provides real-time business observability, enabling data-driven decision-making and improved business outcomes by offering precise metrics and context, lossless access to data, and the ability to explore large datasets without pre-indexing.</p>
+<ul>
+<li>
+<p>Recommended approach for capturing Business Events when applicable</p>
+</li>
+<li>
+<p>Uses deep payload inspection extracts business data from in-flight application requests and responses</p>
+</li>
+<li>
+<p>Configuration is simple and doesn’t require code changes</p>
+</li>
+<li>
+<p>Automatically enriches business events with context, including host, process group, and trace information, which helps in analyzing anomalies and fostering collaboration</p>
+</li>
+</ul>
+<p><a href="https://docs.dynatrace.com/docs/shortlink/ba-business-events-capturing#report-business-event-oneagent">Get business events via OneAgent documentation</a></p>
+<p>This lab will utilize the Dynatrace OneAgent to capture business events for the <code>Place Order</code> step of the Astroshop <code>Order to Shipped</code> business process.</p>
+<ul>
+<li>Configure a capture rule, triggers and data fields to be extracted</li>
+<li>Use OpenPipeline to extract and remove fields</li>
+<li>Validate Business Event data with a Notebook</li>
+</ul>
+<p><img alt="FlowStepOne" src="../img/02_bizevents_oneagent_flow.png" /></p>
+<p><img alt="FlowRaw" src="../img/astroshop_flow_raw.png" /></p>
+<h2 id="place-order">Place Order<a class="headerlink" href="#place-order" title="Permanent link">#</a></h2>
+<p>In this section of the lab we will configure a Business Event capture rule for <code>Place Order</code> step of the <code>Order to Shipped</code> business process.</p>
+<h3 id="business-event-source-settings">Business Event - Source Settings<a class="headerlink" href="#business-event-source-settings" title="Permanent link">#</a></h3>
+<p>Go to Settings Classic &gt; Business Analytics &gt; OneAgent Business Event Sources.</p>
+<p>Select the Incoming tab.</p>
+<p><img alt="Rule 1" src="../img/02_bizevents_oneagent_rule_1.png" /></p>
+<h3 id="business-event-capture-rule">Business Event - Capture Rule<a class="headerlink" href="#business-event-capture-rule" title="Permanent link">#</a></h3>
+<p>Select the Add new capture rule button and name your rule using the following name: </p>
+<div class="highlight"><pre><span></span><code>astroshop_placeorder_success
+</code></pre></div>
+<p><img alt="Rule Name" src="../img/02_bizevents_oneagent_placeorder_success_rule_1.png" /></p>
+<h3 id="business-event-triggers">Business Event - Triggers<a class="headerlink" href="#business-event-triggers" title="Permanent link">#</a></h3>
+<p>To capture Business Events from incoming web requests, we need to define conditions which are called Triggers.  Triggers are connected by AND logic per capture rule. If you set multiple trigger rules, all of them need to be fulfilled to capture a business event.</p>
+<p>We will use 3 triggers:</p>
+<p><strong>Trigger 1</strong></p>
+<p>Select the Add trigger button.</p>
+<p>In the <code>Data source</code> drop down list select:  </p>
+<div class="highlight"><pre><span></span><code>Request - Path
+</code></pre></div>
+<p>In the <code>Operator</code> drop down list select: </p>
+<div class="highlight"><pre><span></span><code>equals
+</code></pre></div>
+<p>In the <code>Value</code> field use: </p>
+<div class="highlight"><pre><span></span><code>/api/checkout
+</code></pre></div>
+<p><img alt="Trigger 1" src="../img/02_bizevents_oneagent_placeorder_success_rule_2_A.png" /></p>
+<p><strong>Trigger 2</strong></p>
+<p>Select the Add trigger button.</p>
+<p>In the <code>Data source</code> drop down list select:  </p>
+<div class="highlight"><pre><span></span><code>Response - Body
+</code></pre></div>
+<p>In the <code>Path</code> field use: </p>
+<div class="highlight"><pre><span></span><code>*
+</code></pre></div>
+<p>In the <code>Operator</code> drop down list select: </p>
+<div class="highlight"><pre><span></span><code>contains
+</code></pre></div>
+<p>In the <code>value</code> field use:  </p>
+<div class="highlight"><pre><span></span><code>orderId
+</code></pre></div>
+<p><img alt="Trigger 2" src="../img/02_bizevents_oneagent_placeorder_success_rule_2_BB.png" /></p>
+<p><strong>Trigger 3</strong></p>
+<p>Select the Add trigger button.</p>
+<p>In the <code>Data source</code> drop down list select:  </p>
+<div class="highlight"><pre><span></span><code>Response - HTTP Status Code
+</code></pre></div>
+<p>In the <code>Operator</code> drop down list select: </p>
+<div class="highlight"><pre><span></span><code>equals
+</code></pre></div>
+<p>In the <code>Value</code> field use: </p>
+<div class="highlight"><pre><span></span><code>200
+</code></pre></div>
+<p><img alt="Trigger 3" src="../img/02_bizevents_oneagent_placeorder_success_rule_2_C.png" /></p>
+<h3 id="business-event-event-provider">Business Event - Event Provider<a class="headerlink" href="#business-event-event-provider" title="Permanent link">#</a></h3>
+<p>The <code>Event Provider</code> is the source of the event, for example, the name of the component or system that generated the event.</p>
+<p>Under Event meta data, for the Event provider section use the following:</p>
+<p>In the <code>Data source</code> drop down list select:</p>
+<div class="highlight"><pre><span></span><code>Fixed value
+</code></pre></div>
+<p>In the <code>Fixed value</code> section use:</p>
+<div class="highlight"><pre><span></span><code>astroshop
+</code></pre></div>
+<p><img alt="Event Provider" src="../img/02_bizevents_oneagent_placeorder_success_rule_3.png" /></p>
+<h3 id="business-event-event-type">Business Event - Event Type<a class="headerlink" href="#business-event-event-type" title="Permanent link">#</a></h3>
+<p>The Event Type is the unique identifier of a given event.</p>
+<p>Under Event meta data, for the Event type section use the following:</p>
+<p>In the <code>Data source</code> drop down list select:</p>
+<div class="highlight"><pre><span></span><code>Fixed value
+</code></pre></div>
+<p>In the <code>Fixed value</code> section use:</p>
+<div class="highlight"><pre><span></span><code>astroshop.placeorder.success
+</code></pre></div>
+<p><img alt="Event Type" src="../img/02_bizevents_oneagent_placeorder_success_rule_4.png" /></p>
+<h2 id="business-event-event-category">Business Event - Event Category<a class="headerlink" href="#business-event-event-category" title="Permanent link">#</a></h2>
+<p>The <code>Event Category</code> is optional.  </p>
+<p>For this lab we will leave the default value which should be empty.</p>
+<h3 id="business-event-event-meta-data">Business Event - Event Meta Data<a class="headerlink" href="#business-event-event-meta-data" title="Permanent link">#</a></h3>
+<p>The steps so far conclude the configuration of a business event that will be generated each time the trigger criteria is matched. This might be sufficient if all you need is to answer the question of how many <code>astroshop_placeorder_success</code> events were called. </p>
+<p>In most cases you will want to add event attributes to provide granular insight. <code>Attributes</code> are data fields extracted from the event <code>JSON</code> or <code>XML</code> payload.</p>
+<p>Below is sample response payload for the <code>Place Order</code> transaction.  The following steps will cover how to extract the <code>orderId</code> and <code>units</code> (units will be used for the revenue number) and more from the response payload.  </p>
+<p>Capturing the <code>orderId</code> is critical for this business process as it will be unique identifier (correlation ID) that is common to all of the process steps.</p>
+<p><strong>Note:</strong> Use must use exact letter casing for fields that you define for data extraction. </p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;orderId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;09766d7d-0530-11f0-895b-0e326b3139ca&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;shippingTrackingId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;c51af8bd-3fe1-4a46-9d9b-45a16cd7cd66&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;shippingCost&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;currencyCode&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;USD&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;units&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">47</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;nanos&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">700000000</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;shippingAddress&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;streetAddress&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1600 Amphitheatre Parkway&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;city&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Mountain View&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;state&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;CA&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;country&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;United States&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;zipCode&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;94043&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;items&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;cost&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;currencyCode&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;USD&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;units&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">349</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;nanos&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">949999999</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;item&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;productId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;66VCHSJNUP&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;quantity&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;product&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;66VCHSJNUP&quot;</span><span class="p">,</span>
+<span class="w">                    </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Starsense Explorer Refractor Telescope&quot;</span><span class="p">,</span>
+<span class="w">                    </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;The first telescope that uses your smartphone to analyze the night sky and calculate its position in real time. StarSense Explorer is ideal for beginners thanks to the app’s user-friendly interface and detailed tutorials. It’s like having your own personal tour guide of the night sky&quot;</span><span class="p">,</span>
+<span class="w">                    </span><span class="nt">&quot;picture&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;StarsenseExplorer.jpg&quot;</span><span class="p">,</span>
+<span class="w">                    </span><span class="nt">&quot;priceUsd&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                        </span><span class="nt">&quot;currencyCode&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;USD&quot;</span><span class="p">,</span>
+<span class="w">                        </span><span class="nt">&quot;units&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">349</span><span class="p">,</span>
+<span class="w">                        </span><span class="nt">&quot;nanos&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">950000000</span>
+<span class="w">                    </span><span class="p">},</span>
+<span class="w">                    </span><span class="nt">&quot;categories&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">                        </span><span class="s2">&quot;telescopes&quot;</span>
+<span class="w">                    </span><span class="p">]</span>
+<span class="w">                </span><span class="p">}</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Below is sample request payload for the <code>Place Order</code> transaction.  The following steps will cover how to extract the <code>userId</code> from the response payload. </p>
+<p><strong>Note:</strong> Use must use exact letter casing for fields that you define for data extraction.</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;userId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2e31768f-dc87-4a74-b70f-5972ecca30b1&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;email&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;mark@example.com&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;address&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">&quot;streetAddress&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1 Hacker Way&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;state&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;CA&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;country&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;United States&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;city&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Menlo Park&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;zipCode&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;94025&quot;</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="nt">&quot;userCurrency&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;USD&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;creditCard&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">&quot;creditCardCvv&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;***&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;creditCardExpirationMonth&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;*&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;creditCardExpirationYear&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;****&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;creditCardNumber&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;****-****-****-****&quot;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>The following table shows additional examples of how to extract data from JSON payloads.</p>
+<p><img alt="JSON Payload Extractin Example" src="../img/02_bizevents_oneagent_json_payload_example.png" /></p>
+<p><a href="https://docs.dynatrace.com/docs/shortlink/ba-business-events-capturing#json">Dynatrace Documentation Link</a></p>
+<h3 id="business-event-orderid-capture">Business Event - orderId Capture<a class="headerlink" href="#business-event-orderid-capture" title="Permanent link">#</a></h3>
+<p>Under the Event data section, select the Add data field button.</p>
+<p>In the <code>Field name</code> section use: </p>
+<div class="highlight"><pre><span></span><code>orderId
+</code></pre></div>
+<p>In the <code>Data Source</code> drop down list select:</p>
+<div class="highlight"><pre><span></span><code>Response - Body
+</code></pre></div>
+<p>In the <code>Path</code> section use:</p>
+<div class="highlight"><pre><span></span><code>orderId
+</code></pre></div>
+<p><img alt="Event Data orderId" src="../img/02_bizevents_oneagent_placeorder_success_rule_5.png" /></p>
+<h3 id="business-event-country-capture">Business Event - country Capture<a class="headerlink" href="#business-event-country-capture" title="Permanent link">#</a></h3>
+<p>Under the Event data section, select the Add data field button.</p>
+<p>In the <code>Field name</code> section use: </p>
+<div class="highlight"><pre><span></span><code>country
+</code></pre></div>
+<p>In the <code>Data Source</code> drop down list select:</p>
+<div class="highlight"><pre><span></span><code>Response - Body
+</code></pre></div>
+<p>In the <code>Path</code> section use:</p>
+<div class="highlight"><pre><span></span><code>shippingAddress.country
+</code></pre></div>
+<p><img alt="Event Data country" src="../img/02_bizevents_oneagent_placeorder_success_rule_country.png" /></p>
+<h3 id="business-event-userid-capture">Business Event - userId Capture<a class="headerlink" href="#business-event-userid-capture" title="Permanent link">#</a></h3>
+<p>Under the Event data section, select the Add data field button.</p>
+<p>In the <code>Field name</code> section use: </p>
+<div class="highlight"><pre><span></span><code>userId
+</code></pre></div>
+<p>In the <code>Data Source</code> drop down list select:</p>
+<div class="highlight"><pre><span></span><code>Request - Body
+</code></pre></div>
+<p>In the <code>Path</code> section use:</p>
+<div class="highlight"><pre><span></span><code>userId
+</code></pre></div>
+<p><img alt="Event Data userId" src="../img/02_bizevents_oneagent_placeorder_success_rule_7.png" /></p>
+<h3 id="business-event-revenue-capture">Business Event - revenue Capture<a class="headerlink" href="#business-event-revenue-capture" title="Permanent link">#</a></h3>
+<p>Under the Event data section, select the Add data field button.</p>
+<p>In the <code>Field name</code> section use: </p>
+<div class="highlight"><pre><span></span><code>revenue
+</code></pre></div>
+<p>In the <code>Data Source</code> drop down list select:</p>
+<div class="highlight"><pre><span></span><code>Response - Body
+</code></pre></div>
+<p>In the <code>Path</code> section use:</p>
+<div class="highlight"><pre><span></span><code>items.0.cost.units
+</code></pre></div>
+<p><img alt="Event Data revenue" src="../img/02_bizevents_oneagent_placeorder_success_rule_8.png" /></p>
+<h3 id="business-event-shippingtrackingid-capture">Business Event - shippingTrackingId Capture<a class="headerlink" href="#business-event-shippingtrackingid-capture" title="Permanent link">#</a></h3>
+<p>Under the Event data section, select the Add data field button.</p>
+<p>In the <code>Field name</code> section use: </p>
+<div class="highlight"><pre><span></span><code>shippingTrackingId
+</code></pre></div>
+<p>In the <code>Data Source</code> drop down list select:</p>
+<div class="highlight"><pre><span></span><code>Response - Body
+</code></pre></div>
+<p>In the <code>Path</code> section use:</p>
+<div class="highlight"><pre><span></span><code>shippingTrackingId
+</code></pre></div>
+<p><img alt="Event Data shippingTrackingId" src="../img/02_bizevents_oneagent_placeorder_success_rule_6.png" /></p>
+<h3 id="business-event-full-response-body-capture">Business Event - Full Response Body Capture<a class="headerlink" href="#business-event-full-response-body-capture" title="Permanent link">#</a></h3>
+<p>Under the Event data section, select the Add data field button.</p>
+<p>In the <code>Field name</code> section use: </p>
+<div class="highlight"><pre><span></span><code>ResBody
+</code></pre></div>
+<p>In the <code>Data Source</code> drop down list select:</p>
+<div class="highlight"><pre><span></span><code>Response - Body
+</code></pre></div>
+<p>In the <code>Path</code> section use:</p>
+<div class="highlight"><pre><span></span><code>*
+</code></pre></div>
+<p><img alt="Event Data ResBody" src="../img/02_bizevents_oneagent_placeorder_success_rule_8b.png" /></p>
+<p><code>Note:</code> Some use cases might require capturing and store the full response body.  OpenPipeline can be used for Business Events to extract needed fields, masking.   You can also drop the full response body field keeping only what extract.  </p>
+<p>This approach is also helpful for data validation/debugging during initial setup but not using when you fully deploy.  Lastly, using * for the path field value will capture everything. For this lab will use the full response body.</p>
+<h3 id="business-event-save-rule">Business Event - Save Rule<a class="headerlink" href="#business-event-save-rule" title="Permanent link">#</a></h3>
+<p>Click the Save changes button.</p>
+<p><img alt="Save changes" src="../img/02_bizevents_oneagent_placeorder_success_rule_9.png" /></p>
+<h3 id="query-business-events-in-dynatrace">Query Business Events in Dynatrace<a class="headerlink" href="#query-business-events-in-dynatrace" title="Permanent link">#</a></h3>
+<p>Provided Notebook</p>
+<p><code>Astroshop_SE_Training_Business_Observability_Notebook</code></p>
+<p>Import the Notebook using the source file <a href="https://github.com/dynatrace-wwse/enablement-business-observability/blob/main/assets/dynatrace/notebooks/Astroshop_SE_Training_Business_Observability_Notebook.json">Astroshop_SE_Training_Business_Observability_Notebook</a> by downloading to your local system and upload to the Notebooks app. This can be during the labs exercises.</p>
+<p><img alt="Astroshop Notebook" src="../img/astroshop_notebook_github_download.png" /></p>
+<p>Or, using your own Notebook execute the below DQL query which retrieves the business events for <code>astroshop.placeorder.success</code> step.</p>
+<p>DQL:
+<div class="highlight"><pre><span></span><code><span class="k">fetch</span><span class="w"> </span><span class="n">bizevents</span>
+<span class="o">|</span><span class="w"> </span><span class="n">filter</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="n">provider</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="ss">&quot;astroshop&quot;</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="k">type</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="ss">&quot;astroshop.placeorder.success&quot;</span>
+<span class="o">|</span><span class="w"> </span><span class="n">fields</span><span class="w"> </span><span class="k">timestamp</span><span class="p">,</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="n">provider</span><span class="p">,</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="k">type</span><span class="p">,</span><span class="w"> </span><span class="n">userId</span><span class="p">,</span><span class="w"> </span><span class="n">orderId</span><span class="p">,</span><span class="w"> </span><span class="n">revenue</span><span class="p">,</span><span class="w"> </span><span class="n">country</span><span class="p">,</span><span class="n">trace_id</span><span class="p">,</span><span class="n">ResBody</span>
+<span class="o">|</span><span class="w"> </span><span class="n">sort</span><span class="w"> </span><span class="k">timestamp</span><span class="w"> </span><span class="k">desc</span>
+</code></pre></div></p>
+<p>Result:</p>
+<p><img alt="DQL Query" src="../img/02_bizevents_oneagent_placeorder_success_dql_before_pioeline.png" /></p>
+<p>Notice we have null values for <code>orderId</code>, <code>revenue</code>, <code>country</code> fields.   </p>
+<p>When reviewing the Response Payload, there are multiple references for the string '\u0019'. This is a unicode string that denotes End Of Medium.  JSON parsing from the OneAgent capture won't work for this use case.   </p>
+<p><img alt="JSON parsingn unicode" src="../img/02_bizevents_oneagent_placeorder_success_parse_unicode.png" /></p>
+<p>This would be probably rare in your most environments.  Don't worry, for this lab we can fix capturing  <code>orderId</code>, <code>revenue</code>, <code>country</code> fields using a OpenPipeline rule.</p>
+<h3 id="conclusion">Conclusion<a class="headerlink" href="#conclusion" title="Permanent link">#</a></h3>
+<p>We have completed the Business Event capture using the OneAgent for <code>Place Order Success</code> step of the <code>Order to Shipped</code> business process.  The next section will cover using OpenPipeline to replace the null fields with correct data.</p>
+<h2 id="openpipeline">OpenPipeline<a class="headerlink" href="#openpipeline" title="Permanent link">#</a></h2>
+<p>In this section of the lab we will use OpenPipeline to replace the  <code>orderId</code>, <code>revenue</code>, <code>country</code> fields values when they are null. Using OpenPipeline, the <code>ResBdy</code> field will be used to extract the correct values needed for the <code>Place Order</code> Business Event.</p>
+<h2 id="business-events-openpipeline-place-order">Business Events - OpenPipeline - Place Order<a class="headerlink" href="#business-events-openpipeline-place-order" title="Permanent link">#</a></h2>
+<p>Launch the OpenPipeline app.</p>
+<p>Select <code>Business events</code> in the OpenPipeline tree.</p>
+<p>Select <code>Pipelines</code> tab.</p>
+<p>Select the <code>+ Pipeline</code> button.</p>
+<p><img alt="Launch OpenPipeline" src="../img/02_bizevents_oneagent_placeorder_success_open_pipeline_1.png" /></p>
+<h2 id="business-events-openpipeline-processing-place-order">Business Events - OpenPipeline - Processing - Place Order<a class="headerlink" href="#business-events-openpipeline-processing-place-order" title="Permanent link">#</a></h2>
+<p>Name your OpenPipeline rule using the following name: </p>
+<div class="highlight"><pre><span></span><code>Astroshop
+</code></pre></div>
+<p>Select the <code>Processing</code> tab.</p>
+<p>Select the <code>+ Processor</code> button (left side of the screen), then select <code>DQL</code>.</p>
+<p><img alt="OpenPipeline Processing Part 1" src="../img/02_bizevents_oneagent_placeorder_success_open_pipeline_2.png" /></p>
+<p>Fill out the fields with the following data:</p>
+<p>Name: </p>
+<div class="highlight"><pre><span></span><code>FixFieldsWithNullValues
+</code></pre></div>
+<p>Matching condition: </p>
+<div class="highlight"><pre><span></span><code>event.type == &quot;astroshop.placeorder.success&quot; and isNull(orderId)
+</code></pre></div>
+<p>DQL processor definition: </p>
+<div class="highlight"><pre><span></span><code>parse ResBody, &quot;&quot;&quot;DATA &#39;orderId&quot;:&#39; DQS:orderId LD &#39;shippingTrackingId&quot;:&#39; DQS:shippingTrackingId LD &#39;units&quot;:&#39; DOUBLE:revenue LD  LD &#39;country&quot;:&#39; DQS:country&quot;&quot;&quot;
+</code></pre></div>
+<p>Sample data:</p>
+<div class="highlight"><pre><span></span><code><span class="w">     </span><span class="p">{</span>
+<span class="w">           </span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2025-03-26T23:39:04.840000000-04:00&quot;</span><span class="p">,</span>
+<span class="w">           </span><span class="nt">&quot;event.provider&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;astroshop&quot;</span><span class="p">,</span>
+<span class="w">           </span><span class="nt">&quot;event.type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;astroshop.placeorder.success&quot;</span><span class="p">,</span>
+<span class="w">           </span><span class="nt">&quot;userId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ae844c70-5b7e-471f-9cfb-07715a46bc8d&quot;</span><span class="p">,</span>
+<span class="w">           </span><span class="nt">&quot;orderId&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">           </span><span class="nt">&quot;revenue&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">           </span><span class="nt">&quot;country&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">           </span><span class="nt">&quot;trace_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;104a1ee54db91be0ff9acbcb65cdfee4&quot;</span><span class="p">,</span>
+<span class="w">           </span><span class="nt">&quot;ResBody&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;{\&quot;orderId\&quot;:\&quot;07fa8ff2-0abd-11f0-92d2-0e1e3ab12988\&quot;,\&quot;shippingTrackingId\&quot;:\&quot;6fd4c157-ca6b-465e-bc39-a5096d6ee08c\&quot;,\&quot;shippingCost\&quot;:{\&quot;currencyCode\&quot;:\&quot;USD\&quot;,\&quot;units\&quot;:84,\&quot;nanos\&quot;:400000000},\&quot;shippingAddress\&quot;:{\&quot;streetAddress\&quot;:\&quot;1 Hacker Way\&quot;,\&quot;city\&quot;:\&quot;Menlo Park\&quot;,\&quot;state\&quot;:\&quot;CA\&quot;,\&quot;country\&quot;:\&quot;United States\&quot;,\&quot;zipCode\&quot;:\&quot;94025\&quot;},\&quot;items\&quot;:[{\&quot;cost\&quot;:{\&quot;currencyCode\&quot;:\&quot;USD\&quot;,\&quot;units\&quot;:209,\&quot;nanos\&quot;:949999999},\&quot;item\&quot;:{\&quot;productId\&quot;:\&quot;2ZYFJ3GM2N\&quot;,\&quot;quantity\&quot;:2,\&quot;product\&quot;:{\&quot;id\&quot;:\&quot;2ZYFJ3GM2N\&quot;,\&quot;name\&quot;:\&quot;Roof Binoculars\&quot;,\&quot;description\&quot;:\&quot;This versatile, all-around binocular is a great choice for the trail, the stadium, the arena, or just about anywhere you want a close-up view of the action without sacrificing brightness or detail. It\u0019s an especially great companion for nature observation and bird watching, with ED glass that helps you spot the subtlest field markings and a close focus of just 6.5 feet.\&quot;,\&quot;picture\&quot;:\&quot;RoofBinoculars.jpg\&quot;,\&quot;priceUsd\&quot;:{\&quot;currencyCode\&quot;:\&quot;USD\&quot;,\&quot;units\&quot;:209,\&quot;nanos\&quot;:950000000},\&quot;categories\&quot;:[\&quot;binoculars\&quot;]}}}]}&quot;</span>
+<span class="w">         </span><span class="p">}</span>
+</code></pre></div>
+<p>Select the <code>Run sample data</code> button.</p>
+<p>Under the <code>Preview result</code> section validate <code>orderId</code>, <code>country</code> and <code>revenue</code> fields have values.</p>
+<p><img alt="OpenPipeline Processing Part 2" src="../img/02_bizevents_oneagent_placeorder_success_open_pipeline_3.png" /></p>
+<h2 id="business-events-openpipeline-processing-remove-resbody-field">Business Events - OpenPipeline - Processing - Remove ResBody Field<a class="headerlink" href="#business-events-openpipeline-processing-remove-resbody-field" title="Permanent link">#</a></h2>
+<p>Select the <code>+ Processor</code> button (left side of the screen), then select <code>Remove fields</code></p>
+<p><img alt="OpenPipeline Processing Part 3" src="../img/02_bizevents_oneagent_placeorder_success_open_pipeline_4.png" /></p>
+<p>Fill out the fields with the following data:</p>
+<p>Name: </p>
+<div class="highlight"><pre><span></span><code>RemoveResBody
+</code></pre></div>
+<p>Matching condition: </p>
+<div class="highlight"><pre><span></span><code>event.type == &quot;astroshop.placeorder.success&quot;
+</code></pre></div>
+<p>Remove fields:</p>
+<p>After adding the below field to remove, select the Add button.</p>
+<div class="highlight"><pre><span></span><code>ResBody
+</code></pre></div>
+<p>Select the Save Button at the top right of the screen.</p>
+<p><img alt="OpenPipeline Processing Part 4" src="../img/02_bizevents_oneagent_placeorder_success_open_pipeline_5.png" /></p>
+<h2 id="business-events-openpipeline-dynamic-route-place-order">Business Events - OpenPipeline Dynamic Route - Place Order<a class="headerlink" href="#business-events-openpipeline-dynamic-route-place-order" title="Permanent link">#</a></h2>
+<p>Now we need to create a Dynamic route for the Astroshop Business Events pipeline. Dynamic routes give you the option to route your ingested data into a pipeline with a matching condition.</p>
+<p>Select <code>Business events</code> in the OpenPipeline tree. </p>
+<p>Select <code>Dynamic routing</code> tab.</p>
+<p>Select <code>+ Dynamic route</code> button.</p>
+<p><img alt="Pipeline Dynamic Route Part 1" src="../img/05_bizevents_metric_placeorder_openpipline_rule_3.png" /></p>
+<p>Configure the Dynamic route with the following:</p>
+<p>Name:</p>
+<div class="highlight"><pre><span></span><code>Astroshop_BusinessEvents
+</code></pre></div>
+<p>Matching condition:</p>
+<div class="highlight"><pre><span></span><code>event.provider == &quot;astroshop&quot;
+</code></pre></div>
+<p>Pipeline:</p>
+<p>In the dropdown list select the following:</p>
+<div class="highlight"><pre><span></span><code>Astroshop
+</code></pre></div>
+<p>Select the <code>Add</code> button.</p>
+<p><img alt="Pipeline Dynamic Route Part 2" src="../img/05_bizevents_metric_placeorder_openpipline_rule_4.png" /></p>
+<p>Select the <code>Save</code> button.</p>
+<p><div class="highlight"><pre><span></span><code>A warning icon with this message will appear &quot;Do you want to save your changes to this table?&quot; 
+</code></pre></div>
+Select the <code>Save</code> button.</p>
+<p><img alt="Pipeline Dynamic Route Part 3" src="../img/05_bizevents_metric_placeorder_openpipline_rule_5.png" /></p>
+<h3 id="conclusion_1">Conclusion<a class="headerlink" href="#conclusion_1" title="Permanent link">#</a></h3>
+<p>We have completed the Business Event OpenPipeline section for <code>Place Order</code> step of the <code>Order to Shipped</code> business process.  This section covered how to use OpenPipeline to replace the null values  for <code>orderId</code>, <code>revenue</code>, <code>country</code> with the correct values.  The next section will validate the data.</p>
+<h2 id="data-validation">Data Validation<a class="headerlink" href="#data-validation" title="Permanent link">#</a></h2>
+<p>In this section of the lab we will validate the data for the <code>Place Order</code> step of the <code>Order to Shipped</code> business process.</p>
+<h3 id="query-business-events-in-dynatrace_1">Query Business Events in Dynatrace<a class="headerlink" href="#query-business-events-in-dynatrace_1" title="Permanent link">#</a></h3>
+<p>Using a Notebook execute the below DQL query which retrieves the buisness events for <code>astroshop.placeorder.success</code> step.  </p>
+<p>DQL:
+<div class="highlight"><pre><span></span><code><span class="k">fetch</span><span class="w"> </span><span class="n">bizevents</span>
+<span class="o">|</span><span class="w"> </span><span class="n">filter</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="n">provider</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="ss">&quot;astroshop&quot;</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="k">type</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="ss">&quot;astroshop.placeorder.success&quot;</span>
+<span class="o">|</span><span class="w"> </span><span class="n">fields</span><span class="w"> </span><span class="k">timestamp</span><span class="p">,</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="n">provider</span><span class="p">,</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="k">type</span><span class="p">,</span><span class="w"> </span><span class="n">userId</span><span class="p">,</span><span class="w"> </span><span class="n">orderId</span><span class="p">,</span><span class="w"> </span><span class="n">revenue</span><span class="p">,</span><span class="w"> </span><span class="n">country</span><span class="p">,</span><span class="w"> </span><span class="n">shippingTrackingId</span><span class="p">,</span><span class="w"> </span><span class="n">trace_id</span>
+<span class="o">|</span><span class="w"> </span><span class="n">sort</span><span class="w"> </span><span class="k">timestamp</span><span class="w"> </span><span class="k">desc</span>
+</code></pre></div></p>
+<p>Result:</p>
+<p><img alt="DQL Query" src="../img/02_bizevents_oneagent_placeorder_success_dql.png" /></p>
+<h3 id="conclusion_2">Conclusion<a class="headerlink" href="#conclusion_2" title="Permanent link">#</a></h3>
+<p>We have completed data validation for the <code>Place Order</code> step of the <code>Order to Shipped</code> business process.</p>
+<h2 id="data-validation_1">Data Validation<a class="headerlink" href="#data-validation_1" title="Permanent link">#</a></h2>
+<p>In this section of the lab we will validate the data for the <code>Place Order</code> step of the <code>Order to Shipped</code> business process.</p>
+<h3 id="query-business-events-in-dynatrace_2">Query Business Events in Dynatrace<a class="headerlink" href="#query-business-events-in-dynatrace_2" title="Permanent link">#</a></h3>
+<p>Using a Notebook execute the below DQL query which retrieves the buisness events for <code>astroshop.placeorder.success</code> step.  </p>
+<p>DQL:
+<div class="highlight"><pre><span></span><code><span class="k">fetch</span><span class="w"> </span><span class="n">bizevents</span>
+<span class="o">|</span><span class="w"> </span><span class="n">filter</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="n">provider</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="ss">&quot;astroshop&quot;</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="k">type</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="ss">&quot;astroshop.placeorder.success&quot;</span>
+<span class="o">|</span><span class="w"> </span><span class="n">fields</span><span class="w"> </span><span class="k">timestamp</span><span class="p">,</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="n">provider</span><span class="p">,</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="k">type</span><span class="p">,</span><span class="w"> </span><span class="n">userId</span><span class="p">,</span><span class="w"> </span><span class="n">orderId</span><span class="p">,</span><span class="w"> </span><span class="n">revenue</span><span class="p">,</span><span class="w"> </span><span class="n">country</span><span class="p">,</span><span class="w"> </span><span class="n">shippingTrackingId</span><span class="p">,</span><span class="w"> </span><span class="n">trace_id</span>
+<span class="o">|</span><span class="w"> </span><span class="n">sort</span><span class="w"> </span><span class="k">timestamp</span><span class="w"> </span><span class="k">desc</span>
+</code></pre></div></p>
+<p>Result:</p>
+<p><img alt="DQL Query" src="../img/02_bizevents_oneagent_placeorder_success_dql.png" /></p>
+<h3 id="conclusion_3">Conclusion<a class="headerlink" href="#conclusion_3" title="Permanent link">#</a></h3>
+<p>We have completed data validation for the <code>Place Order</code> step of the <code>Order to Shipped</code> business process.</p>
+<h2 id="continue">Continue<a class="headerlink" href="#continue" title="Permanent link">#</a></h2>
+<p>In the next section, we'll capture Business Events from Logs using OpenPipeline.</p>
+<div class="grid cards">
+<ul>
+<li><a href="../05_bizevents_logs/">Continue to Business Event Capture with Logs<span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.22 19.03a.75.75 0 0 1 0-1.06L18.19 13H3.75a.75.75 0 0 1 0-1.5h14.44l-4.97-4.97a.749.749 0 0 1 .326-1.275.75.75 0 0 1 .734.215l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0"/></svg></span></a></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["content.code.copy"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.83f73b43.min.js"></script>
+      
+    
+  </body>
+</html>
