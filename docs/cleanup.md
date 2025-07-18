@@ -7,3 +7,6 @@
 Another way to do this is by going to [https://github.com/codespaces](https://github.com/codespaces){target=_blank} and delete the codespace.
 
 You may also want to deactivate or delete the API token needed for this lab.
+
+!!! tip "Lab Guide Updates"
+    This Dynatrace lab guide was made by Rylee Berger and Sabiela Woldemichael, CoE Enablement interns.
