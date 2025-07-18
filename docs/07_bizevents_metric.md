@@ -1,6 +1,6 @@
---8<-- "snippets/send-bizevent/file.js"
+--8<-- "snippets/send-bizevent/bizevent-07-bizevents-metric.js"
 
-## Business Events - Metric
+# Business Events - Metric
 
 Business event metric extraction is a convenient way to create your own business metrics. 
 
@@ -113,16 +113,10 @@ Result:
 
 We have completed data validation for the `Place Order` business metric.
 
-### Subtopic
-
-The demo application in this lab, AstroShop, contains OpenTelemetry instrumentation that can be picked up by OneAgent.
-
-![OpenTelemetry OneAgent Features](./img/getting-started_dynatrace_oneagent_features_opentelemetry.png)
-
 ## Continue
 
-In the next section, we'll launch our Codespaces instance.
+In the next section, we'll use the captured Buisness Events to create an Alert.
 
 <div class="grid cards" markdown>
-- [Continue to Codespaces:octicons-arrow-right-24:](3-codespaces.md)
+- [Continue to Business Event Capture with Alerts:octicons-arrow-right-24:](08_bizevents_alerts.md)
 </div>

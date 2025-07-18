@@ -1,6 +1,6 @@
---8<-- "snippets/send-bizevent/file.js"
+--8<-- "snippets/send-bizevent/bizevent-05-bizevents-logs.js"
 
-## Business Events Capture - Logs
+# Business Events Capture - Logs
 
 Organizations in today’s data-driven world often struggle with fragmented data sources that hinder comprehensive business insights. With Dynatrace OpenPipeline, you can ingest logs from any system and extract relevant business data to get a cohesive end-to-end view of your business processes.
 
@@ -256,16 +256,10 @@ Result:
 
 We have completed data validation for the for the `Fraud Check` step of the `Order to Shipped` business process.
 
-### Subtopic
-
-The demo application in this lab, AstroShop, contains OpenTelemetry instrumentation that can be picked up by OneAgent.
-
-![OpenTelemetry OneAgent Features](./img/getting-started_dynatrace_oneagent_features_opentelemetry.png)
-
 ## Continue
 
-In the next section, we'll launch our Codespaces instance.
+In the next section, we'll send the captured Buisness Events to the Buisness Events API. 
 
 <div class="grid cards" markdown>
-- [Continue to Codespaces:octicons-arrow-right-24:](3-codespaces.md)
+- [Continue to Business Event Capture with API:octicons-arrow-right-24:](06_bizevents_api.md)
 </div>
