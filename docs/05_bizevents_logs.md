@@ -238,7 +238,7 @@ In this section of the lab we will validate the data for the `Fraud Check` step 
 
 ### Query Business Events in Dynatrace
 
-Using a Notebook execute the below DQL query which retrieves the buisness events for `astroshop.fraudcheck.success` step.  Note, this may take 3-5 minutes for new data to appear.
+Using a Notebook execute the below DQL query which retrieves the business events for `astroshop.fraudcheck.success` step.  Note, this may take 3-5 minutes for new data to appear.
 
 DQL:
 ```sql
@@ -258,7 +258,7 @@ We have completed data validation for the for the `Fraud Check` step of the `Ord
 
 ## Continue
 
-In the next section, we'll send the captured Buisness Events to the Buisness Events API. 
+In the next section, we'll send the captured Business Events to the Business Events API. 
 
 <div class="grid cards" markdown>
 - [Continue to Business Event Capture with API:octicons-arrow-right-24:](06_bizevents_api.md)
