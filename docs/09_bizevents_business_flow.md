@@ -286,7 +286,8 @@ We have completed data validation for the Business Flow Davis Anomaly Detector f
 
 ## Continue
 
-In the next section, we'll learn how to use Business Dashboard to support customers.
+In the next section, we'll learn how to use a Business Observability Dashboard to support customers.
+
 <div class="grid cards" markdown>
 - [Continue to Business Dashboard:octicons-arrow-right-24:](10_bizevents_dashboard.md)
 </div>

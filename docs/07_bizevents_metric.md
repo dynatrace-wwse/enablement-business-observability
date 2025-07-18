@@ -115,7 +115,7 @@ We have completed data validation for the `Place Order` business metric.
 
 ## Continue
 
-In the next section, we'll use the captured Buisness Events to create an Alert.
+In the next section, we'll use the captured Business Events to create an Alert.
 
 <div class="grid cards" markdown>
 - [Continue to Business Event Capture with Alerts:octicons-arrow-right-24:](08_bizevents_alerts.md)

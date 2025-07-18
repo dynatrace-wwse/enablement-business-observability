@@ -258,7 +258,7 @@ We have completed data validation for the for the `Fraud Check` step of the `Ord
 
 ## Continue
 
-In the next section, we'll send the captured Business Events to the Business Events API. 
+In the next section, we'll capture Business Events with the Dynatrace API.
 
 <div class="grid cards" markdown>
 - [Continue to Business Event Capture with API:octicons-arrow-right-24:](06_bizevents_api.md)

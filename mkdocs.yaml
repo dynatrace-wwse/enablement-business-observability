@@ -5,11 +5,11 @@ nav:
   - '1. About': index.md
   - '2. Getting Started': getting-started.md
   - '3. Codespaces': codespaces.md
-  - '4. Business Events Capture - OneAgent': 04_bizevents_oneagent.md
-  - '5. Business Events Capture - Logs': 05_bizevents_logs.md
-  - '6. Business Events Capture - API': 06_bizevents_api.md
-  - '7. Business Events - Metric': 07_bizevents_metric.md
-  - '8. Business Events - Alerts': 08_bizevents_alerts.md
+  - '4. Business Events via OneAgent': 04_bizevents_oneagent.md
+  - '5. Business Events via Logs': 05_bizevents_logs.md
+  - '6. Business Events via API': 06_bizevents_api.md
+  - '7. Business Events Metrics': 07_bizevents_metric.md
+  - '8. Business Events Alerts': 08_bizevents_alerts.md
   - '9. Business Flows': 09_bizevents_business_flow.md
   - '10. Business Dashboard': 10_bizevents_dashboard.md
   - '11. Wrap Up': 11_wrapup.md
