@@ -1,6 +1,6 @@
---8<-- "snippets/send-bizevent/file.js"
+--8<-- "snippets/send-bizevent/bizevent-10-bievents-dashboard.js"
 
-## Dashboards
+# Dashboards
 
 Supporting customers to order from you and then delivering those products involves not just many of your own systems but also 3rd parties as well. This can make it difficult to understand, for a given customer, just where in this complex process is their order stuck/lost and can be very costly to then either manually retrieve orders or pay compensation to customers.
 
@@ -154,16 +154,10 @@ When uploaded,  you should see all tiles with data.
 
 We have completed the hands on exercises for the training.  We will now move to the Wrap Up section.
 
-### Subtopic
-
-The demo application in this lab, AstroShop, contains OpenTelemetry instrumentation that can be picked up by OneAgent.
-
-![OpenTelemetry OneAgent Features](./img/getting-started_dynatrace_oneagent_features_opentelemetry.png)
-
 ## Continue
 
-In the next section, we'll launch our Codespaces instance.
+In the next section, we'll Wrap Up the Dynatrace Observability Lab.
 
 <div class="grid cards" markdown>
-- [Continue to Codespaces:octicons-arrow-right-24:](3-codespaces.md)
+- [Continue to Wrap Up:octicons-arrow-right-24:](11_wrapup.md)
 </div>
