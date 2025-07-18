@@ -1,4 +1,4 @@
---8<-- "snippets/bizevent-index.js"
+--8<-- "snippets/send-bizevent/bizevent-index.js"
 # Enablement Business Observability
 
 --8<-- "snippets/disclaimer.md"
