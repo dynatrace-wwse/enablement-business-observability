@@ -27,7 +27,7 @@ The example dashboard is also meant to provide ideas for the Art of the Possible
 
 ### Astroshop - Order to Shipped Business Observability Dashboard - Download
 
-Download the dashboard `Astroshop - Order to Shipped Business Observability Dashboard` using the source file [Astroshop_-_Order_to_Shipped_Business_Observability_Dashboard.json](https://github.com/dynatrace-wwse/enablement-business-observability/blob/main/lab-guide/assets/Astroshop_-_Order_to_Shipped_Business_Observability_Dashboard.json) to your local system.
+Download the dashboard `Astroshop - Order to Shipped Business Observability Dashboard` using the source file [Astroshop_-_Order_to_Shipped_Business_Observability_Dashboard.json](https://github.com/dynatrace-wwse/enablement-business-observability/blob/main/assets/dynatrace/dashboards/Astroshop_-_Order_to_Shipped_Business_Observability_Dashboard.json) to your local system.
 
 ### Astroshop - Order to Shipped Business Observability Dashboard - Upload
 
@@ -118,7 +118,7 @@ Context to the health of backend IT Service where Orders start
 ```
 ### Astroshop - OrderID Lookup Dashboard - Downlaod
 
-Download the dashboard `Astroshop - OrderID Lookup Dashboard` using the source file [Astroshop_-_OrderID_Lookup_Dashboard.json](https://github.com/dynatrace-wwse/enablement-business-observability/blob/main/lab-guide/assets/Astroshop_-_OrderID_Lookup_Dashboard.json) to your local system.
+Download the dashboard `Astroshop - OrderID Lookup Dashboard` using the source file [Astroshop_-_OrderID_Lookup_Dashboard.json](https://github.com/dynatrace-wwse/enablement-business-observability/blob/main/assets/dynatrace/dashboards/Astroshop_-_OrderID_Lookup_Dashboard.json) to your local system.
 
 ### Astroshop - OrderID Lookup Dashboard - Upload
 

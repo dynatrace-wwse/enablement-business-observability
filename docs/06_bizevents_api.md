@@ -29,7 +29,7 @@ In this section of the lab we will use a Dynatrace Workflow to send simulated ev
 ### Workflow - Order Shipped - Download
 
 
-Download the workflow `Astroshop - Order Shipped` using the source file [Astroshop - Order Shipped](https://github.com/dynatrace-wwse/enablement-business-observability/blob/main/lab-guide/assets/dt_wftpl_astroshop_-_order_shipped.yaml) to your local system.
+Download the workflow `Astroshop - Order Shipped` using the source file [Astroshop - Order Shipped](https://github.com/dynatrace-wwse/enablement-business-observability/blob/main/assets/dynatrace/workflows/dt_wftpl_astroshop_-_order_shipped.yaml) to your local system.
 
 ![Astroshop - Order Shipped - Github Download](./img/astroshop_workflow_github_download.png)
 
@@ -146,7 +146,7 @@ We have completed data validation for the `Order Shipped` step of the `Order to 
 
 ## Continue
 
-In the next section, we'll use the captured Buisness Events to build a Buisness Metric utilizing OpenPipeline. 
+In the next section, we'll use the captured Business Events to build a Business Metric utilizing OpenPipeline. 
 
 <div class="grid cards" markdown>
 - [Continue to Business Event Capture with Metric:octicons-arrow-right-24:](07_bizevents_metric.md)

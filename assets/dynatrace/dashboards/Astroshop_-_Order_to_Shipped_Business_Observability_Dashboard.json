@@ -1,0 +1,3568 @@
+{
+    "version": 17,
+    "variables": [
+        {
+            "key": "ClusterName",
+            "visible": false,
+            "type": "query",
+            "version": 1,
+            "editable": true,
+            "input": "fetch dt.entity.cloud_application,from:-30m\n| filter entity.detected_name == \"astroshop-frontend\"\n| fieldsAdd clusterId = clustered_by\n| fieldsFlatten clusterId \n| fields  dt.entity.kubernetes_cluster = clusterId.dt.entity.kubernetes_cluster \n| fields k8s.cluster.name = entityName(dt.entity.kubernetes_cluster)",
+            "multiple": true,
+            "defaultValue": [
+                "codespaces-25e8c0"
+            ]
+        },
+        {
+            "key": "DynatraceTenantURL",
+            "visible": false,
+            "type": "code",
+            "version": 1,
+            "editable": true,
+            "input": "import { getEnvironmentUrl } from '@dynatrace-sdk/app-environment'\nexport default async function () {\n  return getEnvironmentUrl();\n}",
+            "multiple": true,
+            "defaultValue": [
+                "3420b2ac-f1cf-4b24-b62d-61ba1ba8ed05*"
+            ]
+        },
+        {
+            "key": "AstroshopFrontedWorkloadID",
+            "visible": false,
+            "type": "query",
+            "version": 1,
+            "editable": true,
+            "input": "fetch dt.entity.cloud_application, from: -7d\n| filter entity.name == \"astroshop-frontend\"\n| sort lifetime[start] desc\n| fields id\n| limit 1",
+            "multiple": true,
+            "defaultValue": [
+                "3420b2ac-f1cf-4b24-b62d-61ba1ba8ed05*"
+            ]
+        },
+        {
+            "key": "AstroshopFraudDetectionWorkloadID",
+            "visible": false,
+            "type": "query",
+            "version": 1,
+            "editable": true,
+            "input": "fetch dt.entity.cloud_application, from:-7d\n| filter entity.name == \"astroshop-frauddetectionservice\"\n// | fieldsAdd lifetime\n// | sort lifetime[start] desc\n| limit 1\n| fields id\n",
+            "multiple": true,
+            "defaultValue": [
+                "3420b2ac-f1cf-4b24-b62d-61ba1ba8ed05*"
+            ]
+        },
+        {
+            "key": "AstroshopShippingServiceWorkloadID",
+            "visible": false,
+            "type": "query",
+            "version": 1,
+            "editable": true,
+            "input": "fetch dt.entity.cloud_application\n| filter entity.name == \"astroshop-shippingservice\"\n| fieldsAdd lifetime\n| sort lifetime[start] desc\n| limit 1\n| fields id\n",
+            "multiple": true,
+            "defaultValue": [
+                "3420b2ac-f1cf-4b24-b62d-61ba1ba8ed05*"
+            ]
+        },
+        {
+            "key": "AstroshopFrontendCurrentITIssueProblemID",
+            "visible": false,
+            "type": "query",
+            "version": 1,
+            "editable": true,
+            "input": "fetch dt.davis.problems, from: -7d\n| filter dt.davis.is_duplicate==false\n| filter event.status == \"ACTIVE\" or\n         event.status == \"CLOSED\"\n| sort timestamp desc\n| expand affected_entity_ids\n| fieldsAdd service.name = entityName(affected_entity_ids,type:\"dt.entity.service\")\n| fieldsAdd process.group = entityName(affected_entity_ids,type:\"dt.entity.process_group\")\n| fieldsAdd k8.workload.name = entityName(affected_entity_ids,type:\"dt.entity.cloud_application\")\n| filter in(root_cause_entity_name, \"frontend\") or\n         in(process.group, \"server.js (frontend) astroshop-frontend-*\") or\n         in(k8.workload.name, \"astroshop-frontend\") or\n         in(service.name, \"frontend\")\n| filterOut matchesPhrase (event.name, \"Astroshop\")\n| dedup event.id\n| sort timestamp desc\n| limit 1\n| fields event.id\n",
+            "multiple": true,
+            "defaultValue": [
+                "3420b2ac-f1cf-4b24-b62d-61ba1ba8ed05*"
+            ]
+        },
+        {
+            "key": "AstroshopFrontendCurrentBusinessIssueProblemID",
+            "visible": false,
+            "type": "query",
+            "version": 1,
+            "editable": true,
+            "input": "fetch dt.davis.problems, from: -7d\n| filter dt.davis.is_duplicate==false \n| filter event.status == \"ACTIVE\" or \n         event.status == \"CLOSED\" \n| filter matchesPhrase (event.name, \"Astroshop - Orders with Zero Values\") or\n         startsWith (event.name, \"Business Flow Astroshop - Order to Shipped\")\n| dedup event.id\n| sort timestamp desc\n| limit 1\n| fields event.id",
+            "multiple": true,
+            "defaultValue": [
+                "3420b2ac-f1cf-4b24-b62d-61ba1ba8ed05*"
+            ]
+        },
+        {
+            "key": "AstroshopFraudCurrentITIssueProblemID",
+            "visible": false,
+            "type": "query",
+            "version": 1,
+            "editable": true,
+            "input": "fetch dt.davis.problems, from: -7d\n| filter dt.davis.is_duplicate==false and event.status \n| filter event.status == \"ACTIVE\" or\n         event.status == \"CLOSED\" \n| sort timestamp desc\n| expand affected_entity_ids\n| filter affected_entity_types == array(\"dt.entity.service\") or\n         affected_entity_types == array(\"dt.entity.cloud_application\") or\n         affected_entity_types == array(\"dt.entity.process_group\")      \n| fieldsAdd service.name = entityName(affected_entity_ids,type:\"dt.entity.service\")\n| fieldsAdd process.group = entityName(affected_entity_ids,type:\"dt.entity.process_group\")\n| fieldsAdd k8.workload.name = entityName(affected_entity_ids,type:\"dt.entity.cloud_application\") \n| filter in(service.name, \"frauddetectionservice\") or\n         in(k8.workload.name, \"astroshop-frauddetectionservice\")\n| filterOut matchesPhrase (event.name, \"Astroshop\")\n| dedup event.id",
+            "multiple": true,
+            "defaultValue": [
+                "3420b2ac-f1cf-4b24-b62d-61ba1ba8ed05*"
+            ]
+        },
+        {
+            "key": "AstroshopFraudCurrentBusinessIssueProblemID",
+            "visible": false,
+            "type": "query",
+            "version": 1,
+            "editable": true,
+            "input": "fetch dt.davis.problems, from: -7d\n| filter dt.davis.is_duplicate==false \n| filter event.status == \"ACTIVE\" or\n         event.status == \"CLOSED\" \n| filter matchesPhrase(event.name, \"Fraud\") and matchesPhrase(event.name, \"Astroshop\")\n| filterOut startsWith (event.name, \"Business Flow Astroshop - Order to Shipped\")\n| dedup event.id\n| sort timestamp desc\n| limit 1\n| fields event.id",
+            "multiple": true,
+            "defaultValue": [
+                "3420b2ac-f1cf-4b24-b62d-61ba1ba8ed05*"
+            ]
+        },
+        {
+            "key": "AstroshopShippingServiceCurrentITIssueProblemID",
+            "visible": false,
+            "type": "query",
+            "version": 1,
+            "editable": true,
+            "input": "fetch dt.davis.problems, from: -7d\n| filter dt.davis.is_duplicate==false \n| filter event.status == \"ACTIVE\" or\n         event.status == \"CLOSED\" \n| sort timestamp desc\n| expand affected_entity_ids\n| filter affected_entity_types == array(\"dt.entity.service\") or\n         affected_entity_types == array(\"dt.entity.cloud_application\") or\n         affected_entity_types == array(\"dt.entity.process_group\")      \n| fieldsAdd service.name = entityName(affected_entity_ids,type:\"dt.entity.service\")\n| fieldsAdd process.group = entityName(affected_entity_ids,type:\"dt.entity.process_group\")\n| fieldsAdd k8.workload.name = entityName(affected_entity_ids,type:\"dt.entity.cloud_application\") \n| filter in(service.name, \"shippingservice\") or\n         in(k8.workload.name, \"astroshop-shippingservice\")\n| filterOut matchesPhrase (event.name, \"Astroshop\")\n| dedup event.id",
+            "multiple": true,
+            "defaultValue": [
+                "3420b2ac-f1cf-4b24-b62d-61ba1ba8ed05*"
+            ]
+        },
+        {
+            "key": "AstroshopShippingServiceCurrentBusinessIssueProblemID",
+            "visible": false,
+            "type": "query",
+            "version": 1,
+            "editable": true,
+            "input": "fetch dt.davis.problems, from: -7d\n| filter dt.davis.is_duplicate==false \n| filter event.status == \"ACTIVE\" or\n         event.status == \"CLOSED\" \n| filter matchesPhrase(event.name, \"Shipped\") and matchesPhrase(event.name, \"Astroshop\")\n| filterOut startsWith (event.name, \"Business Flow Astroshop - Order to Shipped\")\n| dedup event.id\n| sort timestamp desc\n| limit 1\n| fields event.id",
+            "multiple": true,
+            "defaultValue": [
+                "3420b2ac-f1cf-4b24-b62d-61ba1ba8ed05*"
+            ]
+        }
+    ],
+    "tiles": {
+        "1": {
+            "title": "",
+            "type": "markdown",
+            "content": "## 💻 Place Order\n---\n💼 Business KPI = Average order value."
+        },
+        "2": {
+            "title": "",
+            "type": "markdown",
+            "content": "## 🚚 Order Shipped\n---\n💼 Business KPI = Order shipping success rate."
+        },
+        "3": {
+            "title": "",
+            "type": "markdown",
+            "content": "## 🪪 Fraud Check\n---\n💼 Business KPI = Average Fraud Check Duration."
+        },
+        "4": {
+            "title": "",
+            "type": "data",
+            "query": "fetch events\n| filter dt.system.bucket==\"default_security_events\" // only security events\n| filter event.provider==\"Dynatrace\" // only events generated by dynatrace\n| filter event.type==\"VULNERABILITY_STATE_REPORT_EVENT\" // historical vulnerability data\n| filter event.level==\"ENTITY\" // on entity level\n// filter only the latest snapshot data\n| dedup {vulnerability.id,affected_entity.id}, sort: { timestamp desc }\n// end of filtering for the latest snapshot\n//| filter in(vulnerability.risk.level,\"CRITICAL\") or in(vulnerability.risk.level,\"HIGH\")\n| filter vulnerability.parent.mute.status == \"NOT_MUTED\"\n| filter in(vulnerability.stack,{\"CODE_LIBRARY\",\"SOFTWARE\",\"CONTAINER_ORCHESTRATION\"})\n| filter in(related_entities.kubernetes_workloads.names, \"astroshop-frontend\")\n\n| fieldsAdd dt.entity.cloud_application = related_entities.kubernetes_workloads.ids\n| expand dt.entity.cloud_application\n| fieldsAdd zeroplaceholder = 0\n| summarize vulnerabilities = countDistinctExact(vulnerability.display_id),\n            zero = sum(zeroplaceholder)\n| fields vulnerabilities = coalesce(vulnerabilities, zero)\n             \n",
+            "visualization": "singleValue",
+            "visualizationSettings": {
+                "thresholds": [
+                    {
+                        "id": 1,
+                        "field": "vulnerabilities",
+                        "title": "Security score",
+                        "isEnabled": true,
+                        "rules": [
+                            {
+                                "id": 1,
+                                "color": "#0D9C29",
+                                "comparator": "=",
+                                "label": "",
+                                "value": 0
+                            },
+                            {
+                                "id": 2,
+                                "color": {
+                                    "Default": "var(--dt-colors-charts-loglevel-emergency-default, #ae132d)"
+                                },
+                                "comparator": "≥",
+                                "label": "",
+                                "value": 0
+                            }
+                        ]
+                    }
+                ],
+                "chartSettings": {
+                    "gapPolicy": "connect",
+                    "circleChartSettings": {
+                        "groupingThresholdType": "relative",
+                        "groupingThresholdValue": 0,
+                        "valueType": "relative"
+                    },
+                    "categoryOverrides": {},
+                    "categoricalBarChartSettings": {
+                        "categoryAxisLabel": "securityExample",
+                        "valueAxisLabel": "account.fee"
+                    },
+                    "hiddenLegendFields": []
+                },
+                "singleValue": {
+                    "showLabel": true,
+                    "label": "🔒 SECURITY",
+                    "prefixIcon": "",
+                    "autoscale": true,
+                    "alignment": "center",
+                    "colorThresholdTarget": "background",
+                    "recordField": "vulnerabilities",
+                    "trend": {
+                        "trendType": "auto",
+                        "isVisible": true
+                    },
+                    "sparklineSettings": {}
+                },
+                "table": {
+                    "rowDensity": "condensed",
+                    "enableSparklines": false,
+                    "hiddenColumns": [],
+                    "lineWrapIds": [],
+                    "columnWidths": {},
+                    "columnTypeOverrides": []
+                },
+                "honeycomb": {
+                    "shape": "square",
+                    "dataMappings": {
+                        "value": "timestamp"
+                    },
+                    "legend": "auto",
+                    "displayedFields": [
+                        "securityExample"
+                    ],
+                    "colorMode": "color-palette",
+                    "colorPalette": "categorical"
+                },
+                "histogram": {
+                    "dataMappings": [],
+                    "variant": "single",
+                    "displayedFields": [
+                        "securityExample",
+                        "dt.entity.host",
+                        "dt.entity.process_group",
+                        "dt.entity.process_group_instance",
+                        "dt.openpipeline.source",
+                        "event.category",
+                        "event.id",
+                        "event.kind",
+                        "event.provider",
+                        "event.type",
+                        "fullRequestBody",
+                        "fullResponseBody",
+                        "sessionId",
+                        "span_id",
+                        "trace_id",
+                        "trace_sampled",
+                        "traceparent",
+                        "url.path"
+                    ]
+                },
+                "valueBoundaries": {
+                    "min": "auto",
+                    "max": "auto"
+                },
+                "autoSelectVisualization": false,
+                "dataMapping": {
+                    "value": "vulnerabilities"
+                },
+                "label": {
+                    "showLabel": true,
+                    "label": "vulnerabilities"
+                }
+            },
+            "querySettings": {
+                "maxResultRecords": 1000,
+                "defaultScanLimitGbytes": 500,
+                "maxResultMegaBytes": 100,
+                "defaultSamplingRatio": 10,
+                "enableSampling": false
+            },
+            "davis": {
+                "enabled": false,
+                "davisVisualization": {
+                    "isAvailable": true
+                }
+            }
+        },
+        "5": {
+            "title": "",
+            "type": "data",
+            "query": "fetch dt.davis.problems\n| filter dt.davis.is_duplicate==false and event.status == \"ACTIVE\"\n// | filter dt.davis.is_duplicate==false and event.status == \"CLOSED\"\n| sort timestamp desc\n| expand affected_entity_ids\n| fieldsAdd service.name = entityName(affected_entity_ids,type:\"dt.entity.service\")\n| fieldsAdd process.group = entityName(affected_entity_ids,type:\"dt.entity.process_group\")\n| fieldsAdd k8.workload.name = entityName(affected_entity_ids,type:\"dt.entity.cloud_application\")\n| filter in(root_cause_entity_name, \"frontend\") or\n         in(process.group, \"server.js (frontend) astroshop-frontend-*\") or\n         in(k8.workload.name, \"astroshop-frontend\") or\n         in(service.name, \"frontend\")\n| filterOut matchesPhrase (event.name, \"Astroshop\")\n| dedup event.id\n| summarize open = count()\n\n\n",
+            "visualization": "singleValue",
+            "visualizationSettings": {
+                "thresholds": [
+                    {
+                        "id": 1,
+                        "field": "open",
+                        "title": "Open Problems",
+                        "isEnabled": true,
+                        "rules": [
+                            {
+                                "id": 0,
+                                "color": {
+                                    "Default": "var(--dt-colors-charts-loglevel-emergency-default, #ae132d)"
+                                },
+                                "comparator": "≥",
+                                "label": "",
+                                "value": 1
+                            },
+                            {
+                                "id": 2,
+                                "color": "#0D9C29",
+                                "comparator": "≥",
+                                "label": "",
+                                "value": 0
+                            }
+                        ]
+                    }
+                ],
+                "chartSettings": {
+                    "gapPolicy": "connect",
+                    "circleChartSettings": {
+                        "groupingThresholdType": "relative",
+                        "groupingThresholdValue": 0,
+                        "valueType": "relative"
+                    },
+                    "categoryOverrides": {},
+                    "categoricalBarChartSettings": {
+                        "categoryAxisLabel": "dt.entity.host",
+                        "valueAxisLabel": "problemExample"
+                    },
+                    "hiddenLegendFields": [],
+                    "xAxisScaling": "auto",
+                    "xAxisLabel": "timestamp",
+                    "xAxisIsLabelVisible": false,
+                    "valueRepresentation": "absolute",
+                    "truncationMode": "middle",
+                    "leftYAxisSettings": {}
+                },
+                "singleValue": {
+                    "showLabel": true,
+                    "label": "🛠️ IT ISSUES",
+                    "prefixIcon": "",
+                    "autoscale": true,
+                    "sparklineSettings": {
+                        "isVisible": false
+                    },
+                    "alignment": "center",
+                    "trend": {
+                        "isVisible": false,
+                        "trendType": "auto"
+                    },
+                    "colorThresholdTarget": "background",
+                    "recordField": "open"
+                },
+                "table": {
+                    "rowDensity": "condensed",
+                    "enableSparklines": false,
+                    "hiddenColumns": [],
+                    "lineWrapIds": [],
+                    "columnWidths": {},
+                    "columnTypeOverrides": [],
+                    "colorThresholdTarget": "background",
+                    "enableThresholdInRow": false,
+                    "selectedColumnForRowThreshold": "open"
+                },
+                "honeycomb": {
+                    "shape": "square",
+                    "dataMappings": {
+                        "value": "timestamp"
+                    },
+                    "legend": "auto",
+                    "displayedFields": [
+                        "dt.entity.host"
+                    ],
+                    "colorMode": "color-palette",
+                    "colorPalette": "categorical"
+                },
+                "histogram": {
+                    "dataMappings": [
+                        {
+                            "valueAxis": "problemExample",
+                            "rangeAxis": ""
+                        }
+                    ],
+                    "variant": "single",
+                    "displayedFields": [
+                        "dt.entity.host",
+                        "dt.entity.process_group",
+                        "dt.entity.process_group_instance",
+                        "dt.openpipeline.source",
+                        "event.category",
+                        "event.id",
+                        "event.kind",
+                        "event.provider",
+                        "event.type",
+                        "fullRequestBody",
+                        "fullResponseBody",
+                        "sessionId",
+                        "span_id",
+                        "trace_id",
+                        "trace_sampled",
+                        "traceparent",
+                        "url.path"
+                    ]
+                },
+                "valueBoundaries": {
+                    "min": "auto",
+                    "max": "auto"
+                },
+                "autoSelectVisualization": false,
+                "unitsOverrides": [
+                    {
+                        "identifier": "open",
+                        "unitCategory": "unspecified",
+                        "baseUnit": "none",
+                        "displayUnit": null,
+                        "decimals": 0,
+                        "suffix": "",
+                        "delimiter": false,
+                        "added": 1743382865322
+                    }
+                ]
+            },
+            "querySettings": {
+                "maxResultRecords": 1000,
+                "defaultScanLimitGbytes": 500,
+                "maxResultMegaBytes": 100,
+                "defaultSamplingRatio": 10,
+                "enableSampling": false
+            },
+            "davis": {
+                "enabled": false,
+                "davisVisualization": {
+                    "isAvailable": true
+                }
+            }
+        },
+        "6": {
+            "title": "",
+            "type": "data",
+            "query": "fetch bizevents\n| filter event.provider == \"astroshop\" and event.type == \"astroshop.placeorder.success\"\n| summarize averageOrderValue = avg(revenue)",
+            "visualization": "singleValue",
+            "visualizationSettings": {
+                "thresholds": [
+                    {
+                        "id": 1,
+                        "field": "averageOrderValue",
+                        "title": "Average order value",
+                        "isEnabled": true,
+                        "rules": [
+                            {
+                                "id": 2,
+                                "color": "#0D9C29",
+                                "comparator": "≥",
+                                "label": "",
+                                "value": 500
+                            },
+                            {
+                                "id": 3,
+                                "color": {
+                                    "Default": "var(--dt-colors-charts-loglevel-emergency-default, #ae132d)"
+                                },
+                                "comparator": "<",
+                                "label": "",
+                                "value": 500
+                            }
+                        ]
+                    }
+                ],
+                "chartSettings": {
+                    "xAxisScaling": "analyzedTimeframe",
+                    "gapPolicy": "connect",
+                    "circleChartSettings": {
+                        "groupingThresholdType": "relative",
+                        "groupingThresholdValue": 0,
+                        "valueType": "relative"
+                    },
+                    "categoryOverrides": {},
+                    "categoricalBarChartSettings": {
+                        "categoryAxisLabel": "averageOrderValue",
+                        "valueAxisLabel": "averageOrderValue",
+                        "tooltipVariant": "single"
+                    },
+                    "hiddenLegendFields": [],
+                    "truncationMode": "middle"
+                },
+                "singleValue": {
+                    "showLabel": true,
+                    "label": "💼 BUSINESS KPI",
+                    "prefixIcon": "",
+                    "autoscale": true,
+                    "sparklineSettings": {
+                        "isVisible": false
+                    },
+                    "alignment": "center",
+                    "trend": {
+                        "isVisible": false,
+                        "trendType": "auto"
+                    },
+                    "colorThresholdTarget": "background",
+                    "recordField": "averageOrderValue"
+                },
+                "table": {
+                    "rowDensity": "condensed",
+                    "enableSparklines": false,
+                    "hiddenColumns": [],
+                    "lineWrapIds": [],
+                    "columnWidths": {},
+                    "columnTypeOverrides": []
+                },
+                "honeycomb": {
+                    "shape": "square",
+                    "dataMappings": {
+                        "value": "averageOrderValue"
+                    },
+                    "legend": "auto",
+                    "displayedFields": [
+                        null
+                    ],
+                    "colorMode": "color-palette",
+                    "colorPalette": "blue"
+                },
+                "histogram": {
+                    "dataMappings": [
+                        {
+                            "valueAxis": "averageOrderValue",
+                            "rangeAxis": ""
+                        }
+                    ],
+                    "variant": "single",
+                    "displayedFields": []
+                },
+                "valueBoundaries": {
+                    "min": "auto",
+                    "max": "auto"
+                },
+                "unitsOverrides": [
+                    {
+                        "identifier": "averageOrderValue",
+                        "unitCategory": "currency",
+                        "baseUnit": "usd",
+                        "displayUnit": null,
+                        "decimals": 2,
+                        "suffix": "",
+                        "delimiter": true,
+                        "added": 1717148328781
+                    }
+                ]
+            },
+            "querySettings": {
+                "maxResultRecords": 1000,
+                "defaultScanLimitGbytes": 500,
+                "maxResultMegaBytes": 100,
+                "defaultSamplingRatio": 10,
+                "enableSampling": false
+            },
+            "davis": {
+                "enabled": false,
+                "davisVisualization": {
+                    "isAvailable": true
+                }
+            }
+        },
+        "7": {
+            "title": "",
+            "type": "data",
+            "query": "fetch bizevents\n| filter event.provider == \"astroshop\" and event.type == \"astroshop.placeorder.success\"\n| fields timestamp,revenue\n| makeTimeseries //{Orders = count(),\n                 Revenue = avg(revenue),\n                 interval:1m\n                 ",
+            "visualization": "davis",
+            "visualizationSettings": {
+                "thresholds": [],
+                "chartSettings": {
+                    "gapPolicy": "connect",
+                    "circleChartSettings": {
+                        "groupingThresholdType": "relative",
+                        "groupingThresholdValue": 0,
+                        "valueType": "relative"
+                    },
+                    "categoryOverrides": {},
+                    "curve": "linear",
+                    "pointsDisplay": "auto",
+                    "categoricalBarChartSettings": {
+                        "layout": "horizontal",
+                        "categoryAxisTickLayout": "horizontal",
+                        "scale": "absolute",
+                        "groupMode": "stacked",
+                        "colorPaletteMode": "multi-color",
+                        "valueAxisScale": "linear"
+                    },
+                    "colorPalette": "categorical",
+                    "valueRepresentation": "absolute",
+                    "truncationMode": "middle",
+                    "bandChartSettings": {
+                        "lower": "Orders",
+                        "upper": "Revenue"
+                    },
+                    "xAxisScaling": "analyzedTimeframe",
+                    "xAxisLabel": "timeframe",
+                    "xAxisIsLabelVisible": false,
+                    "hiddenLegendFields": [],
+                    "fieldMapping": {
+                        "timestamp": "timeframe",
+                        "leftAxisValues": [
+                            "Orders",
+                            "Revenue"
+                        ]
+                    },
+                    "leftYAxisSettings": {},
+                    "seriesOverrides": [
+                        {
+                            "seriesId": [
+                                "Orders"
+                            ],
+                            "override": {
+                                "geometry": "bar",
+                                "color": {
+                                    "Default": "var(--dt-colors-charts-categorical-color-01-default, #134fc9)"
+                                }
+                            }
+                        },
+                        {
+                            "seriesId": [
+                                "Revenue"
+                            ],
+                            "override": {
+                                "geometry": "line",
+                                "color": {
+                                    "Default": "var(--dt-colors-charts-categorical-color-14-default, #d56b1a)"
+                                }
+                            }
+                        }
+                    ],
+                    "legend": {
+                        "position": "bottom",
+                        "hidden": false
+                    }
+                },
+                "singleValue": {
+                    "showLabel": true,
+                    "label": "",
+                    "prefixIcon": "",
+                    "autoscale": true,
+                    "alignment": "center",
+                    "colorThresholdTarget": "value"
+                },
+                "table": {
+                    "rowDensity": "condensed",
+                    "enableSparklines": false,
+                    "hiddenColumns": [],
+                    "linewrapEnabled": false,
+                    "lineWrapIds": [],
+                    "monospacedFontEnabled": false,
+                    "monospacedFontColumns": [],
+                    "columnWidths": {},
+                    "columnTypeOverrides": [
+                        {
+                            "fields": [
+                                "Orders",
+                                "Revenue"
+                            ],
+                            "value": "sparkline",
+                            "id": 1743094086145
+                        }
+                    ]
+                },
+                "honeycomb": {
+                    "shape": "hexagon",
+                    "legend": {
+                        "hidden": false,
+                        "position": "auto",
+                        "ratio": "auto"
+                    },
+                    "dataMappings": {},
+                    "displayedFields": [],
+                    "truncationMode": "middle",
+                    "colorMode": "color-palette",
+                    "colorPalette": "categorical"
+                },
+                "histogram": {
+                    "legend": {
+                        "position": "auto"
+                    },
+                    "yAxis": {
+                        "label": "Frequency",
+                        "isLabelVisible": true,
+                        "scale": "linear"
+                    },
+                    "colorPalette": "categorical",
+                    "dataMappings": [],
+                    "variant": "single",
+                    "truncationMode": "middle"
+                },
+                "valueBoundaries": {
+                    "min": "auto",
+                    "max": "auto"
+                },
+                "autoSelectVisualization": false,
+                "unitsOverrides": [
+                    {
+                        "identifier": "Orders",
+                        "unitCategory": "unspecified",
+                        "baseUnit": "count",
+                        "displayUnit": null,
+                        "decimals": 0,
+                        "suffix": "",
+                        "delimiter": false,
+                        "added": 1743094213489
+                    },
+                    {
+                        "identifier": "Revenue",
+                        "unitCategory": "currency",
+                        "baseUnit": "usd",
+                        "displayUnit": null,
+                        "decimals": 0,
+                        "suffix": "",
+                        "delimiter": false,
+                        "added": 1743094244387
+                    }
+                ]
+            },
+            "querySettings": {
+                "maxResultRecords": 1000,
+                "defaultScanLimitGbytes": 500,
+                "maxResultMegaBytes": 1,
+                "defaultSamplingRatio": 10,
+                "enableSampling": false
+            },
+            "davis": {
+                "enabled": true,
+                "componentState": {
+                    "selectedAnalyzerName": "dt.statistics.ui.anomaly_detection.StaticThresholdAnomalyDetectionAnalyzer",
+                    "inputData": {
+                        "dt.statistics.ui.anomaly_detection.StaticThresholdAnomalyDetectionAnalyzer": {
+                            "generalParameters": {
+                                "timeframe": {
+                                    "startTime": "2025-04-07T03:15:33.295Z",
+                                    "endTime": "2025-04-07T03:45:33.295Z"
+                                },
+                                "resolveDimensionalQueryData": true,
+                                "logVerbosity": "INFO"
+                            },
+                            "query": "fetch bizevents\n| filter event.provider == \"astroshop\" and event.type == \"astroshop.placeorder.success\"\n| fields timestamp,revenue\n| makeTimeseries //{Orders = count(),\n                 Revenue = avg(revenue),\n                 interval:1m\n                 ",
+                            "threshold": 500,
+                            "alertCondition": "BELOW",
+                            "alertOnMissingData": false,
+                            "violatingSamples": 3,
+                            "slidingWindow": 3,
+                            "dealertingSamples": 3
+                        }
+                    }
+                },
+                "davisVisualization": {
+                    "isAvailable": true,
+                    "settings": {
+                        "visibleSections": "VISUALIZATION"
+                    }
+                }
+            }
+        },
+        "10": {
+            "title": "",
+            "type": "data",
+            "query": "fetch bizevents\n| filter event.provider == \"astroshop\" \n| filter event.type == \"astroshop.placeorder.success\" or event.type == \"order.received\" or event.type == \"astroshop.fraudcheck.success\"\n| sort timestamp asc\n| fieldsAdd placeOrderTimestamp = if(event.type == \"astroshop.placeorder.success\", timestamp), receivedTimestamp = if(event.type == \"astroshop.fraudcheck.success\", timestamp)\n| summarize {placeOrderTime = takeMin(placeOrderTimestamp), \n            receivedTime = takeMin(receivedTimestamp)}, \n            by:{orderId, timestamp = bin(timestamp,5m)}\n| filterOut isNull(receivedTime) or isNull(placeOrderTime)\n| fieldsAdd totalTime = receivedTime - placeOrderTime\n| summarize `End-to-end order time` = avg(totalTime)",
+            "visualization": "singleValue",
+            "visualizationSettings": {
+                "thresholds": [
+                    {
+                        "id": 1,
+                        "field": "End-to-end order time",
+                        "title": "Average order value",
+                        "isEnabled": true,
+                        "rules": [
+                            {
+                                "id": 2,
+                                "color": "#0D9C29",
+                                "comparator": "≥",
+                                "label": "",
+                                "value": 0
+                            },
+                            {
+                                "id": 3,
+                                "color": {
+                                    "Default": "var(--dt-colors-charts-categorical-color-14-default, #d56b1a)"
+                                },
+                                "comparator": "≥",
+                                "label": "",
+                                "value": 300000000
+                            },
+                            {
+                                "id": 4,
+                                "color": {
+                                    "Default": "var(--dt-colors-charts-loglevel-emergency-default, #ae132d)"
+                                },
+                                "comparator": "≥",
+                                "label": "",
+                                "value": 500000000
+                            }
+                        ]
+                    }
+                ],
+                "chartSettings": {
+                    "xAxisScaling": "analyzedTimeframe",
+                    "gapPolicy": "connect",
+                    "circleChartSettings": {
+                        "groupingThresholdType": "relative",
+                        "groupingThresholdValue": 0,
+                        "valueType": "relative"
+                    },
+                    "categoryOverrides": {},
+                    "categoricalBarChartSettings": {
+                        "categoryAxisLabel": "averageOrderValue",
+                        "valueAxisLabel": "averageOrderValue",
+                        "tooltipVariant": "single"
+                    },
+                    "hiddenLegendFields": [],
+                    "truncationMode": "middle"
+                },
+                "singleValue": {
+                    "showLabel": true,
+                    "label": "💼 BUSINESS KPI",
+                    "prefixIcon": "",
+                    "autoscale": true,
+                    "sparklineSettings": {
+                        "isVisible": false
+                    },
+                    "alignment": "center",
+                    "trend": {
+                        "isVisible": false,
+                        "trendType": "auto"
+                    },
+                    "colorThresholdTarget": "background",
+                    "recordField": "End-to-end order time"
+                },
+                "table": {
+                    "rowDensity": "condensed",
+                    "enableSparklines": false,
+                    "hiddenColumns": [],
+                    "lineWrapIds": [],
+                    "columnWidths": {},
+                    "columnTypeOverrides": []
+                },
+                "honeycomb": {
+                    "shape": "square",
+                    "dataMappings": {
+                        "value": "averageOrderValue"
+                    },
+                    "legend": "auto",
+                    "displayedFields": [
+                        null
+                    ],
+                    "colorMode": "color-palette",
+                    "colorPalette": "blue"
+                },
+                "histogram": {
+                    "dataMappings": [
+                        {
+                            "valueAxis": "averageOrderValue",
+                            "rangeAxis": ""
+                        }
+                    ],
+                    "variant": "single",
+                    "displayedFields": []
+                },
+                "valueBoundaries": {
+                    "min": "auto",
+                    "max": "auto"
+                },
+                "unitsOverrides": [
+                    {
+                        "identifier": "averageOrderValue",
+                        "unitCategory": "currency",
+                        "baseUnit": "usd",
+                        "displayUnit": null,
+                        "decimals": 2,
+                        "suffix": "",
+                        "delimiter": true,
+                        "added": 1717148328781
+                    }
+                ]
+            },
+            "querySettings": {
+                "maxResultRecords": 1000,
+                "defaultScanLimitGbytes": 500,
+                "maxResultMegaBytes": 100,
+                "defaultSamplingRatio": 10,
+                "enableSampling": false
+            },
+            "davis": {
+                "enabled": false,
+                "davisVisualization": {
+                    "isAvailable": true
+                }
+            }
+        },
+        "11": {
+            "title": "",
+            "type": "data",
+            "query": "fetch events\n| filter dt.system.bucket==\"default_security_events\" // only security events\n| filter event.provider==\"Dynatrace\" // only events generated by dynatrace\n| filter event.type==\"VULNERABILITY_STATE_REPORT_EVENT\" // historical vulnerability data\n| filter event.level==\"ENTITY\" // on entity level\n// filter only the latest snapshot data\n| dedup {vulnerability.id,affected_entity.id}, sort: { timestamp desc }\n// end of filtering for the latest snapshot\n//| filter in(vulnerability.risk.level,\"CRITICAL\") or in(vulnerability.risk.level,\"HIGH\")\n| filter vulnerability.parent.mute.status == \"NOT_MUTED\"\n| filter in(vulnerability.stack,{\"CODE_LIBRARY\",\"SOFTWARE\",\"CONTAINER_ORCHESTRATION\"})\n| filter in(related_entities.kubernetes_workloads.names, \"astroshop-frauddetectionservice\")\n\n| fieldsAdd dt.entity.cloud_application = related_entities.kubernetes_workloads.ids\n| expand dt.entity.cloud_application\n| fieldsAdd zeroplaceholder = 0\n| summarize vulnerabilities = countDistinctExact(vulnerability.display_id),\n            zero = sum(zeroplaceholder)\n| fields vulnerabilities = coalesce(vulnerabilities, zero)\n             ",
+            "visualization": "singleValue",
+            "visualizationSettings": {
+                "thresholds": [
+                    {
+                        "id": 1,
+                        "field": "vulnerabilities",
+                        "title": "Security score",
+                        "isEnabled": true,
+                        "rules": [
+                            {
+                                "id": 1,
+                                "color": "#0D9C29",
+                                "comparator": "=",
+                                "label": "",
+                                "value": 0
+                            },
+                            {
+                                "id": 2,
+                                "color": {
+                                    "Default": "var(--dt-colors-charts-loglevel-emergency-default, #ae132d)"
+                                },
+                                "comparator": "≥",
+                                "label": "",
+                                "value": 0
+                            }
+                        ]
+                    }
+                ],
+                "chartSettings": {
+                    "gapPolicy": "connect",
+                    "circleChartSettings": {
+                        "groupingThresholdType": "relative",
+                        "groupingThresholdValue": 0,
+                        "valueType": "relative"
+                    },
+                    "categoryOverrides": {},
+                    "categoricalBarChartSettings": {
+                        "categoryAxisLabel": "securityExample",
+                        "valueAxisLabel": "account.fee"
+                    },
+                    "hiddenLegendFields": []
+                },
+                "singleValue": {
+                    "showLabel": true,
+                    "label": "🔒 SECURITY",
+                    "prefixIcon": "",
+                    "autoscale": true,
+                    "alignment": "center",
+                    "colorThresholdTarget": "background",
+                    "recordField": "vulnerabilities",
+                    "trend": {
+                        "trendType": "auto",
+                        "isVisible": true
+                    },
+                    "sparklineSettings": {}
+                },
+                "table": {
+                    "rowDensity": "condensed",
+                    "enableSparklines": false,
+                    "hiddenColumns": [],
+                    "lineWrapIds": [],
+                    "columnWidths": {},
+                    "columnTypeOverrides": []
+                },
+                "honeycomb": {
+                    "shape": "square",
+                    "dataMappings": {
+                        "value": "timestamp"
+                    },
+                    "legend": "auto",
+                    "displayedFields": [
+                        "securityExample"
+                    ],
+                    "colorMode": "color-palette",
+                    "colorPalette": "categorical"
+                },
+                "histogram": {
+                    "dataMappings": [],
+                    "variant": "single",
+                    "displayedFields": [
+                        "securityExample",
+                        "dt.entity.host",
+                        "dt.entity.process_group",
+                        "dt.entity.process_group_instance",
+                        "dt.openpipeline.source",
+                        "event.category",
+                        "event.id",
+                        "event.kind",
+                        "event.provider",
+                        "event.type",
+                        "fullRequestBody",
+                        "fullResponseBody",
+                        "sessionId",
+                        "span_id",
+                        "trace_id",
+                        "trace_sampled",
+                        "traceparent",
+                        "url.path"
+                    ]
+                },
+                "valueBoundaries": {
+                    "min": "auto",
+                    "max": "auto"
+                },
+                "autoSelectVisualization": false,
+                "dataMapping": {
+                    "value": "vulnerabilities"
+                },
+                "label": {
+                    "showLabel": true,
+                    "label": "vulnerabilities"
+                }
+            },
+            "querySettings": {
+                "maxResultRecords": 1000,
+                "defaultScanLimitGbytes": 500,
+                "maxResultMegaBytes": 100,
+                "defaultSamplingRatio": 10,
+                "enableSampling": false
+            },
+            "davis": {
+                "enabled": false,
+                "davisVisualization": {
+                    "isAvailable": true
+                }
+            }
+        },
+        "12": {
+            "title": "",
+            "type": "data",
+            "query": "fetch dt.davis.problems\n| filter dt.davis.is_duplicate==false and event.status == \"ACTIVE\"\n//| filter dt.davis.is_duplicate==false and event.status == \"CLOSED\"\n| sort timestamp desc\n| expand affected_entity_ids\n| filter affected_entity_types == array(\"dt.entity.service\") or\n         affected_entity_types == array(\"dt.entity.cloud_application\") or\n         affected_entity_types == array(\"dt.entity.process_group\")      \n| fieldsAdd service.name = entityName(affected_entity_ids,type:\"dt.entity.service\")\n| fieldsAdd process.group = entityName(affected_entity_ids,type:\"dt.entity.process_group\")\n| fieldsAdd k8.workload.name = entityName(affected_entity_ids,type:\"dt.entity.cloud_application\") \n| filter in(service.name, \"frauddetectionservice\") or\n         in(k8.workload.name, \"astroshop-frauddetectionservice\")\n| filterOut matchesPhrase (event.name, \"Astroshop\")\n| dedup event.id\n| summarize open = count()",
+            "visualization": "singleValue",
+            "visualizationSettings": {
+                "thresholds": [
+                    {
+                        "id": 1,
+                        "field": "open",
+                        "title": "Open Problems",
+                        "isEnabled": true,
+                        "rules": [
+                            {
+                                "id": 0,
+                                "color": {
+                                    "Default": "var(--dt-colors-charts-categorical-themed-fireplace-color-01-default, #ae132d)"
+                                },
+                                "comparator": "≥",
+                                "label": "",
+                                "value": 1
+                            },
+                            {
+                                "id": 2,
+                                "color": "#0D9C29",
+                                "comparator": "≥",
+                                "label": "",
+                                "value": 0
+                            }
+                        ]
+                    }
+                ],
+                "chartSettings": {
+                    "gapPolicy": "connect",
+                    "circleChartSettings": {
+                        "groupingThresholdType": "relative",
+                        "groupingThresholdValue": 0,
+                        "valueType": "relative"
+                    },
+                    "categoryOverrides": {},
+                    "categoricalBarChartSettings": {
+                        "categoryAxisLabel": "dt.entity.host",
+                        "valueAxisLabel": "problemExample"
+                    },
+                    "hiddenLegendFields": []
+                },
+                "singleValue": {
+                    "showLabel": true,
+                    "label": "🛠️ IT ISSUES",
+                    "prefixIcon": "",
+                    "autoscale": true,
+                    "sparklineSettings": {
+                        "isVisible": false
+                    },
+                    "alignment": "center",
+                    "trend": {
+                        "isVisible": false,
+                        "trendType": "auto"
+                    },
+                    "colorThresholdTarget": "background",
+                    "recordField": "open"
+                },
+                "table": {
+                    "rowDensity": "condensed",
+                    "enableSparklines": false,
+                    "hiddenColumns": [],
+                    "lineWrapIds": [],
+                    "columnWidths": {},
+                    "columnTypeOverrides": []
+                },
+                "honeycomb": {
+                    "shape": "square",
+                    "dataMappings": {
+                        "value": "timestamp"
+                    },
+                    "legend": "auto",
+                    "displayedFields": [
+                        "dt.entity.host"
+                    ],
+                    "colorMode": "color-palette",
+                    "colorPalette": "categorical"
+                },
+                "histogram": {
+                    "dataMappings": [
+                        {
+                            "valueAxis": "problemExample",
+                            "rangeAxis": ""
+                        }
+                    ],
+                    "variant": "single",
+                    "displayedFields": [
+                        "dt.entity.host",
+                        "dt.entity.process_group",
+                        "dt.entity.process_group_instance",
+                        "dt.openpipeline.source",
+                        "event.category",
+                        "event.id",
+                        "event.kind",
+                        "event.provider",
+                        "event.type",
+                        "fullRequestBody",
+                        "fullResponseBody",
+                        "sessionId",
+                        "span_id",
+                        "trace_id",
+                        "trace_sampled",
+                        "traceparent",
+                        "url.path"
+                    ]
+                },
+                "valueBoundaries": {
+                    "min": "auto",
+                    "max": "auto"
+                },
+                "unitsOverrides": [
+                    {
+                        "identifier": "open",
+                        "unitCategory": "unspecified",
+                        "baseUnit": "none",
+                        "displayUnit": null,
+                        "decimals": 0,
+                        "suffix": "",
+                        "delimiter": false,
+                        "added": 1743382854771
+                    }
+                ]
+            },
+            "querySettings": {
+                "maxResultRecords": 1000,
+                "defaultScanLimitGbytes": 500,
+                "maxResultMegaBytes": 100,
+                "defaultSamplingRatio": 10,
+                "enableSampling": false
+            },
+            "davis": {
+                "enabled": false,
+                "davisVisualization": {
+                    "isAvailable": true
+                }
+            }
+        },
+        "13": {
+            "title": "",
+            "type": "data",
+            "query": "fetch bizevents\n| filter event.provider == \"astroshop\" \n| filter event.type == \"astroshop.placeorder.success\" or \n         event.type == \"astroshop.fraudcheck.success\" or\n         event.type == \"astroshop.ordershipped.success\" \n| sort timestamp asc\n| fieldsAdd placeOrderTimestamp = if(event.type == \"astroshop.placeorder.success\", timestamp), \n            fraudCheckTimestamp = if(event.type == \"astroshop.fraudcheck.success\", timestamp)\n| summarize {placeOrderTime = takeMin(placeOrderTimestamp), \n            fraudCheckTime = takeMin(fraudCheckTimestamp)\n            }, \n            by:{orderId, timestamp = bin(timestamp,5m)}\n| filterOut isNull(placeOrderTime) or \n            isNull(fraudCheckTime)\n| fieldsAdd end_to_end = fraudCheckTime - placeOrderTime \n| makeTimeseries `End-to-end time` = avg(end_to_end),\n                  interval:5m",
+            "visualization": "recordView",
+            "visualizationSettings": {
+                "thresholds": [
+                    {
+                        "id": 1,
+                        "field": "",
+                        "title": "",
+                        "isEnabled": true,
+                        "rules": [
+                            {
+                                "id": 0,
+                                "color": "#0D9C29",
+                                "comparator": "≥",
+                                "label": "",
+                                "value": 0
+                            },
+                            {
+                                "id": 1,
+                                "color": {
+                                    "Default": "var(--dt-colors-charts-categorical-color-14-default, #d56b1a)"
+                                },
+                                "comparator": "≥",
+                                "label": "",
+                                "value": 300000000
+                            },
+                            {
+                                "id": 2,
+                                "color": {
+                                    "Default": "var(--dt-colors-charts-loglevel-emergency-default, #ae132d)"
+                                },
+                                "comparator": "≥",
+                                "label": "",
+                                "value": 500000000
+                            }
+                        ]
+                    }
+                ],
+                "chartSettings": {
+                    "gapPolicy": "connect",
+                    "circleChartSettings": {
+                        "groupingThresholdType": "relative",
+                        "groupingThresholdValue": 0,
+                        "valueType": "relative"
+                    },
+                    "categoryOverrides": {},
+                    "curve": "linear",
+                    "pointsDisplay": "auto",
+                    "categoricalBarChartSettings": {
+                        "layout": "horizontal",
+                        "categoryAxisTickLayout": "horizontal",
+                        "scale": "absolute",
+                        "groupMode": "stacked",
+                        "colorPaletteMode": "multi-color",
+                        "valueAxisScale": "linear"
+                    },
+                    "colorPalette": "categorical",
+                    "valueRepresentation": "absolute",
+                    "truncationMode": "middle",
+                    "xAxisScaling": "analyzedTimeframe",
+                    "xAxisLabel": "timeframe",
+                    "xAxisIsLabelVisible": false,
+                    "hiddenLegendFields": [],
+                    "fieldMapping": {
+                        "timestamp": "timeframe",
+                        "leftAxisValues": [
+                            "End-to-end time"
+                        ]
+                    },
+                    "leftYAxisSettings": {},
+                    "seriesOverrides": [
+                        {
+                            "seriesId": [
+                                "Orders"
+                            ],
+                            "override": {
+                                "geometry": "bar"
+                            }
+                        },
+                        {
+                            "seriesId": [
+                                "Revenue"
+                            ],
+                            "override": {
+                                "geometry": "line"
+                            }
+                        }
+                    ],
+                    "legend": {
+                        "hidden": true
+                    }
+                },
+                "singleValue": {
+                    "showLabel": true,
+                    "label": "",
+                    "prefixIcon": "",
+                    "autoscale": true,
+                    "alignment": "center",
+                    "colorThresholdTarget": "value"
+                },
+                "table": {
+                    "rowDensity": "condensed",
+                    "enableSparklines": false,
+                    "hiddenColumns": [],
+                    "linewrapEnabled": false,
+                    "lineWrapIds": [],
+                    "monospacedFontEnabled": false,
+                    "monospacedFontColumns": [],
+                    "columnWidths": {},
+                    "columnTypeOverrides": [
+                        {
+                            "fields": [
+                                "End-to-end time"
+                            ],
+                            "value": "sparkline",
+                            "id": 1743145195710
+                        }
+                    ]
+                },
+                "honeycomb": {
+                    "shape": "hexagon",
+                    "legend": {
+                        "hidden": false,
+                        "position": "auto",
+                        "ratio": "auto"
+                    },
+                    "dataMappings": {},
+                    "displayedFields": [],
+                    "truncationMode": "middle",
+                    "colorMode": "color-palette",
+                    "colorPalette": "categorical"
+                },
+                "histogram": {
+                    "legend": {
+                        "position": "auto"
+                    },
+                    "yAxis": {
+                        "label": "Frequency",
+                        "isLabelVisible": true,
+                        "scale": "linear"
+                    },
+                    "colorPalette": "categorical",
+                    "dataMappings": [],
+                    "variant": "single",
+                    "truncationMode": "middle"
+                },
+                "valueBoundaries": {
+                    "min": "auto",
+                    "max": "auto"
+                },
+                "autoSelectVisualization": true,
+                "unitsOverrides": [
+                    {
+                        "identifier": "End-to-end time",
+                        "unitCategory": "time",
+                        "baseUnit": "nanosecond",
+                        "displayUnit": null,
+                        "decimals": 2,
+                        "suffix": "",
+                        "delimiter": false,
+                        "added": 1743094213489
+                    },
+                    {
+                        "identifier": "Fraud Check to OrderShipped",
+                        "unitCategory": "time",
+                        "baseUnit": "nanosecond",
+                        "displayUnit": null,
+                        "decimals": 2,
+                        "suffix": "",
+                        "delimiter": false,
+                        "added": 1743145011670
+                    }
+                ]
+            },
+            "querySettings": {
+                "maxResultRecords": 1000,
+                "defaultScanLimitGbytes": 500,
+                "maxResultMegaBytes": 1,
+                "defaultSamplingRatio": 10,
+                "enableSampling": false
+            },
+            "davis": {
+                "enabled": false,
+                "davisVisualization": {
+                    "isAvailable": true
+                }
+            }
+        },
+        "14": {
+            "title": "",
+            "type": "data",
+            "query": "fetch dt.davis.problems\n| filter dt.davis.is_duplicate==false and event.status == \"ACTIVE\"\n//| filter dt.davis.is_duplicate==false and event.status == \"CLOSED\"\n| sort timestamp desc\n| expand affected_entity_ids\n| filter affected_entity_types == array(\"dt.entity.service\") or\n         affected_entity_types == array(\"dt.entity.cloud_application\") or\n         affected_entity_types == array(\"dt.entity.process_group\")      \n| fieldsAdd service.name = entityName(affected_entity_ids,type:\"dt.entity.service\")\n| fieldsAdd process.group = entityName(affected_entity_ids,type:\"dt.entity.process_group\")\n| fieldsAdd k8.workload.name = entityName(affected_entity_ids,type:\"dt.entity.cloud_application\") \n| filter in(service.name, \"shippingservice\") or\n         in(k8.workload.name, \"astroshop-shippingservice\")\n| filterOut matchesPhrase (event.name, \"Astroshop\")\n| dedup event.id\n| summarize open = count()",
+            "visualization": "singleValue",
+            "visualizationSettings": {
+                "thresholds": [
+                    {
+                        "id": 1,
+                        "field": "open",
+                        "title": "Open Problems",
+                        "isEnabled": true,
+                        "rules": [
+                            {
+                                "id": 0,
+                                "color": {
+                                    "Default": "var(--dt-colors-charts-loglevel-emergency-default, #ae132d)"
+                                },
+                                "comparator": "≥",
+                                "label": "",
+                                "value": 1
+                            },
+                            {
+                                "id": 2,
+                                "color": "#0D9C29",
+                                "comparator": "≥",
+                                "label": "",
+                                "value": 0
+                            }
+                        ]
+                    }
+                ],
+                "chartSettings": {
+                    "gapPolicy": "connect",
+                    "circleChartSettings": {
+                        "groupingThresholdType": "relative",
+                        "groupingThresholdValue": 0,
+                        "valueType": "relative"
+                    },
+                    "categoryOverrides": {},
+                    "categoricalBarChartSettings": {
+                        "categoryAxisLabel": "dt.entity.host",
+                        "valueAxisLabel": "problemExample"
+                    },
+                    "hiddenLegendFields": []
+                },
+                "singleValue": {
+                    "showLabel": true,
+                    "label": "🛠️ IT ISSUES",
+                    "prefixIcon": "",
+                    "autoscale": true,
+                    "sparklineSettings": {
+                        "isVisible": false
+                    },
+                    "alignment": "center",
+                    "trend": {
+                        "isVisible": false,
+                        "trendType": "auto"
+                    },
+                    "colorThresholdTarget": "background",
+                    "recordField": "open"
+                },
+                "table": {
+                    "rowDensity": "condensed",
+                    "enableSparklines": false,
+                    "hiddenColumns": [],
+                    "lineWrapIds": [],
+                    "columnWidths": {},
+                    "columnTypeOverrides": []
+                },
+                "honeycomb": {
+                    "shape": "square",
+                    "dataMappings": {
+                        "value": "timestamp"
+                    },
+                    "legend": "auto",
+                    "displayedFields": [
+                        "dt.entity.host"
+                    ],
+                    "colorMode": "color-palette",
+                    "colorPalette": "categorical"
+                },
+                "histogram": {
+                    "dataMappings": [
+                        {
+                            "valueAxis": "problemExample",
+                            "rangeAxis": ""
+                        }
+                    ],
+                    "variant": "single",
+                    "displayedFields": [
+                        "dt.entity.host",
+                        "dt.entity.process_group",
+                        "dt.entity.process_group_instance",
+                        "dt.openpipeline.source",
+                        "event.category",
+                        "event.id",
+                        "event.kind",
+                        "event.provider",
+                        "event.type",
+                        "fullRequestBody",
+                        "fullResponseBody",
+                        "sessionId",
+                        "span_id",
+                        "trace_id",
+                        "trace_sampled",
+                        "traceparent",
+                        "url.path"
+                    ]
+                },
+                "valueBoundaries": {
+                    "min": "auto",
+                    "max": "auto"
+                },
+                "unitsOverrides": [
+                    {
+                        "identifier": "open",
+                        "unitCategory": "unspecified",
+                        "baseUnit": "none",
+                        "displayUnit": null,
+                        "decimals": 0,
+                        "suffix": "",
+                        "delimiter": false,
+                        "added": 1743382838536
+                    }
+                ]
+            },
+            "querySettings": {
+                "maxResultRecords": 1000,
+                "defaultScanLimitGbytes": 500,
+                "maxResultMegaBytes": 100,
+                "defaultSamplingRatio": 10,
+                "enableSampling": false
+            },
+            "davis": {
+                "enabled": false,
+                "davisVisualization": {
+                    "isAvailable": true
+                }
+            }
+        },
+        "15": {
+            "title": "",
+            "type": "data",
+            "query": "fetch events\n| filter dt.system.bucket==\"default_security_events\" // only security events\n| filter event.provider==\"Dynatrace\" // only events generated by dynatrace\n| filter event.type==\"VULNERABILITY_STATE_REPORT_EVENT\" // historical vulnerability data\n| filter event.level==\"ENTITY\" // on entity level\n// filter only the latest snapshot data\n| dedup {vulnerability.id,affected_entity.id}, sort: { timestamp desc }\n// end of filtering for the latest snapshot\n| filter in(vulnerability.risk.level,\"CRITICAL\") or in(vulnerability.risk.level,\"HIGH\")\n| filter vulnerability.parent.mute.status == \"NOT_MUTED\"\n| filter in(vulnerability.stack,{\"CODE_LIBRARY\",\"SOFTWARE\",\"CONTAINER_ORCHESTRATION\"})\n| filter in(related_entities.kubernetes_workloads.names, \"astroshop-shippingservice\")\n\n| fieldsAdd dt.entity.cloud_application = related_entities.kubernetes_workloads.ids\n| expand dt.entity.cloud_application\n| fieldsAdd zeroplaceholder = 0\n| summarize vulnerabilities = countDistinctExact(vulnerability.display_id),\n            zero = sum(zeroplaceholder)\n| fields vulnerabilities = coalesce(vulnerabilities, zero)\n             ",
+            "visualization": "singleValue",
+            "visualizationSettings": {
+                "thresholds": [
+                    {
+                        "id": 1,
+                        "field": "vulnerabilities",
+                        "title": "Security score",
+                        "isEnabled": true,
+                        "rules": [
+                            {
+                                "id": 1,
+                                "color": "#0D9C29",
+                                "comparator": "=",
+                                "label": "",
+                                "value": 0
+                            },
+                            {
+                                "id": 2,
+                                "color": {
+                                    "Default": "var(--dt-colors-charts-loglevel-emergency-default, #ae132d)"
+                                },
+                                "comparator": "≥",
+                                "label": "",
+                                "value": 0
+                            }
+                        ]
+                    }
+                ],
+                "chartSettings": {
+                    "gapPolicy": "connect",
+                    "circleChartSettings": {
+                        "groupingThresholdType": "relative",
+                        "groupingThresholdValue": 0,
+                        "valueType": "relative"
+                    },
+                    "categoryOverrides": {},
+                    "categoricalBarChartSettings": {
+                        "categoryAxisLabel": "securityExample",
+                        "valueAxisLabel": "account.fee"
+                    },
+                    "hiddenLegendFields": []
+                },
+                "singleValue": {
+                    "showLabel": true,
+                    "label": "🔒 SECURITY",
+                    "prefixIcon": "",
+                    "autoscale": true,
+                    "alignment": "center",
+                    "colorThresholdTarget": "background",
+                    "recordField": "vulnerabilities",
+                    "trend": {
+                        "trendType": "auto",
+                        "isVisible": true
+                    },
+                    "sparklineSettings": {}
+                },
+                "table": {
+                    "rowDensity": "condensed",
+                    "enableSparklines": false,
+                    "hiddenColumns": [],
+                    "lineWrapIds": [],
+                    "columnWidths": {},
+                    "columnTypeOverrides": []
+                },
+                "honeycomb": {
+                    "shape": "square",
+                    "dataMappings": {
+                        "value": "timestamp"
+                    },
+                    "legend": "auto",
+                    "displayedFields": [
+                        "securityExample"
+                    ],
+                    "colorMode": "color-palette",
+                    "colorPalette": "categorical"
+                },
+                "histogram": {
+                    "dataMappings": [],
+                    "variant": "single",
+                    "displayedFields": [
+                        "securityExample",
+                        "dt.entity.host",
+                        "dt.entity.process_group",
+                        "dt.entity.process_group_instance",
+                        "dt.openpipeline.source",
+                        "event.category",
+                        "event.id",
+                        "event.kind",
+                        "event.provider",
+                        "event.type",
+                        "fullRequestBody",
+                        "fullResponseBody",
+                        "sessionId",
+                        "span_id",
+                        "trace_id",
+                        "trace_sampled",
+                        "traceparent",
+                        "url.path"
+                    ]
+                },
+                "valueBoundaries": {
+                    "min": "auto",
+                    "max": "auto"
+                },
+                "autoSelectVisualization": false,
+                "dataMapping": {
+                    "value": "vulnerabilities"
+                },
+                "label": {
+                    "showLabel": true,
+                    "label": "vulnerabilities"
+                }
+            },
+            "querySettings": {
+                "maxResultRecords": 1000,
+                "defaultScanLimitGbytes": 500,
+                "maxResultMegaBytes": 100,
+                "defaultSamplingRatio": 10,
+                "enableSampling": false
+            },
+            "davis": {
+                "enabled": false,
+                "davisVisualization": {
+                    "isAvailable": true
+                }
+            }
+        },
+        "16": {
+            "title": "",
+            "type": "data",
+            "query": "fetch bizevents\n| filter event.provider == \"astroshop\"  \n| filter event.type == \"astroshop.fraudcheck.success\" or \n         event.type == \"astroshop.ordershipped.success\"\n| fieldsAdd status =  if(event.type == \"astroshop.fraudcheck.success\", \"success\", \n                      else: if(event.type == \"astroshop.ordershipped.success\",  \"failure\"))\n| summarize {successes = countIf(status == \"success\"), \n            failures =  countIf(status == \"failure\")},\n            by:{timestamp = bin(timestamp,10m)}\n| sort timestamp desc\n| fieldsAdd failures = if(failures > successes, successes, else:failures)\n| fieldsAdd Success = toDouble(failures)/toDouble(successes) * 100\n| fieldsAdd Failed = 100 - toDouble(Success)\n| Summarize KPI = avg(Success)",
+            "visualization": "singleValue",
+            "visualizationSettings": {
+                "autoSelectVisualization": false,
+                "thresholds": [
+                    {
+                        "id": 1,
+                        "field": "KPI",
+                        "title": "Average order value",
+                        "isEnabled": true,
+                        "rules": [
+                            {
+                                "id": 2,
+                                "color": "#0D9C29",
+                                "comparator": "≥",
+                                "label": "",
+                                "value": 98
+                            },
+                            {
+                                "id": 3,
+                                "color": {
+                                    "Default": "var(--dt-colors-charts-loglevel-emergency-default, #ae132d)"
+                                },
+                                "comparator": "<",
+                                "label": "",
+                                "value": 98
+                            }
+                        ]
+                    }
+                ],
+                "chartSettings": {
+                    "xAxisScaling": "analyzedTimeframe",
+                    "gapPolicy": "connect",
+                    "circleChartSettings": {
+                        "groupingThresholdType": "relative",
+                        "groupingThresholdValue": 0,
+                        "valueType": "relative"
+                    },
+                    "categoryOverrides": {},
+                    "categoricalBarChartSettings": {
+                        "categoryAxisLabel": "averageOrderValue",
+                        "valueAxisLabel": "averageOrderValue",
+                        "tooltipVariant": "single"
+                    },
+                    "hiddenLegendFields": [],
+                    "truncationMode": "middle"
+                },
+                "singleValue": {
+                    "showLabel": true,
+                    "label": "💼 BUSINESS KPI",
+                    "prefixIcon": "",
+                    "autoscale": true,
+                    "sparklineSettings": {
+                        "isVisible": false
+                    },
+                    "alignment": "center",
+                    "trend": {
+                        "isVisible": false,
+                        "trendType": "auto"
+                    },
+                    "colorThresholdTarget": "background",
+                    "recordField": "KPI"
+                },
+                "table": {
+                    "rowDensity": "condensed",
+                    "enableSparklines": false,
+                    "hiddenColumns": [],
+                    "lineWrapIds": [],
+                    "columnWidths": {},
+                    "columnTypeOverrides": []
+                },
+                "honeycomb": {
+                    "shape": "square",
+                    "dataMappings": {
+                        "value": "averageOrderValue"
+                    },
+                    "legend": "auto",
+                    "displayedFields": [
+                        null
+                    ],
+                    "colorMode": "color-palette",
+                    "colorPalette": "blue"
+                },
+                "histogram": {
+                    "dataMappings": [
+                        {
+                            "valueAxis": "averageOrderValue",
+                            "rangeAxis": ""
+                        }
+                    ],
+                    "variant": "single",
+                    "displayedFields": []
+                },
+                "valueBoundaries": {
+                    "min": "auto",
+                    "max": "auto"
+                },
+                "unitsOverrides": [
+                    {
+                        "identifier": "KPI",
+                        "unitCategory": "percentage",
+                        "baseUnit": "percent",
+                        "displayUnit": null,
+                        "decimals": 2,
+                        "suffix": "",
+                        "delimiter": false,
+                        "added": 1717148328781
+                    }
+                ]
+            },
+            "querySettings": {
+                "maxResultRecords": 1000,
+                "defaultScanLimitGbytes": 500,
+                "maxResultMegaBytes": 100,
+                "defaultSamplingRatio": 10,
+                "enableSampling": false
+            },
+            "davis": {
+                "enabled": false,
+                "davisVisualization": {
+                    "isAvailable": true
+                }
+            }
+        },
+        "18": {
+            "title": "",
+            "type": "data",
+            "query": "fetch bizevents\n| filter event.provider == \"astroshop\"  \n| filter event.type == \"astroshop.fraudcheck.success\" or \n         event.type == \"astroshop.ordershipped.success\"\n| fieldsAdd status =  if(event.type == \"astroshop.fraudcheck.success\", \"success\", \n                      else: if(event.type == \"astroshop.ordershipped.success\",  \"failure\"))\n| summarize successes = countIf(status == \"success\"), failures =  countIf(status == \"failure\"),\n            by:{timestamp = bin(timestamp,10m)}\n| sort timestamp desc\n| fieldsAdd failures = if(failures > successes, successes, else:failures)\n| fieldsAdd Success = toDouble(failures)/toDouble(successes) * 100\n| fieldsAdd Failed = 100 - toDouble(Success)\n| makeTimeseries Success = avg(Success), Failed = avg(Failed), interval:10m",
+            "visualization": "barChart",
+            "visualizationSettings": {
+                "autoSelectVisualization": false,
+                "thresholds": [],
+                "chartSettings": {
+                    "gapPolicy": "connect",
+                    "circleChartSettings": {
+                        "groupingThresholdType": "relative",
+                        "groupingThresholdValue": 0,
+                        "valueType": "relative"
+                    },
+                    "categoryOverrides": {},
+                    "curve": "linear",
+                    "pointsDisplay": "auto",
+                    "categoricalBarChartSettings": {
+                        "layout": "horizontal",
+                        "categoryAxisTickLayout": "horizontal",
+                        "scale": "absolute",
+                        "groupMode": "stacked",
+                        "colorPaletteMode": "multi-color",
+                        "valueAxisScale": "linear"
+                    },
+                    "colorPalette": "categorical",
+                    "valueRepresentation": "relative",
+                    "truncationMode": "middle",
+                    "xAxisScaling": "analyzedTimeframe",
+                    "xAxisLabel": "timeframe",
+                    "xAxisIsLabelVisible": false,
+                    "hiddenLegendFields": [],
+                    "fieldMapping": {
+                        "timestamp": "timeframe",
+                        "leftAxisValues": [
+                            "Success",
+                            "Failed"
+                        ]
+                    },
+                    "leftYAxisSettings": {},
+                    "seriesOverrides": [
+                        {
+                            "seriesId": [
+                                "Success"
+                            ],
+                            "override": {
+                                "color": "#0D9C29"
+                            }
+                        },
+                        {
+                            "seriesId": [
+                                "Failed"
+                            ],
+                            "override": {
+                                "color": {
+                                    "Default": "var(--dt-colors-charts-loglevel-emergency-default, #ae132d)"
+                                }
+                            }
+                        }
+                    ],
+                    "legend": {
+                        "hidden": true
+                    },
+                    "bandChartSettings": {
+                        "lower": "Success",
+                        "upper": "Failed"
+                    }
+                },
+                "singleValue": {
+                    "showLabel": true,
+                    "label": "",
+                    "prefixIcon": "",
+                    "autoscale": true,
+                    "alignment": "center",
+                    "colorThresholdTarget": "value"
+                },
+                "table": {
+                    "rowDensity": "condensed",
+                    "enableSparklines": false,
+                    "hiddenColumns": [],
+                    "linewrapEnabled": false,
+                    "lineWrapIds": [],
+                    "monospacedFontEnabled": false,
+                    "monospacedFontColumns": [],
+                    "columnWidths": {},
+                    "columnTypeOverrides": [
+                        {
+                            "fields": [
+                                "Success",
+                                "Failed"
+                            ],
+                            "value": "sparkline",
+                            "id": 1743387381684
+                        }
+                    ]
+                },
+                "honeycomb": {
+                    "shape": "hexagon",
+                    "legend": {
+                        "hidden": false,
+                        "position": "auto",
+                        "ratio": "auto"
+                    },
+                    "dataMappings": {},
+                    "displayedFields": [],
+                    "truncationMode": "middle",
+                    "colorMode": "color-palette",
+                    "colorPalette": "categorical"
+                },
+                "histogram": {
+                    "legend": {
+                        "position": "auto"
+                    },
+                    "yAxis": {
+                        "label": "Frequency",
+                        "isLabelVisible": true,
+                        "scale": "linear"
+                    },
+                    "colorPalette": "categorical",
+                    "dataMappings": [],
+                    "variant": "single",
+                    "truncationMode": "middle"
+                },
+                "valueBoundaries": {
+                    "min": "auto",
+                    "max": "auto"
+                },
+                "unitsOverrides": [
+                    {
+                        "identifier": "Orders",
+                        "unitCategory": "unspecified",
+                        "baseUnit": "count",
+                        "displayUnit": null,
+                        "decimals": 0,
+                        "suffix": "",
+                        "delimiter": false,
+                        "added": 1743094213489
+                    },
+                    {
+                        "identifier": "Revenue",
+                        "unitCategory": "currency",
+                        "baseUnit": "usd",
+                        "displayUnit": null,
+                        "decimals": 0,
+                        "suffix": "",
+                        "delimiter": false,
+                        "added": 1743094244387
+                    }
+                ]
+            },
+            "querySettings": {
+                "maxResultRecords": 1000,
+                "defaultScanLimitGbytes": 500,
+                "maxResultMegaBytes": 1,
+                "defaultSamplingRatio": 10,
+                "enableSampling": false
+            },
+            "davis": {
+                "enabled": false,
+                "davisVisualization": {
+                    "isAvailable": true
+                }
+            }
+        },
+        "19": {
+            "title": "",
+            "type": "markdown",
+            "content": "Drilldown: [Business]($DynatraceTenantURL/ui/apps/dynatrace.davis.problems/problem/$AstroshopFrontendCurrentBusinessIssueProblemID)  | [IT]($DynatraceTenantURL/ui/apps/dynatrace.davis.problems/problem/$AstroshopFrontendCurrentITIssueProblemID) | [Security]($DynatraceTenantURL/ui/apps/dynatrace.kubernetes/explorer/workload?detailsFrom=expression~now%28%29-30m&detailsTo=expression~now%28%29&perspective=Health&from=expression~now%28%29-30m&to=expression~now%28%29&filtering=Workload+%3D+astroshop-frontend&sidebarOpen=false&detailsTab=Vulnerabilities&detailsId=$AstroshopFrontedWorkloadID)"
+        },
+        "20": {
+            "title": "",
+            "type": "markdown",
+            "content": "Drilldown: Drilldown: [Business]($DynatraceTenantURL/ui/apps/dynatrace.davis.problems/problem/$AstroshopFraudCurrentBusinessIssueProblemID) | [IT]($DynatraceTenantURL/ui/apps/dynatrace.davis.problems/problem/$AstroshopFraudCurrentITIssueProblemID) | [Security]($DynatraceTenantURL/ui/apps/dynatrace.kubernetes/explorer/workload?detailsFrom=expression~now%28%29-30m&detailsTo=expression~now%28%29&perspective=Health&from=expression~now%28%29-30m&to=expression~now%28%29&filtering=Workload+%3D+astroshop-frauddetectionservice&sidebarOpen=false&detailsTab=Vulnerabilities&detailsId=$AstroshopFraudDetectionWorkloadID)"
+        },
+        "21": {
+            "title": "",
+            "type": "markdown",
+            "content": "Drilldown: [Business]($DynatraceTenantURL/ui/apps/dynatrace.davis.problems/problem/$AstroshopShippingServiceCurrentBusinessIssueProblemID) | [IT]($DynatraceTenantURL/ui/apps/dynatrace.davis.problems/problem/$AstroshopShippingServiceCurrentITIssueProblemID) | [Security]($DynatraceTenantURL/ui/apps/dynatrace.kubernetes/explorer/workload?detailsFrom=expression~now%28%29-30m&detailsTo=expression~now%28%29&perspective=Health&from=expression~now%28%29-30m&to=expression~now%28%29&filtering=Workload+%3D+astroshop-shippingservice&sidebarOpen=false&detailsTab=Vulnerabilities&detailsId=$AstroshopShippingServiceWorkloadID)"
+        },
+        "22": {
+            "title": "",
+            "type": "data",
+            "query": "fetch bizevents\n| filter event.provider == \"astroshop\"\n| filter revenue == 0\n| fieldsAdd zeroplaceholder = 0\n| makeTimeseries  `Zero Dollar Orders` = countIf(revenue == 0),\n                  interval:1m",
+            "visualization": "barChart",
+            "visualizationSettings": {
+                "thresholds": [],
+                "chartSettings": {
+                    "gapPolicy": "gap",
+                    "circleChartSettings": {
+                        "groupingThresholdType": "relative",
+                        "groupingThresholdValue": 0,
+                        "valueType": "relative"
+                    },
+                    "categoryOverrides": {},
+                    "curve": "linear",
+                    "pointsDisplay": "auto",
+                    "categoricalBarChartSettings": {
+                        "layout": "horizontal",
+                        "categoryAxisTickLayout": "horizontal",
+                        "scale": "absolute",
+                        "groupMode": "stacked",
+                        "colorPaletteMode": "multi-color",
+                        "valueAxisScale": "linear"
+                    },
+                    "colorPalette": "categorical",
+                    "valueRepresentation": "absolute",
+                    "truncationMode": "middle",
+                    "xAxisScaling": "analyzedTimeframe",
+                    "xAxisLabel": "timeframe",
+                    "xAxisIsLabelVisible": false,
+                    "hiddenLegendFields": [
+                        "revenue"
+                    ],
+                    "fieldMapping": {
+                        "timestamp": "timeframe",
+                        "leftAxisValues": [
+                            "Zero Dollar Orders"
+                        ]
+                    },
+                    "leftYAxisSettings": {},
+                    "seriesOverrides": [
+                        {
+                            "seriesId": [
+                                "Zero Dollar Orders"
+                            ],
+                            "override": {
+                                "color": {
+                                    "Default": "var(--dt-colors-charts-loglevel-emergency-default, #ae132d)"
+                                }
+                            }
+                        }
+                    ],
+                    "legend": {
+                        "hidden": true
+                    }
+                },
+                "singleValue": {
+                    "showLabel": true,
+                    "label": "",
+                    "prefixIcon": "",
+                    "autoscale": true,
+                    "alignment": "center",
+                    "colorThresholdTarget": "value"
+                },
+                "table": {
+                    "rowDensity": "condensed",
+                    "enableSparklines": false,
+                    "hiddenColumns": [],
+                    "linewrapEnabled": false,
+                    "lineWrapIds": [],
+                    "monospacedFontEnabled": false,
+                    "monospacedFontColumns": [],
+                    "columnWidths": {},
+                    "columnTypeOverrides": [
+                        {
+                            "fields": [
+                                "Zero Dollar Orders"
+                            ],
+                            "value": "sparkline",
+                            "id": 1743138051529
+                        }
+                    ]
+                },
+                "honeycomb": {
+                    "shape": "hexagon",
+                    "legend": {
+                        "hidden": false,
+                        "position": "auto",
+                        "ratio": "auto"
+                    },
+                    "dataMappings": {},
+                    "displayedFields": [],
+                    "truncationMode": "middle",
+                    "colorMode": "color-palette",
+                    "colorPalette": "categorical"
+                },
+                "histogram": {
+                    "legend": {
+                        "position": "auto"
+                    },
+                    "yAxis": {
+                        "label": "Frequency",
+                        "isLabelVisible": true,
+                        "scale": "linear"
+                    },
+                    "colorPalette": "categorical",
+                    "dataMappings": [],
+                    "variant": "single",
+                    "truncationMode": "middle"
+                },
+                "valueBoundaries": {
+                    "min": "auto",
+                    "max": "auto"
+                },
+                "autoSelectVisualization": false
+            },
+            "querySettings": {
+                "maxResultRecords": 1000,
+                "defaultScanLimitGbytes": 500,
+                "maxResultMegaBytes": 1,
+                "defaultSamplingRatio": 10,
+                "enableSampling": false
+            },
+            "davis": {
+                "enabled": false,
+                "davisVisualization": {
+                    "isAvailable": true
+                }
+            }
+        },
+        "23": {
+            "title": "",
+            "type": "markdown",
+            "content": "### Average Order Size\n---\nValue over time, Davis highlights where the value is higher or lower than expected."
+        },
+        "24": {
+            "title": "",
+            "type": "markdown",
+            "content": "### Zero Dollar Orders\n---\nThis can occur when data synchronization failures occur between Inventory and E-commerce systems."
+        },
+        "25": {
+            "title": "",
+            "type": "markdown",
+            "content": "### Fraud Check Duration\n---\nTrend of how long the fraud check service takes per order.  SLO = 🟢 0-300ms 🟠 300ms-500ms 🔴  >500ms  "
+        },
+        "26": {
+            "title": "",
+            "type": "markdown",
+            "content": "### Shipped Success Rate\n---\nTrend of when orders are shipped successfully 🟢 or have issues 🔴"
+        },
+        "27": {
+            "title": "",
+            "type": "markdown",
+            "content": "### Order to Shipped Funnel\n---\nNumber of flows by sequential steps"
+        },
+        "28": {
+            "title": "",
+            "type": "markdown",
+            "content": "### Orders vs End to End Duration\n---\nTrack end-to-end process delays and impact on orders."
+        },
+        "29": {
+            "title": "",
+            "type": "data",
+            "query": "fetch bizevents\n| filter event.provider == \"astroshop\"\n| fieldsAdd step = if(event.type == \"astroshop.placeorder.success\", \"Place Order\", \n                   else:if(event.type == \"astroshop.fraudcheck.success\", \"Fraud Check\",  \n                   else:if(event.type == \"astroshop.ordershipped.success\", \"Order Shipped\")))\n| summarize  count = count(), by:{step}\n| sort count desc\n",
+            "visualization": "categoricalBarChart",
+            "visualizationSettings": {
+                "autoSelectVisualization": false,
+                "thresholds": [],
+                "chartSettings": {
+                    "gapPolicy": "gap",
+                    "circleChartSettings": {
+                        "groupingThresholdType": "relative",
+                        "groupingThresholdValue": 0,
+                        "valueType": "relative"
+                    },
+                    "categoryOverrides": {
+                        "Place Order": {
+                            "color": {
+                                "Default": "var(--dt-colors-charts-categorical-color-11-default, #627cfe)"
+                            },
+                            "added": 884078.6999999993
+                        },
+                        "Order Shipped": {
+                            "color": {
+                                "Default": "var(--dt-colors-charts-categorical-color-11-default, #627cfe)"
+                            },
+                            "added": 890065.8000000007
+                        },
+                        "Fraud Check": {
+                            "color": {
+                                "Default": "var(--dt-colors-charts-categorical-color-11-default, #627cfe)"
+                            },
+                            "added": 898154.5999999978
+                        }
+                    },
+                    "curve": "linear",
+                    "pointsDisplay": "auto",
+                    "categoricalBarChartSettings": {
+                        "layout": "horizontal",
+                        "categoryAxisTickLayout": "vertical",
+                        "scale": "absolute",
+                        "groupMode": "stacked",
+                        "colorPaletteMode": "multi-color",
+                        "valueAxisScale": "linear",
+                        "categoryAxis": [
+                            "step"
+                        ],
+                        "valueAxis": [
+                            "count"
+                        ],
+                        "categoryAxisLabel": "step",
+                        "valueAxisLabel": "count",
+                        "tooltipVariant": "single",
+                        "isCategoryLabelVisible": false,
+                        "isValueLabelVisible": false
+                    },
+                    "colorPalette": "categorical",
+                    "valueRepresentation": "absolute",
+                    "truncationMode": "middle",
+                    "xAxisScaling": "analyzedTimeframe",
+                    "xAxisLabel": "timestamp",
+                    "xAxisIsLabelVisible": false,
+                    "hiddenLegendFields": [],
+                    "leftYAxisSettings": {},
+                    "legend": {
+                        "hidden": true
+                    }
+                },
+                "singleValue": {
+                    "showLabel": true,
+                    "label": "",
+                    "prefixIcon": "",
+                    "autoscale": true,
+                    "alignment": "center",
+                    "colorThresholdTarget": "value"
+                },
+                "table": {
+                    "rowDensity": "condensed",
+                    "enableSparklines": false,
+                    "hiddenColumns": [],
+                    "linewrapEnabled": false,
+                    "lineWrapIds": [],
+                    "monospacedFontEnabled": false,
+                    "monospacedFontColumns": [],
+                    "columnWidths": {},
+                    "columnTypeOverrides": []
+                },
+                "honeycomb": {
+                    "shape": "hexagon",
+                    "legend": {
+                        "hidden": false,
+                        "position": "auto",
+                        "ratio": "auto"
+                    },
+                    "dataMappings": {},
+                    "displayedFields": [],
+                    "truncationMode": "middle",
+                    "colorMode": "color-palette",
+                    "colorPalette": "categorical"
+                },
+                "histogram": {
+                    "legend": {
+                        "position": "auto"
+                    },
+                    "yAxis": {
+                        "label": "Frequency",
+                        "isLabelVisible": true,
+                        "scale": "linear"
+                    },
+                    "colorPalette": "categorical",
+                    "dataMappings": [],
+                    "variant": "single",
+                    "truncationMode": "middle"
+                },
+                "valueBoundaries": {
+                    "min": "auto",
+                    "max": "auto"
+                },
+                "dataMapping": {
+                    "value": "count"
+                },
+                "label": {
+                    "showLabel": true,
+                    "label": "Fraud Check Duration"
+                },
+                "icon": {
+                    "icon": "SecurityIcon"
+                }
+            },
+            "querySettings": {
+                "maxResultRecords": 1000,
+                "defaultScanLimitGbytes": 500,
+                "maxResultMegaBytes": 1,
+                "defaultSamplingRatio": 10,
+                "enableSampling": false
+            },
+            "davis": {
+                "enabled": false,
+                "davisVisualization": {
+                    "isAvailable": true
+                }
+            }
+        },
+        "30": {
+            "title": "",
+            "type": "data",
+            "query": "fetch bizevents\n| filter event.provider == \"astroshop\" \n| filter event.type == \"astroshop.placeorder.success\" or \n         event.type == \"astroshop.fraudcheck.success\" or\n         event.type == \"astroshop.ordershipped.success\" \n| sort timestamp asc\n| fieldsAdd placeOrderTimestamp = if(event.type == \"astroshop.placeorder.success\", timestamp), \n            fraudCheckTimestamp = if(event.type == \"astroshop.fraudcheck.success\", timestamp),\n            orderShippedTimestamp = if(event.type == \"astroshop.ordershipped.success\", timestamp)\n| summarize {orders = count(),\n            placeOrderTime = takeMin(placeOrderTimestamp), \n            fraudCheckTime = takeMin(fraudCheckTimestamp),\n            orderShippedTime = takeMin(orderShippedTimestamp)\n            }, \n            by:{orderId, timestamp = bin(timestamp,5m)}\n// | filterOut isNull(placeOrderTime) or \n//             isNull(fraudCheckTime) or\n//             isNull(orderShippedTime)\n| fieldsAdd end_to_end = orderShippedTime - placeOrderTime,\n            placeOrder_to_fraudcheck = orderShippedTime - fraudCheckTime,\n            fraudCheck_to_ordershipped = orderShippedTime - fraudCheckTime\n| makeTimeseries {\n                 Orders = sum(orders),\n                 `End-To-End Time` = avg(end_to_end) /*, \n /*                `Place Order to Fraud Check` = avg(placeOrder_to_fraudcheck),\n                 `Fraud Check to Order Shipped` = avg(fraudCheck_to_ordershipped)\n */                \n                 },\n                 interval:5m",
+            "visualization": "lineChart",
+            "visualizationSettings": {
+                "thresholds": [],
+                "chartSettings": {
+                    "gapPolicy": "gap",
+                    "circleChartSettings": {
+                        "groupingThresholdType": "relative",
+                        "groupingThresholdValue": 0,
+                        "valueType": "relative"
+                    },
+                    "categoryOverrides": {},
+                    "curve": "linear",
+                    "pointsDisplay": "auto",
+                    "categoricalBarChartSettings": {
+                        "layout": "horizontal",
+                        "categoryAxisTickLayout": "horizontal",
+                        "scale": "absolute",
+                        "groupMode": "stacked",
+                        "colorPaletteMode": "multi-color",
+                        "valueAxisScale": "linear"
+                    },
+                    "colorPalette": "categorical",
+                    "valueRepresentation": "absolute",
+                    "truncationMode": "middle",
+                    "bandChartSettings": {
+                        "lower": "Orders",
+                        "upper": "End-To-End Time"
+                    },
+                    "xAxisScaling": "analyzedTimeframe",
+                    "xAxisLabel": "timeframe",
+                    "xAxisIsLabelVisible": false,
+                    "hiddenLegendFields": [],
+                    "fieldMapping": {
+                        "timestamp": "timeframe",
+                        "leftAxisValues": [
+                            "Orders",
+                            "End-To-End Time"
+                        ]
+                    },
+                    "leftYAxisSettings": {},
+                    "seriesOverrides": [
+                        {
+                            "seriesId": [
+                                "Place Order to Fraud Check"
+                            ],
+                            "override": {
+                                "geometry": "line"
+                            }
+                        },
+                        {
+                            "seriesId": [
+                                "Fraud Check to Order Shipped"
+                            ],
+                            "override": {
+                                "geometry": "line"
+                            }
+                        },
+                        {
+                            "seriesId": [
+                                "Orders"
+                            ],
+                            "override": {
+                                "geometry": "bar",
+                                "color": {
+                                    "Default": "var(--dt-colors-charts-categorical-color-01-default, #134fc9)"
+                                }
+                            }
+                        },
+                        {
+                            "seriesId": [
+                                "End-To-End Time"
+                            ],
+                            "override": {
+                                "color": {
+                                    "Default": "var(--dt-colors-charts-categorical-color-14-default, #d56b1a)"
+                                }
+                            }
+                        }
+                    ]
+                },
+                "singleValue": {
+                    "showLabel": true,
+                    "label": "",
+                    "prefixIcon": "",
+                    "autoscale": true,
+                    "alignment": "center",
+                    "colorThresholdTarget": "value"
+                },
+                "table": {
+                    "rowDensity": "condensed",
+                    "enableSparklines": false,
+                    "hiddenColumns": [],
+                    "linewrapEnabled": false,
+                    "lineWrapIds": [],
+                    "monospacedFontEnabled": false,
+                    "monospacedFontColumns": [],
+                    "columnWidths": {},
+                    "columnTypeOverrides": [
+                        {
+                            "fields": [
+                                "Orders",
+                                "End-To-End Time"
+                            ],
+                            "value": "sparkline",
+                            "id": 1743224213755
+                        }
+                    ]
+                },
+                "honeycomb": {
+                    "shape": "hexagon",
+                    "legend": {
+                        "hidden": false,
+                        "position": "auto",
+                        "ratio": "auto"
+                    },
+                    "dataMappings": {},
+                    "displayedFields": [],
+                    "truncationMode": "middle",
+                    "colorMode": "color-palette",
+                    "colorPalette": "categorical"
+                },
+                "histogram": {
+                    "legend": {
+                        "position": "auto"
+                    },
+                    "yAxis": {
+                        "label": "Frequency",
+                        "isLabelVisible": true,
+                        "scale": "linear"
+                    },
+                    "colorPalette": "categorical",
+                    "dataMappings": [],
+                    "variant": "single",
+                    "truncationMode": "middle"
+                },
+                "valueBoundaries": {
+                    "min": "auto",
+                    "max": "auto"
+                },
+                "autoSelectVisualization": true,
+                "unitsOverrides": [
+                    {
+                        "identifier": "End-To-End Time",
+                        "unitCategory": "time",
+                        "baseUnit": "nanosecond",
+                        "displayUnit": null,
+                        "decimals": 2,
+                        "suffix": "",
+                        "delimiter": false,
+                        "added": 1743143928603
+                    },
+                    {
+                        "identifier": "Place Order to Fraud Check",
+                        "unitCategory": "time",
+                        "baseUnit": "nanosecond",
+                        "displayUnit": null,
+                        "decimals": 2,
+                        "suffix": "",
+                        "delimiter": false,
+                        "added": 1743143974695
+                    },
+                    {
+                        "identifier": "Fraud Check to Order Shipped",
+                        "unitCategory": "time",
+                        "baseUnit": "nanosecond",
+                        "displayUnit": null,
+                        "decimals": 2,
+                        "suffix": "",
+                        "delimiter": false,
+                        "added": 1743144105274
+                    }
+                ]
+            },
+            "querySettings": {
+                "maxResultRecords": 1000,
+                "defaultScanLimitGbytes": 500,
+                "maxResultMegaBytes": 1,
+                "defaultSamplingRatio": 10,
+                "enableSampling": false
+            },
+            "davis": {
+                "enabled": false,
+                "davisVisualization": {
+                    "isAvailable": true
+                }
+            }
+        },
+        "31": {
+            "title": "",
+            "type": "data",
+            "query": "fetch bizevents\n| filter event.provider == \"astroshop\"\n| fieldsAdd step = if(event.type == \"astroshop.placeorder.success\", \"Place Order\", \n                   else:if(event.type == \"astroshop.fraudcheck.success\", \"Fraud Check\",  \n                   else:if(event.type == \"astroshop.ordershipped.success\", \"Order Shipped\")))\n| summarize `Place Order` = countIf(event.type == \"astroshop.placeorder.success\"),\n            `Order Shipped` = countIf(event.type == \"astroshop.ordershipped.success\")\n| fields ordersLost = `Place Order` - `Order Shipped`\n",
+            "visualization": "singleValue",
+            "visualizationSettings": {
+                "autoSelectVisualization": false,
+                "thresholds": [
+                    {
+                        "id": 1,
+                        "field": "ordersLost",
+                        "title": "",
+                        "isEnabled": true,
+                        "rules": [
+                            {
+                                "id": 0,
+                                "color": {
+                                    "Default": "var(--dt-colors-charts-categorical-color-06-default, #a9780f)"
+                                },
+                                "comparator": "≥",
+                                "label": "",
+                                "value": 0
+                            }
+                        ]
+                    }
+                ],
+                "chartSettings": {
+                    "gapPolicy": "gap",
+                    "circleChartSettings": {
+                        "groupingThresholdType": "relative",
+                        "groupingThresholdValue": 0,
+                        "valueType": "relative"
+                    },
+                    "categoryOverrides": {},
+                    "curve": "linear",
+                    "pointsDisplay": "auto",
+                    "categoricalBarChartSettings": {
+                        "layout": "horizontal",
+                        "categoryAxisTickLayout": "horizontal",
+                        "scale": "absolute",
+                        "groupMode": "stacked",
+                        "colorPaletteMode": "multi-color",
+                        "valueAxisScale": "linear",
+                        "categoryAxisLabel": "country",
+                        "valueAxisLabel": "count",
+                        "tooltipVariant": "single"
+                    },
+                    "colorPalette": "categorical",
+                    "valueRepresentation": "absolute",
+                    "truncationMode": "middle",
+                    "xAxisScaling": "analyzedTimeframe",
+                    "xAxisLabel": "timeframe",
+                    "xAxisIsLabelVisible": false,
+                    "hiddenLegendFields": [
+                        "interval"
+                    ],
+                    "leftYAxisSettings": {
+                        "isLabelVisible": false,
+                        "label": "bizevents.astroshop.placeorder.success"
+                    },
+                    "legend": {
+                        "position": "bottom"
+                    }
+                },
+                "singleValue": {
+                    "showLabel": false,
+                    "label": "",
+                    "prefixIcon": "WarningIcon",
+                    "autoscale": true,
+                    "alignment": "center",
+                    "colorThresholdTarget": "background",
+                    "recordField": "ordersLost",
+                    "trend": {
+                        "trendType": "auto",
+                        "isVisible": true
+                    },
+                    "sparklineSettings": {},
+                    "isIconVisible": true
+                },
+                "table": {
+                    "rowDensity": "condensed",
+                    "enableSparklines": false,
+                    "hiddenColumns": [],
+                    "linewrapEnabled": false,
+                    "lineWrapIds": [],
+                    "monospacedFontEnabled": false,
+                    "monospacedFontColumns": [],
+                    "columnWidths": {},
+                    "columnTypeOverrides": []
+                },
+                "honeycomb": {
+                    "shape": "hexagon",
+                    "legend": {
+                        "hidden": false,
+                        "position": "auto",
+                        "ratio": "auto"
+                    },
+                    "dataMappings": {},
+                    "displayedFields": [],
+                    "truncationMode": "middle",
+                    "colorMode": "color-palette",
+                    "colorPalette": "categorical"
+                },
+                "histogram": {
+                    "legend": "auto",
+                    "yAxis": {
+                        "label": "Frequency",
+                        "isLabelVisible": true,
+                        "scale": "linear"
+                    },
+                    "colorPalette": "categorical",
+                    "dataMappings": [
+                        {
+                            "valueAxis": "interval",
+                            "rangeAxis": ""
+                        }
+                    ],
+                    "variant": "single",
+                    "truncationMode": "middle",
+                    "displayedFields": [
+                        "country"
+                    ]
+                },
+                "valueBoundaries": {
+                    "min": "auto",
+                    "max": "auto"
+                }
+            },
+            "querySettings": {
+                "maxResultRecords": 1000,
+                "defaultScanLimitGbytes": 500,
+                "maxResultMegaBytes": 1,
+                "defaultSamplingRatio": 10,
+                "enableSampling": false
+            },
+            "davis": {
+                "enabled": false,
+                "davisVisualization": {
+                    "isAvailable": true
+                }
+            },
+            "timeframe": {
+                "tileTimeframe": {
+                    "from": "-30m",
+                    "to": "now()"
+                },
+                "tileTimeframeEnabled": false
+            },
+            "segments": {
+                "tileSegments": [],
+                "tileSegmentsEnabled": false
+            }
+        },
+        "32": {
+            "title": "",
+            "type": "markdown",
+            "content": "### Orders by Country\n---\nNumber  or Orders by Country"
+        },
+        "33": {
+            "title": "",
+            "type": "markdown",
+            "content": "### Probable lost orders\n---\nOrders which started but not shipped due to shipping service issues."
+        },
+        "34": {
+            "title": "",
+            "type": "data",
+            "query": "timeseries placeorder.success = sum(bizevents.astroshop.placeorder.success), \nby:{country}\n| fieldsAdd count = arraySum(placeorder.success)\n| fields count, country\n| sort count desc\n",
+            "visualization": "donutChart",
+            "visualizationSettings": {
+                "thresholds": [],
+                "chartSettings": {
+                    "gapPolicy": "gap",
+                    "circleChartSettings": {
+                        "groupingThresholdType": "relative",
+                        "groupingThresholdValue": 0,
+                        "valueType": "relative",
+                        "showTotalValue": true,
+                        "totalValueLabel": "# Orders"
+                    },
+                    "categoryOverrides": {},
+                    "curve": "linear",
+                    "pointsDisplay": "auto",
+                    "categoricalBarChartSettings": {
+                        "layout": "horizontal",
+                        "categoryAxisTickLayout": "horizontal",
+                        "scale": "absolute",
+                        "groupMode": "stacked",
+                        "colorPaletteMode": "multi-color",
+                        "valueAxisScale": "linear",
+                        "categoryAxis": "country",
+                        "categoryAxisLabel": "country",
+                        "valueAxis": [
+                            "count"
+                        ],
+                        "valueAxisLabel": "count",
+                        "tooltipVariant": "single"
+                    },
+                    "colorPalette": "categorical",
+                    "valueRepresentation": "absolute",
+                    "truncationMode": "middle",
+                    "xAxisScaling": "analyzedTimeframe",
+                    "xAxisLabel": "timeframe",
+                    "xAxisIsLabelVisible": false,
+                    "hiddenLegendFields": [
+                        "interval"
+                    ],
+                    "leftYAxisSettings": {
+                        "isLabelVisible": false,
+                        "label": "bizevents.astroshop.placeorder.success"
+                    },
+                    "legend": {
+                        "position": "right"
+                    }
+                },
+                "singleValue": {
+                    "showLabel": true,
+                    "label": "",
+                    "prefixIcon": "",
+                    "autoscale": true,
+                    "alignment": "center",
+                    "colorThresholdTarget": "value"
+                },
+                "table": {
+                    "rowDensity": "condensed",
+                    "enableSparklines": false,
+                    "hiddenColumns": [],
+                    "linewrapEnabled": false,
+                    "lineWrapIds": [],
+                    "monospacedFontEnabled": false,
+                    "monospacedFontColumns": [],
+                    "columnWidths": {},
+                    "columnTypeOverrides": []
+                },
+                "honeycomb": {
+                    "shape": "hexagon",
+                    "legend": {
+                        "hidden": false,
+                        "position": "auto",
+                        "ratio": "auto"
+                    },
+                    "dataMappings": {},
+                    "displayedFields": [],
+                    "truncationMode": "middle",
+                    "colorMode": "color-palette",
+                    "colorPalette": "categorical"
+                },
+                "histogram": {
+                    "legend": "auto",
+                    "yAxis": {
+                        "label": "Frequency",
+                        "isLabelVisible": true,
+                        "scale": "linear"
+                    },
+                    "colorPalette": "categorical",
+                    "dataMappings": [
+                        {
+                            "valueAxis": "interval",
+                            "rangeAxis": ""
+                        }
+                    ],
+                    "variant": "single",
+                    "truncationMode": "middle",
+                    "displayedFields": [
+                        "country"
+                    ]
+                },
+                "valueBoundaries": {
+                    "min": "auto",
+                    "max": "auto"
+                },
+                "autoSelectVisualization": false
+            },
+            "querySettings": {
+                "maxResultRecords": 1000,
+                "defaultScanLimitGbytes": 500,
+                "maxResultMegaBytes": 1,
+                "defaultSamplingRatio": 10,
+                "enableSampling": false
+            },
+            "davis": {
+                "enabled": false,
+                "davisVisualization": {
+                    "isAvailable": true
+                }
+            },
+            "timeframe": {
+                "tileTimeframe": {
+                    "from": "-30m",
+                    "to": "now()"
+                },
+                "tileTimeframeEnabled": false
+            },
+            "segments": {
+                "tileSegments": [],
+                "tileSegmentsEnabled": false
+            }
+        },
+        "35": {
+            "title": "",
+            "type": "markdown",
+            "content": "### Probable revenue lost in Shipped\n---\n---\nOrders revenue lost due to falied shipping"
+        },
+        "36": {
+            "title": "",
+            "type": "data",
+            "query": "fetch bizevents\n| filter event.provider == \"astroshop\"  \n| filter event.type == \"astroshop.placeorder.success\" or \n         event.type == \"astroshop.ordershipped.success\"\n\n| summarize {revenue = sum(revenue),\n            eventTypes = collectDistinct(event.type)}, \n            by:{timestamp = bin(timestamp,10m), orderId}\n| filter in(eventTypes, \"astroshop.placeorder.success\") and not \n         in(eventTypes, \"astroshop.ordershipped.success\")\n| summarize possibleLostRevenue = sum(revenue)",
+            "visualization": "singleValue",
+            "visualizationSettings": {
+                "thresholds": [
+                    {
+                        "id": 1,
+                        "field": "possibleLostRevenue",
+                        "title": "",
+                        "isEnabled": true,
+                        "rules": [
+                            {
+                                "id": 0,
+                                "color": {
+                                    "Default": "var(--dt-colors-charts-loglevel-emergency-default, #ae132d)"
+                                },
+                                "comparator": "≥",
+                                "label": "",
+                                "value": 0
+                            }
+                        ]
+                    }
+                ],
+                "chartSettings": {
+                    "gapPolicy": "gap",
+                    "circleChartSettings": {
+                        "groupingThresholdType": "relative",
+                        "groupingThresholdValue": 0,
+                        "valueType": "relative"
+                    },
+                    "categoryOverrides": {},
+                    "curve": "linear",
+                    "pointsDisplay": "auto",
+                    "categoricalBarChartSettings": {
+                        "layout": "horizontal",
+                        "categoryAxisTickLayout": "horizontal",
+                        "scale": "absolute",
+                        "groupMode": "stacked",
+                        "colorPaletteMode": "multi-color",
+                        "valueAxisScale": "linear",
+                        "categoryAxisLabel": "country",
+                        "valueAxisLabel": "count",
+                        "tooltipVariant": "single"
+                    },
+                    "colorPalette": "categorical",
+                    "valueRepresentation": "absolute",
+                    "truncationMode": "middle",
+                    "xAxisScaling": "analyzedTimeframe",
+                    "xAxisLabel": "timestamp",
+                    "xAxisIsLabelVisible": false,
+                    "hiddenLegendFields": [
+                        "interval"
+                    ],
+                    "leftYAxisSettings": {
+                        "isLabelVisible": false,
+                        "label": "bizevents.astroshop.placeorder.success"
+                    },
+                    "legend": {
+                        "position": "bottom"
+                    }
+                },
+                "singleValue": {
+                    "showLabel": false,
+                    "label": "ordersLost",
+                    "prefixIcon": "CriticalIcon",
+                    "autoscale": true,
+                    "alignment": "center",
+                    "colorThresholdTarget": "background",
+                    "recordField": "possibleLostRevenue",
+                    "trend": {
+                        "trendType": "auto",
+                        "isVisible": true
+                    },
+                    "sparklineSettings": {},
+                    "isIconVisible": true
+                },
+                "table": {
+                    "rowDensity": "condensed",
+                    "enableSparklines": false,
+                    "hiddenColumns": [],
+                    "linewrapEnabled": false,
+                    "lineWrapIds": [],
+                    "monospacedFontEnabled": false,
+                    "monospacedFontColumns": [],
+                    "columnWidths": {},
+                    "columnTypeOverrides": []
+                },
+                "honeycomb": {
+                    "shape": "hexagon",
+                    "legend": {
+                        "hidden": false,
+                        "position": "auto",
+                        "ratio": "auto"
+                    },
+                    "dataMappings": {},
+                    "displayedFields": [],
+                    "truncationMode": "middle",
+                    "colorMode": "color-palette",
+                    "colorPalette": "categorical"
+                },
+                "histogram": {
+                    "legend": "auto",
+                    "yAxis": {
+                        "label": "Frequency",
+                        "isLabelVisible": true,
+                        "scale": "linear"
+                    },
+                    "colorPalette": "categorical",
+                    "dataMappings": [
+                        {
+                            "valueAxis": "interval",
+                            "rangeAxis": ""
+                        }
+                    ],
+                    "variant": "single",
+                    "truncationMode": "middle",
+                    "displayedFields": [
+                        "country"
+                    ]
+                },
+                "valueBoundaries": {
+                    "min": "auto",
+                    "max": "auto"
+                },
+                "autoSelectVisualization": false,
+                "unitsOverrides": [
+                    {
+                        "identifier": "possibleLostRevenue",
+                        "unitCategory": "currency",
+                        "baseUnit": "usd",
+                        "displayUnit": null,
+                        "decimals": 0,
+                        "suffix": "",
+                        "delimiter": true,
+                        "added": 1743425778606
+                    }
+                ]
+            },
+            "querySettings": {
+                "maxResultRecords": 1000,
+                "defaultScanLimitGbytes": 500,
+                "maxResultMegaBytes": 1,
+                "defaultSamplingRatio": 10,
+                "enableSampling": false
+            },
+            "davis": {
+                "enabled": false,
+                "davisVisualization": {
+                    "isAvailable": true
+                }
+            },
+            "timeframe": {
+                "tileTimeframe": {
+                    "from": "-30m",
+                    "to": "now()"
+                },
+                "tileTimeframeEnabled": false
+            },
+            "segments": {
+                "tileSegments": [],
+                "tileSegmentsEnabled": false
+            }
+        },
+        "37": {
+            "title": "",
+            "type": "data",
+            "query": "fetch dt.davis.problems\n| filter dt.davis.is_duplicate==false \n| filter event.status == \"ACTIVE\"\n| filter matchesPhrase (event.name, \"Astroshop - Orders with Zero Values\") or\n         startsWith (event.name, \"Business Flow Astroshop - Order to Shipped\")\n| dedup event.id\n| sort timestamp desc\n| summarize open = count()\n\n\n\n",
+            "visualization": "singleValue",
+            "visualizationSettings": {
+                "autoSelectVisualization": false,
+                "thresholds": [
+                    {
+                        "id": 1,
+                        "field": "open",
+                        "title": "Open Problems",
+                        "isEnabled": true,
+                        "rules": [
+                            {
+                                "id": 0,
+                                "color": {
+                                    "Default": "var(--dt-colors-charts-loglevel-emergency-default, #ae132d)"
+                                },
+                                "comparator": "≥",
+                                "label": "",
+                                "value": 1
+                            },
+                            {
+                                "id": 2,
+                                "color": "#0D9C29",
+                                "comparator": "≥",
+                                "label": "",
+                                "value": 0
+                            }
+                        ]
+                    }
+                ],
+                "chartSettings": {
+                    "gapPolicy": "connect",
+                    "circleChartSettings": {
+                        "groupingThresholdType": "relative",
+                        "groupingThresholdValue": 0,
+                        "valueType": "relative"
+                    },
+                    "categoryOverrides": {},
+                    "categoricalBarChartSettings": {
+                        "categoryAxisLabel": "dt.entity.host",
+                        "valueAxisLabel": "problemExample"
+                    },
+                    "hiddenLegendFields": [],
+                    "xAxisScaling": "auto",
+                    "xAxisLabel": "timestamp",
+                    "xAxisIsLabelVisible": false,
+                    "valueRepresentation": "absolute",
+                    "truncationMode": "middle",
+                    "leftYAxisSettings": {}
+                },
+                "singleValue": {
+                    "showLabel": true,
+                    "label": "🛠️ BUSINESS ISSUES",
+                    "prefixIcon": "",
+                    "autoscale": true,
+                    "sparklineSettings": {
+                        "isVisible": false
+                    },
+                    "alignment": "center",
+                    "trend": {
+                        "isVisible": false,
+                        "trendType": "auto"
+                    },
+                    "colorThresholdTarget": "background",
+                    "recordField": "open"
+                },
+                "table": {
+                    "rowDensity": "condensed",
+                    "enableSparklines": false,
+                    "hiddenColumns": [],
+                    "lineWrapIds": [],
+                    "columnWidths": {},
+                    "columnTypeOverrides": []
+                },
+                "honeycomb": {
+                    "shape": "square",
+                    "dataMappings": {
+                        "value": "timestamp"
+                    },
+                    "legend": "auto",
+                    "displayedFields": [
+                        "dt.entity.host"
+                    ],
+                    "colorMode": "color-palette",
+                    "colorPalette": "categorical"
+                },
+                "histogram": {
+                    "dataMappings": [
+                        {
+                            "valueAxis": "problemExample",
+                            "rangeAxis": ""
+                        }
+                    ],
+                    "variant": "single",
+                    "displayedFields": [
+                        "dt.entity.host",
+                        "dt.entity.process_group",
+                        "dt.entity.process_group_instance",
+                        "dt.openpipeline.source",
+                        "event.category",
+                        "event.id",
+                        "event.kind",
+                        "event.provider",
+                        "event.type",
+                        "fullRequestBody",
+                        "fullResponseBody",
+                        "sessionId",
+                        "span_id",
+                        "trace_id",
+                        "trace_sampled",
+                        "traceparent",
+                        "url.path"
+                    ]
+                },
+                "valueBoundaries": {
+                    "min": "auto",
+                    "max": "auto"
+                },
+                "unitsOverrides": [
+                    {
+                        "identifier": "open",
+                        "unitCategory": "unspecified",
+                        "baseUnit": "none",
+                        "displayUnit": null,
+                        "decimals": 0,
+                        "suffix": "",
+                        "delimiter": false,
+                        "added": 1743382865322
+                    }
+                ]
+            },
+            "querySettings": {
+                "maxResultRecords": 1000,
+                "defaultScanLimitGbytes": 500,
+                "maxResultMegaBytes": 100,
+                "defaultSamplingRatio": 10,
+                "enableSampling": false
+            },
+            "davis": {
+                "enabled": false,
+                "davisVisualization": {
+                    "isAvailable": true
+                }
+            }
+        },
+        "38": {
+            "title": "",
+            "type": "data",
+            "query": "fetch dt.davis.problems\n| filter dt.davis.is_duplicate==false \n| filter event.status == \"ACTIVE\" \n| filter matchesPhrase(event.name, \"Fraud\") and matchesPhrase(event.name, \"Astroshop\")\n| dedup event.id\n| sort timestamp desc\n| summarize open = count()\n\n\n\n",
+            "visualization": "singleValue",
+            "visualizationSettings": {
+                "thresholds": [
+                    {
+                        "id": 1,
+                        "field": "open",
+                        "title": "Open Problems",
+                        "isEnabled": true,
+                        "rules": [
+                            {
+                                "id": 0,
+                                "color": {
+                                    "Default": "var(--dt-colors-charts-loglevel-emergency-default, #ae132d)"
+                                },
+                                "comparator": "≥",
+                                "label": "",
+                                "value": 1
+                            },
+                            {
+                                "id": 2,
+                                "color": "#0D9C29",
+                                "comparator": "≥",
+                                "label": "",
+                                "value": 0
+                            }
+                        ]
+                    }
+                ],
+                "chartSettings": {
+                    "gapPolicy": "connect",
+                    "circleChartSettings": {
+                        "groupingThresholdType": "relative",
+                        "groupingThresholdValue": 0,
+                        "valueType": "relative"
+                    },
+                    "categoryOverrides": {},
+                    "categoricalBarChartSettings": {
+                        "categoryAxisLabel": "dt.entity.host",
+                        "valueAxisLabel": "problemExample"
+                    },
+                    "hiddenLegendFields": [],
+                    "xAxisScaling": "auto",
+                    "xAxisLabel": "timestamp",
+                    "xAxisIsLabelVisible": false,
+                    "valueRepresentation": "absolute",
+                    "truncationMode": "middle",
+                    "leftYAxisSettings": {}
+                },
+                "singleValue": {
+                    "showLabel": true,
+                    "label": "🛠️ BUSINESS ISSUES",
+                    "prefixIcon": "",
+                    "autoscale": true,
+                    "sparklineSettings": {
+                        "isVisible": false
+                    },
+                    "alignment": "center",
+                    "trend": {
+                        "isVisible": false,
+                        "trendType": "auto"
+                    },
+                    "colorThresholdTarget": "background",
+                    "recordField": "open"
+                },
+                "table": {
+                    "rowDensity": "condensed",
+                    "enableSparklines": false,
+                    "hiddenColumns": [],
+                    "lineWrapIds": [],
+                    "columnWidths": {},
+                    "columnTypeOverrides": []
+                },
+                "honeycomb": {
+                    "shape": "square",
+                    "dataMappings": {
+                        "value": "timestamp"
+                    },
+                    "legend": "auto",
+                    "displayedFields": [
+                        "dt.entity.host"
+                    ],
+                    "colorMode": "color-palette",
+                    "colorPalette": "categorical"
+                },
+                "histogram": {
+                    "dataMappings": [
+                        {
+                            "valueAxis": "problemExample",
+                            "rangeAxis": ""
+                        }
+                    ],
+                    "variant": "single",
+                    "displayedFields": [
+                        "dt.entity.host",
+                        "dt.entity.process_group",
+                        "dt.entity.process_group_instance",
+                        "dt.openpipeline.source",
+                        "event.category",
+                        "event.id",
+                        "event.kind",
+                        "event.provider",
+                        "event.type",
+                        "fullRequestBody",
+                        "fullResponseBody",
+                        "sessionId",
+                        "span_id",
+                        "trace_id",
+                        "trace_sampled",
+                        "traceparent",
+                        "url.path"
+                    ]
+                },
+                "valueBoundaries": {
+                    "min": "auto",
+                    "max": "auto"
+                },
+                "autoSelectVisualization": false,
+                "unitsOverrides": [
+                    {
+                        "identifier": "open",
+                        "unitCategory": "unspecified",
+                        "baseUnit": "none",
+                        "displayUnit": null,
+                        "decimals": 0,
+                        "suffix": "",
+                        "delimiter": false,
+                        "added": 1743382865322
+                    }
+                ]
+            },
+            "querySettings": {
+                "maxResultRecords": 1000,
+                "defaultScanLimitGbytes": 500,
+                "maxResultMegaBytes": 100,
+                "defaultSamplingRatio": 10,
+                "enableSampling": false
+            },
+            "davis": {
+                "enabled": false,
+                "davisVisualization": {
+                    "isAvailable": true
+                }
+            }
+        },
+        "39": {
+            "title": "",
+            "type": "data",
+            "query": "fetch dt.davis.problems\n| filter dt.davis.is_duplicate==false \n| filter event.status == \"ACTIVE\"\n| filter matchesPhrase(event.name, \"Shipped\") and matchesPhrase(event.name, \"Astroshop\")\n| filterOut startsWith (event.name, \"Business Flow Astroshop - Order to Shipped\")\n| dedup event.id\n| sort timestamp desc\n| fields event.id\n| summarize open = count()\n\n\n\n",
+            "visualization": "singleValue",
+            "visualizationSettings": {
+                "thresholds": [
+                    {
+                        "id": 1,
+                        "field": "open",
+                        "title": "Open Problems",
+                        "isEnabled": true,
+                        "rules": [
+                            {
+                                "id": 0,
+                                "color": {
+                                    "Default": "var(--dt-colors-charts-loglevel-emergency-default, #ae132d)"
+                                },
+                                "comparator": "≥",
+                                "label": "",
+                                "value": 1
+                            },
+                            {
+                                "id": 2,
+                                "color": "#0D9C29",
+                                "comparator": "≥",
+                                "label": "",
+                                "value": 0
+                            }
+                        ]
+                    }
+                ],
+                "chartSettings": {
+                    "gapPolicy": "connect",
+                    "circleChartSettings": {
+                        "groupingThresholdType": "relative",
+                        "groupingThresholdValue": 0,
+                        "valueType": "relative"
+                    },
+                    "categoryOverrides": {},
+                    "categoricalBarChartSettings": {
+                        "categoryAxisLabel": "dt.entity.host",
+                        "valueAxisLabel": "problemExample"
+                    },
+                    "hiddenLegendFields": [],
+                    "xAxisScaling": "auto",
+                    "xAxisLabel": "timestamp",
+                    "xAxisIsLabelVisible": false,
+                    "valueRepresentation": "absolute",
+                    "truncationMode": "middle",
+                    "leftYAxisSettings": {}
+                },
+                "singleValue": {
+                    "showLabel": true,
+                    "label": "🛠️ BUSINESS ISSUES",
+                    "prefixIcon": "",
+                    "autoscale": true,
+                    "sparklineSettings": {
+                        "isVisible": false
+                    },
+                    "alignment": "center",
+                    "trend": {
+                        "isVisible": false,
+                        "trendType": "auto"
+                    },
+                    "colorThresholdTarget": "background",
+                    "recordField": "open"
+                },
+                "table": {
+                    "rowDensity": "condensed",
+                    "enableSparklines": false,
+                    "hiddenColumns": [],
+                    "lineWrapIds": [],
+                    "columnWidths": {},
+                    "columnTypeOverrides": []
+                },
+                "honeycomb": {
+                    "shape": "square",
+                    "dataMappings": {
+                        "value": "timestamp"
+                    },
+                    "legend": "auto",
+                    "displayedFields": [
+                        "dt.entity.host"
+                    ],
+                    "colorMode": "color-palette",
+                    "colorPalette": "categorical"
+                },
+                "histogram": {
+                    "dataMappings": [
+                        {
+                            "valueAxis": "problemExample",
+                            "rangeAxis": ""
+                        }
+                    ],
+                    "variant": "single",
+                    "displayedFields": [
+                        "dt.entity.host",
+                        "dt.entity.process_group",
+                        "dt.entity.process_group_instance",
+                        "dt.openpipeline.source",
+                        "event.category",
+                        "event.id",
+                        "event.kind",
+                        "event.provider",
+                        "event.type",
+                        "fullRequestBody",
+                        "fullResponseBody",
+                        "sessionId",
+                        "span_id",
+                        "trace_id",
+                        "trace_sampled",
+                        "traceparent",
+                        "url.path"
+                    ]
+                },
+                "valueBoundaries": {
+                    "min": "auto",
+                    "max": "auto"
+                },
+                "autoSelectVisualization": false,
+                "unitsOverrides": [
+                    {
+                        "identifier": "open",
+                        "unitCategory": "unspecified",
+                        "baseUnit": "none",
+                        "displayUnit": null,
+                        "decimals": 0,
+                        "suffix": "",
+                        "delimiter": false,
+                        "added": 1743382865322
+                    }
+                ]
+            },
+            "querySettings": {
+                "maxResultRecords": 1000,
+                "defaultScanLimitGbytes": 500,
+                "maxResultMegaBytes": 100,
+                "defaultSamplingRatio": 10,
+                "enableSampling": false
+            },
+            "davis": {
+                "enabled": false,
+                "davisVisualization": {
+                    "isAvailable": true
+                }
+            }
+        }
+    },
+    "layouts": {
+        "1": {
+            "x": 1,
+            "y": 0,
+            "w": 6,
+            "h": 2
+        },
+        "2": {
+            "x": 17,
+            "y": 0,
+            "w": 6,
+            "h": 2
+        },
+        "3": {
+            "x": 9,
+            "y": 0,
+            "w": 6,
+            "h": 2
+        },
+        "4": {
+            "x": 1,
+            "y": 4,
+            "w": 3,
+            "h": 2
+        },
+        "5": {
+            "x": 4,
+            "y": 4,
+            "w": 3,
+            "h": 2
+        },
+        "6": {
+            "x": 1,
+            "y": 2,
+            "w": 3,
+            "h": 2
+        },
+        "7": {
+            "x": 1,
+            "y": 9,
+            "w": 6,
+            "h": 4
+        },
+        "10": {
+            "x": 9,
+            "y": 2,
+            "w": 3,
+            "h": 2
+        },
+        "11": {
+            "x": 9,
+            "y": 4,
+            "w": 3,
+            "h": 2
+        },
+        "12": {
+            "x": 12,
+            "y": 4,
+            "w": 3,
+            "h": 2
+        },
+        "13": {
+            "x": 9,
+            "y": 9,
+            "w": 6,
+            "h": 4
+        },
+        "14": {
+            "x": 20,
+            "y": 4,
+            "w": 3,
+            "h": 2
+        },
+        "15": {
+            "x": 17,
+            "y": 4,
+            "w": 3,
+            "h": 2
+        },
+        "16": {
+            "x": 17,
+            "y": 2,
+            "w": 3,
+            "h": 2
+        },
+        "18": {
+            "x": 17,
+            "y": 9,
+            "w": 6,
+            "h": 4
+        },
+        "19": {
+            "x": 1,
+            "y": 6,
+            "w": 6,
+            "h": 1
+        },
+        "20": {
+            "x": 9,
+            "y": 6,
+            "w": 6,
+            "h": 1
+        },
+        "21": {
+            "x": 17,
+            "y": 6,
+            "w": 6,
+            "h": 1
+        },
+        "22": {
+            "x": 1,
+            "y": 15,
+            "w": 6,
+            "h": 4
+        },
+        "23": {
+            "x": 1,
+            "y": 7,
+            "w": 6,
+            "h": 2
+        },
+        "24": {
+            "x": 1,
+            "y": 13,
+            "w": 6,
+            "h": 2
+        },
+        "25": {
+            "x": 9,
+            "y": 7,
+            "w": 6,
+            "h": 2
+        },
+        "26": {
+            "x": 17,
+            "y": 7,
+            "w": 6,
+            "h": 2
+        },
+        "27": {
+            "x": 9,
+            "y": 13,
+            "w": 6,
+            "h": 2
+        },
+        "28": {
+            "x": 9,
+            "y": 19,
+            "w": 6,
+            "h": 2
+        },
+        "29": {
+            "x": 9,
+            "y": 15,
+            "w": 6,
+            "h": 4
+        },
+        "30": {
+            "x": 9,
+            "y": 21,
+            "w": 6,
+            "h": 4
+        },
+        "31": {
+            "x": 1,
+            "y": 21,
+            "w": 6,
+            "h": 4
+        },
+        "32": {
+            "x": 17,
+            "y": 19,
+            "w": 6,
+            "h": 2
+        },
+        "33": {
+            "x": 1,
+            "y": 19,
+            "w": 6,
+            "h": 2
+        },
+        "34": {
+            "x": 17,
+            "y": 21,
+            "w": 6,
+            "h": 4
+        },
+        "35": {
+            "x": 17,
+            "y": 13,
+            "w": 6,
+            "h": 2
+        },
+        "36": {
+            "x": 17,
+            "y": 15,
+            "w": 6,
+            "h": 4
+        },
+        "37": {
+            "x": 4,
+            "y": 2,
+            "w": 3,
+            "h": 2
+        },
+        "38": {
+            "x": 12,
+            "y": 2,
+            "w": 3,
+            "h": 2
+        },
+        "39": {
+            "x": 20,
+            "y": 2,
+            "w": 3,
+            "h": 2
+        }
+    },
+    "importedWithCode": true,
+    "settings": {
+        "defaultTimeframe": {
+            "value": {
+                "from": "-30m",
+                "to": "now()"
+            },
+            "enabled": true
+        }
+    }
+}

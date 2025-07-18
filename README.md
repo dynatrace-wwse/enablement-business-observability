@@ -6,6 +6,8 @@ author: Michael Ferguson
 
 # Enablement Business Observability
 
+## Lab Overview
+
 During this hands-on training, we'll explore Business Observability powered by BizEvents. During this session we configure business events using OneAgent, Logs and API data sources in context of a single process flow. Additionally, we will use OpenPipeline to generate and enrich telemetry signals. Using the data generated, we'll run powerful analytics with Business Flows, Notebooks, and Dashboards.
 
 The Astroshop `Order to Shipped` Business Process will be the target use case:
@@ -36,7 +38,15 @@ Then we will move to the hands on lab tasks:
 1. Create a Metric from Business Events - Place Order
 1. Create an Alert from Business Events - Place Order
 1. Create a Business Flow and an Alert - Order to Shipped business process
-1. Import and review sample Dashboards 
+1. Import and review sample Dashboards
+
+Ready to learn the fundamentals of Business Observability with Dynatrace?
+
+## [View the Lab Guide](https://dynatrace-wwse.github.io/enablement-business-observability)
+
+---
+
+# Legacy Lab Guide Instructions (deprecated)
 
 ## Dynatrace Tenant Setup
 

@@ -4,6 +4,8 @@
 --8<-- "snippets/disclaimer.md"
 --8<-- "snippets/view-code.md"
 
+## Lab Overview
+
 During this hands-on training, we'll explore Business Observability powered by BizEvents. During this session we configure business events using OneAgent, Logs and API data sources in context of a single process flow. Additionally, we will use OpenPipeline to generate and enrich telemetry signals. Using the data generated, we'll run powerful analytics with Business Flows, Notebooks, and Dashboards.
 
 The Astroshop `Order to Shipped` Business Process will be the target use case:
