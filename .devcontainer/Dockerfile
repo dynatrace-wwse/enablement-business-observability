@@ -6,31 +6,32 @@ ARG USER_GID=$USER_UID
 ARG YQ_VERSION=v4.44.3
 ARG YQ_BINARY=yq_linux_amd64
 ARG HELM_VERSION=v3.17.0
+# Multiarchitecture, plattform is passed on when building the image.
+ARG TARGETPLATFORM
+ARG BUILDPLATFORM
+ARG TARGETARCH
 
-RUN export DEBIAN_FRONTEND=noninteractive
+RUN echo "Host is running on $BUILDPLATFORM and the binaries will be downloaded for '$TARGETARCH', building for $TARGETPLATFORM"
 
-COPY docker.sh /tmp/scripts/
-RUN chmod +x /tmp/scripts/docker.sh
+# Install Docker CLI (not daemon)
+RUN apt update && apt install -y \
+    docker.io \
+    curl \
+    ca-certificates \
+    iptables \
+    socat \
+    ebtables \
+    ethtool \
+    conntrack \
+    sudo \
+    gh \
+    python3-pip \
+    && rm -rf /var/lib/apt/lists/*
 
-# update the container
-RUN apt-get update && \
-    apt-get upgrade -y && \
-    apt-get install zsh ca-certificates gnupg jq gh -y && \
-    apt-get autoremove -y && \
-    apt-get clean -y
-
-# Install Python
-RUN apt install python3 python3-pip -y
-
-# Install NodeJS
-RUN apt install nodejs -y 
-
-# Install yq
-RUN wget https://github.com/mikefarah/yq/releases/download/$YQ_VERSION/$YQ_BINARY -O /usr/bin/yq && sudo chmod +x /usr/bin/yq
-
-# Install kubectl
-RUN curl -sSL -o /usr/local/bin/kubectl https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl \
-    && chmod +x /usr/local/bin/kubectl
+# Install kubectl (x86_64/amd64, aarch64/arm64)
+RUN curl -LO "https://dl.k8s.io/release/$(curl -sL https://dl.k8s.io/release/stable.txt)/bin/linux/$TARGETARCH/kubectl" \
+    && install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl \
+    && rm kubectl
 
 # Install Helm
 RUN curl -LO https://get.helm.sh/helm-$HELM_VERSION-linux-amd64.tar.gz \
