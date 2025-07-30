@@ -36,6 +36,59 @@ printError() {
   echo -e "${GREEN}[$LOGNAME| ${RED}ERROR${GREEN} |$(timestamp) ${LILA}|  ${RESET}$1${LILA}  |"
 }
 
+entrypoint(){
+  printInfoSection "Making sure user permissions, host mapping and docker.sock are mapped correctly"
+  if [ true ]; then
+    USER=$(whoami)
+    printInfo "PID is $$, running as $USER inside the container"
+  
+    printInfo "Adding containers Hosts to etc/hosts/ for network resolution and sharing"
+    # Add hostname to docker container's /etc/hosts
+    HOST_MAPPING="127.0.0.1  $(hostname)"
+    # We pipe out the output since sudo at this points gives an error due the hostname not being resolvable
+    sudo sh -c "echo \"$HOST_MAPPING\" >> /etc/hosts" > /dev/null 2>&1
+    # Verify output (optional)
+    printInfo "/etc/hosts content:"
+    #cat /etc/hosts
+
+    printInfo "Verifying the Hosts Docker.sock GID (DOCKER_SOCK_GID) vs Container Docker Group GID (DOCKER_GROUP_ID)"
+    # Even if the user is in the same group (docker) since they are sharing the socket, the GID of the socket needs to match the GID of the docker group in the container.
+    # GID from the socker stat
+    DOCKER_SOCK_GID=$(stat -c '%g' /var/run/docker.sock)
+    # Group ID for docker group
+    DOCKER_GROUP_ID=$(getent group docker | cut -d: -f3)
+    # Mapping docker groups of Host and Container
+    if [ $DOCKER_SOCK_GID = $DOCKER_GROUP_ID ]; then
+        printInfo "DOCKER_SOCK_GID[$DOCKER_SOCK_GID] matches DOCKER_GROUP_ID[$DOCKER_GROUP_ID]. No changes needed."
+    else
+        printInfo "DOCKER_SOCK_GID[$DOCKER_SOCK_GID] do NOT match DOCKER_GROUP_ID[$DOCKER_GROUP_ID]. Updating..."
+        sudo groupmod -g $DOCKER_SOCK_GID docker && printInfo "Updated correctly..."
+
+        printInfo "Adding '$USER' to the docker group to have access to the docker socket"
+        sudo usermod -aG docker $USER
+
+        printInfo "Changing shell with 'newgrp docker' to apply changes immediately of the docker group membership"
+        
+        printInfo "Executing following commands as Group docker: 0:$0 ,$1 ,$2, @:$@ , *:$*"
+        #exec newgrp docker "$0 $*"
+        #exec sg docker "$@"
+        #exec sg docker "$0"
+        exec sg docker "$*"
+        
+        # Construct an array which quotes all the command-line parameters.
+        #arr=("${@/#/\"}")
+        #arr=("${arr[*]/%/\"}")
+        #exec sg docker "$0 ${arr[@]}"
+        
+        #exec newgrp docker "$@"
+        printInfo "Replacing current shell process with the command and its arguments passed to the script or function since we are at entrypoint"
+        exec "$@"
+    fi
+  else
+    printInfo "PID is not 1, it is $$, nothing to verify, we are not at the entrypoint."
+  fi
+}
+
 postCodespaceTracker(){
   printInfo "Sending bizevent for $RepositoryName with $ERROR_COUNT issues built in $DURATION seconds"
 
@@ -207,6 +260,10 @@ installK9s() {
 bindFunctionsInShell() {
   printInfoSection "Binding functions.sh and adding a Greeting in the .zshrc for user $USER "
   echo "
+#Making sure the Locale is set properly
+export LANG=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
+
 # Loading all this functions in CLI
 source $CODESPACE_VSCODE_FOLDER/.devcontainer/util/functions.sh
 
@@ -244,11 +301,66 @@ installRunme() {
   rm -rf runme_binary
 }
 
+stopKindCluster(){
+  printInfoSection "Stopping Kubernetes Cluster (kind-control-plane)"
+  docker stop kind-control-plane 
+}
+
+startKindCluster(){
+  printInfoSection "Starting Kubernetes Cluster (kind-control-plane)"
+  KINDIMAGE="kind-control-plane"
+  KIND_STATUS=$(docker inspect -f '{{.State.Status}}' $KINDIMAGE 2>/dev/null)
+  if [ "$KIND_STATUS" = "exited" ] || [ "$KIND_STATUS" = "dead" ]; then
+    printInfo "There is a stopped $KINDIMAGE, starting it..."
+    docker start $KINDIMAGE
+    attachKindCluster
+  elif  [ "$KIND_STATUS" = "running" ]; then
+    printInfo "A $KINDIMAGE is already running, attaching to it..."
+    attachKindCluster
+  else
+    printInfo "No $KINDIMAGE was found, creating a new one..."
+    createKindCluster
+  fi
+  printInfo "Kind reachabe under:"
+  kubectl cluster-info --context kind-kind
+  printInfo "-----"
+  printInfo "The following functions are available for you to maximize your K8s experience:"
+  printInfo "startKindCluster - will start, create or attach to a running Cluster"
+  printInfo "other useful functions: stopKindCluster createKindCluster deleteKindCluster"
+  printInfo "attachKindCluster "
+  printInfo "-----"
+  printInfo "Setting the current context to 'kube-system' instead of 'default' you can change it by typing"
+  printInfo "kubectl config set-context --current --namespace=<namespace-name>"
+  kubectl config set-context --current --namespace=kube-system
+}
+
+attachKindCluster(){
+  printInfoSection "Attaching to running Kubernetes Cluster (kind-control-plane)"
+  local KUBEDIR="$HOME/.kube"
+  if [ -d $KUBEDIR ]; then
+    printWarn "Kuberconfig $KUBEDIR exists, overriding Kubernetes conection"
+  else
+    printInfo "Kubeconfig $KUBEDIR does not exist, creating a new one"
+    mkdir -p $HOME/.kube
+  fi
+  kind get kubeconfig > $KUBEDIR/config && printInfo "Connection created" || printWarn "Issue creating connection"
+}
+
+
 createKindCluster() {
-  
-  printInfoSection "Installing Kubernetes Cluster (Kind)"
+  printInfoSection "Creating Kubernetes Cluster (kind-control-plane)"
   # Create k8s cluster
-  kind create cluster --config "$CODESPACE_VSCODE_FOLDER/.devcontainer/kind-cluster.yml" --wait 5m
+  printInfo "Creating Kind cluster"
+  kind create cluster --config "$CODESPACE_VSCODE_FOLDER/.devcontainer/kind-cluster.yml" --wait 5m &&\
+    printInfo "Kind cluster created successfully, reachabe under:" ||\
+    printWarn "Kind cluster could not be created"
+  kubectl cluster-info --context kind-kind
+}
+
+deleteKindCluster() {
+  printInfoSection "Deleting Kubernetes Cluster (Kind)"
+  kind delete cluster --name kind
+  printInfo "Kind cluster deleted successfully."
 }
 
 certmanagerInstall() {
@@ -592,7 +704,7 @@ deployTodoApp(){
   kubectl create ns todoapp
 
   # Create deployment of todoApp
-  kubectl -n todoapp create deploy todoapp --image=shinojosa/todoapp:1.0.0
+  kubectl -n todoapp create deploy todoapp --image=shinojosa/todoapp:1.0.1
 
   # Expose deployment of todoApp with a Service
   kubectl -n todoapp expose deployment todoapp --type=NodePort --name=todoapp --port=8080 --target-port=8080
@@ -754,4 +866,38 @@ updateEnvVariable(){
   fi
   
   export $variable
+}
+
+finalizePostCreation(){
+  # e2e testing
+  # If the codespace is created (eg. via a Dynatrace workflow)
+  # and hardcoded to have a name starting with dttest-bash b
+  # Then run the e2e test harness
+  # Otherwise, send the startup ping
+  if [[ "$CODESPACE_NAME" == dttest-* ]]; then
+      # Set default repository for gh CLI
+      gh repo set-default "$GITHUB_REPOSITORY"
+
+      # Set up a label, used if / when the e2e test fails
+      # This may already be set, so catch error and always return true
+      gh label create "e2e test failed" --force || true
+
+      # Install required Python packages
+      pip install -r "/workspaces/$REPOSITORY_NAME/.devcontainer/testing/requirements.txt" --break-system-packages
+
+      # Run the test harness script
+      python "/workspaces/$REPOSITORY_NAME/.devcontainer/testing/testharness.py"
+
+      # Testing finished. Destroy the codespace
+      gh codespace delete --codespace "$CODESPACE_NAME" --force
+  else
+      if [[ $CODESPACES == true ]]; then
+        verifyCodespaceCreation
+        postCodespaceTracker
+      else
+        printInfo "Container was not created in a codespace. Verification of proper creation TBD"
+        #FIXME: Verify Container creation and add in payload container type (codespace/vscode local/container) 
+        # add also Host architecture to the payload
+      fi
+  fi
 }

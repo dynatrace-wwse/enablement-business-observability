@@ -1,0 +1,20 @@
+name: GitHub Actions Demo
+run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+on: [push]
+jobs:
+  test-codespace:
+    runs-on: ubuntu-22.04
+    env:
+      RepositoryName: "codespaces-synchronizer"
+      RepoName: "$GITHUB_REPOSITORY"
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      - name: Test Codespace (devcontainer) build and run multiple commands
+        uses: devcontainers/ci@v0.3
+        with:
+          runCmd: |
+            echo "Listing files:"
+            ls -la
+            echo "Current directory:"
+            pwd

@@ -4,7 +4,7 @@
 # RunMe makes markdown files runnable
 # Used during end2end testing to execute the code snippets
 source /workspaces/$RepositoryName/.devcontainer/util/functions.sh
-export SECONDS=0
+
 
 bindFunctionsInShell
 
@@ -16,7 +16,7 @@ buildLabGuide
 
 exposeLabguide
 
-createKindCluster
+startKindCluster
 
 installK9s
 
@@ -32,33 +32,9 @@ deployCloudNative
 
 deployAstroshop
 
-# e2e testing
-# If the codespace is created (eg. via a Dynatrace workflow)
-# and hardcoded to have a name starting with dttest-
-# Then run the e2e test harness
-# Otherwise, send the startup ping
-if [[ "$CODESPACE_NAME" == dttest-* ]]; then
-    # Set default repository for gh CLI
-    gh repo set-default "$GITHUB_REPOSITORY"
+# If the Codespace was created via Workflow end2end test will be done, otherwise
+# it'll verify if there are error in the logs and will show them in the greeting as well a monitoring 
+# notification will be sent on the instantiation details
+finalizePostCreation
 
-    # Set up a label, used if / when the e2e test fails
-    # This may already be set, so catch error and always return true
-    gh label create "e2e test failed" --force || true
-
-    # Install required Python packages
-    pip install -r "/workspaces/$REPOSITORY_NAME/.devcontainer/testing/requirements.txt" --break-system-packages
-
-    # Run the test harness script
-    python "/workspaces/$REPOSITORY_NAME/.devcontainer/testing/testharness.py"
-
-    # Testing finished. Destroy the codespace
-    gh codespace delete --codespace "$CODESPACE_NAME" --force
-else
-
-    verifyCodespaceCreation
-    
-    postCodespaceTracker
-  
-    printInfo "Finished creating devcontainer"
-
-fi
+printInfoSection "Your dev container finished creating"
