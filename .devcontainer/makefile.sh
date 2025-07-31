@@ -8,7 +8,7 @@ ENV_FILE=runlocal/.env
 NAMESPACE="shinojosa"
 IMAGENAME="dt-enablement"
 REPOSITORY=$NAMESPACE/$IMAGENAME
-TAG="v1.0"
+TAG="v1.1"
 
 REPOTAG=$REPOSITORY:$TAG
 

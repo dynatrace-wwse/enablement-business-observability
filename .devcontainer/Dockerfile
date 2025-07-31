@@ -22,6 +22,7 @@ RUN apt update && apt install -y \
     conntrack \
     sudo \
     gh \
+    python3-pip \
     && rm -rf /var/lib/apt/lists/*
 
 # Install kubectl (x86_64/amd64, aarch64/arm64)
