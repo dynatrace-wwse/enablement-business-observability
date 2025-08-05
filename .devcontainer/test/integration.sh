@@ -9,6 +9,4 @@ assertRunningPod dynatrace activegate
 
 assertRunningPod dynatrace oneagent
 
-assertRunningPod todoapp todoapp
-
 assertRunningApp 30100

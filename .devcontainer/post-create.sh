@@ -20,8 +20,6 @@ certmanagerInstall
 
 certmanagerEnable
 
-dynatraceEvalReadSaveCredentials
-
 dynatraceDeployOperator
 
 deployCloudNative
