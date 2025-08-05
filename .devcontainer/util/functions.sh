@@ -1,5 +1,4 @@
 #!/bin/bash
-# This file contains the functions for installing Kubernetes-Play.
 # Each function contains a boolean flag so the installations
 # can be highly customized.
 # Original file located https://github.com/dynatrace-wwse/kubernetes-playground/blob/main/cluster-setup/functions.sh
@@ -19,21 +18,34 @@ timestamp() {
 }
 
 printInfo() {
+  # The second argument defines if the log should be printed out or not
+  if [ "$2" = "false" ]; then
+    return 0
+  fi
   echo -e "${GREEN}[$LOGNAME| ${BLUE}INFO${CYAN} |$(timestamp) ${LILA}|${RESET} $1 ${LILA}|"
 }
 
 printInfoSection() {
+  if [ "$2" = "false" ]; then
+    return 0
+  fi
   echo -e "${GREEN}[$LOGNAME| ${BLUE}INFO${CYAN} |$(timestamp) ${LILA}|$thickline"
   echo -e "${GREEN}[$LOGNAME| ${BLUE}INFO${CYAN} |$(timestamp) ${LILA}|$halfline ${RESET}$1${LILA} $halfline"
   echo -e "${GREEN}[$LOGNAME| ${BLUE}INFO${CYAN} |$(timestamp) ${LILA}|$thinline"
 }
 
 printWarn() {
-  echo -e "${GREEN}[$LOGNAME| ${YELLOW}WARN${GREEN} |$(timestamp) ${LILA}|  ${RESET}$1${LILA}  |"
+  if [ "$2" = "false" ]; then
+    return 0
+  fi
+  echo -e "${GREEN}[$LOGNAME| ${YELLOW}WARN${GREEN} |$(timestamp) ${LILA}| ${RESET}$1${LILA}  |"
 }
 
 printError() {
-  echo -e "${GREEN}[$LOGNAME| ${RED}ERROR${GREEN} |$(timestamp) ${LILA}|  ${RESET}$1${LILA}  |"
+  if [ "$2" = "false" ]; then
+    return 0
+  fi
+  echo -e "${GREEN}[$LOGNAME| ${RED}ERROR${GREEN} |$(timestamp) ${LILA}| ${RESET}$1${LILA}  |"
 }
 
 entrypoint(){
@@ -133,6 +145,11 @@ waitForPod() {
     printWarn "Retry: ${RETRY}/${RETRY_MAX} - No pods are running on  \"$namespace_filter\" with name \"$pod_filter\". Wait 10s for $pod_filter PoDs to be scheduled..."
     sleep 10
   done
+  
+  if [[ $RETRY == $RETRY_MAX ]]; then
+    printError "No pods are running on  \"$namespace_filter\" with name \"$pod_filter\". Check their events. Exiting installation..."
+    exit 1
+  fi
 }
 
 # shellcheck disable=SC2120
@@ -193,6 +210,46 @@ waitForAllReadyPods() {
     printError "Following pods are not still not running. Please check their events. Exiting installation..."
     kubectl get pods --field-selector=status.phase!=Running -A
     exit 1
+  fi
+}
+
+waitAppCanHandleRequests(){
+  # Function to filter by Namespace, default is ALL
+  if [[ $# -eq 1 ]]; then
+    PORT="$1"
+  else
+    PORT="30100"
+  fi
+  
+  RC="500"
+
+  URL=http://localhost:$PORT
+  RETRY=0
+  RETRY_MAX=5
+  # Get all pods, count and invert the search for not running nor completed. Status is for deleting the last line of the output
+  CMD="curl --silent $URL > /dev/null"
+  printInfo "Verifying that the app can handle HTTP requests on $URL"
+  while [[ $RETRY -lt $RETRY_MAX ]]; do
+    RESPONSE=$(eval "$CMD")
+    RC=$?
+    #Common RC from cURL
+    #0: Success
+    #6: Could not resolve host
+    #7: Failed to connect to host
+    #28: Operation timeout
+    #35: SSL connect error
+    #56:Failure with receiving network data
+    if [[ "$RC" -eq 0 ]]; then
+      printInfo "App is running on $URL"
+      break
+    fi
+    RETRY=$(($RETRY + 1))
+    printWarn "Retry: ${RETRY}/${RETRY_MAX} - App can't handle HTTP requests on $URL. [cURL RC:$RC] Waiting 10s..."
+    sleep 10
+  done
+
+  if [[ $RETRY == $RETRY_MAX ]]; then
+    printError "App is still not able to handle requests. Please check the events"
   fi
 }
 
@@ -413,27 +470,127 @@ certmanagerEnable() {
   #bashas "cd $K8S_PLAY_DIR/cluster-setup/resources/ingress && bash add-ssl-certificates.sh"
 }
 
-saveReadCredentials() {
-
-  printInfo "If credentials are passed as arguments they will be overwritten and saved as ConfigMap"
-  printInfo "else they will be read from the ConfigMap and exported as env Variables"
-
+validateSaveCredentials() {
   if [[ $# -eq 3 ]]; then
+    printInfo "Validating and saving Secrets DT_TENANT DT_OPERATOR_TOKEN DT_INGEST_TOKEN"
     DT_TENANT=$1
     DT_OPERATOR_TOKEN=$2
     DT_INGEST_TOKEN=$3
+    verifyParseSecret $DT_TENANT true; [ $? -eq 1 ] && verifyParseSecret $DT_TENANT false || DT_TENANT=$(verifyParseSecret $DT_TENANT false)
+    verifyParseSecret $DT_OPERATOR_TOKEN true; [ $? -eq 1 ] && verifyParseSecret $DT_OPERATOR_TOKEN false || DT_OPERATOR_TOKEN=$(verifyParseSecret $DT_OPERATOR_TOKEN false)
+    verifyParseSecret $DT_INGEST_TOKEN true; [ $? -eq 1 ] && verifyParseSecret $DT_INGEST_TOKEN false || DT_INGEST_TOKEN=$(verifyParseSecret $DT_INGEST_TOKEN false)
+    DT_OTEL_ENDPOINT=$DT_TENANT/api/v2/otlp
 
-    printInfo "Saving the credentials ConfigMap dtcredentials -n default with following arguments supplied: @"
     kubectl delete configmap -n default dtcredentials 2>/dev/null
 
     kubectl create configmap -n default dtcredentials \
       --from-literal=tenant=${DT_TENANT} \
       --from-literal=apiToken=${DT_OPERATOR_TOKEN} \
       --from-literal=dataIngestToken=${DT_INGEST_TOKEN}
-
+    # Exporting clean values
+    export DT_TENANT=$DT_TENANT
+    export DT_OPERATOR_TOKEN=$DT_OPERATOR_TOKEN
+    export DT_INGEST_TOKEN=$DT_INGEST_TOKEN
+    export DT_INGEST_TOKEN=$DT_INGEST_TOKEN
+    export DT_OTEL_ENDPOINT=$DT_OTEL_ENDPOINT
+    return 0
   else
-    printInfo "No arguments passed, getting them from the ConfigMap"
+    printError "validateSaveCredentials function should be used like saveCredentials DT_TENANT DT_OPERATOR_TOKEN DT_INGEST_TOKEN"
+    return 1
+  fi
+}
 
+verifyParseSecret(){
+  # Function to verify and parse Dynatrace Tenants and tokens so they can be used more comfortably.
+  # as first argument the tenant or token is passed, as second argument a boolean is passed for printing the logic. When print_log == true, then log is printed out but the 
+  # variable is not echoed out, this way is not printed in the log. If print_log =0 false, then the variable is echoed out so the value can be catched as return vaue and stored.
+  local secret="$1"
+
+  local print_log="$2"
+  if [ -z "$print_log" ]; then
+    # As default no log is printed out. 
+    print_log=false
+  fi
+
+  if [ -z "$secret" ]; then
+    printError "Function to validate secrets was called but no secret was provided" $print_log
+    return 1
+  else 
+    # Logic
+    # convert apps to live
+    # https://abc123.apps.dynatrace.com -> https://abc123.live.dynatrace.com 
+    # remove apps from string
+    # https://abc123.sprint.apps.dynatracelabs.com -> https://abc123.sprint.dynatracelabs.com 
+    # https://abc123.dev.apps.dynatracelabs.com -> https://abc123.dev.dynatracelabs.com 
+    # Verify if its a valid tenant
+    if echo "$secret" | grep -E -q "^https:" && echo "$secret" | grep -E -q "\.dynatracelabs\.com|\.dynatrace\.com"; then
+       printInfo "Valid: String starts with 'https' and contains dynatrace.com or dynatracelabs.com" $print_log
+      
+      # Parse Production tenants
+      if echo "$secret" | grep -q "\.apps\.dynatrace\.com"; then
+        printWarn "Production tenant invalid for API requests: changing apps for live" $print_log
+        secret=$(echo "$secret" | sed 's/\.apps\.dynatrace\.com.*$/\.live.dynatrace\.com/g')
+      fi
+      
+      # Parse for Sprint & DEV tenants
+      if echo "$secret" | grep -q "\.apps\.dynatracelabs\.com"; then
+        printWarn "Sprint tenant invalid for API requests: removing apps" $print_log
+        secret=$(echo "$secret" | sed 's/\.apps\.dynatracelabs\.com.*$/\.dynatracelabs\.com/g')
+      fi
+      # remove anything after .com
+      if echo "$secret" | grep -q "\.com/"; then
+        printWarn "/ detected after .com, invalid for API requests: removing anything after .com" $print_log
+        secret=$(echo "$secret" | sed 's/\.com.*$/\.com/')
+      fi
+      printInfo "Tenant URL valid for API requests: $secret" $print_log
+      if [ "${print_log}" = "false" ]; then
+        echo "$secret"
+      fi
+      return 0
+    elif  [[ "$secret" == dt0c01.*  && ${#secret} -gt 60 ]];  then
+      printInfo "Valid Dynatrace Token format. Starts with dt0c01.XXX and has the minimum lenght." $print_log
+      if [ "${print_log}" = "false" ]; then
+        echo "$secret"
+      fi
+      return 0
+    else
+      printError "Invalid secret, this is not a valid dynatrace tenant nor dynatrace token, please verify this: $secret" $print_log
+    return 1
+    fi
+  fi
+
+}
+
+dynatraceEvalReadSaveCredentials() {
+  printInfoSection "Dynatrace evaluating and reading/saving secrets. Defined order 1.-arguments, 2.- environment variables, finally load from configmap"
+  if [ "${DT_EVAL_SECRETS}" = "true" ]; then 
+    printInfo "Dynatrace secrets have been evaluated already in the session. If you want to override them unset DT_EVAL_SECRETS and call this function again."
+    printInfo "For printing out the secrets call the function 'printSecrets' "
+    return 0
+  fi
+
+  local found=1
+
+  if [[ $# -eq 3 ]]; then
+    DT_TENANT=$1
+    DT_OPERATOR_TOKEN=$2
+    DT_INGEST_TOKEN=$3
+    # Passed as argument
+    printInfo "Secrets passed as arguments"
+    validateSaveCredentials $DT_TENANT $DT_OPERATOR_TOKEN $DT_INGEST_TOKEN
+    found=0
+
+  elif [[ -n "${DT_TENANT}" && -n "${DT_OPERATOR_TOKEN}" && -n "${DT_INGEST_TOKEN}" ]]; then
+    # Found in env 
+    printInfo "Secrets found in environment variables"
+    validateSaveCredentials $DT_TENANT $DT_OPERATOR_TOKEN $DT_INGEST_TOKEN
+    found=0
+  elif [[ -n "${DT_TENANT}" && -z "${DT_OPERATOR_TOKEN}" && -z "${DT_INGEST_TOKEN}" ]]; then
+    printWarn "Dynatrace Tenant defined but tokens are missing"
+    validateSaveCredentials $DT_TENANT $DT_OPERATOR_TOKEN $DT_INGEST_TOKEN
+    found=0
+  else
+    printWarn "Dynatrace secrets not found as arguments nor env vars, reading from config map"
     kubectl get configmap -n default dtcredentials 2>/dev/null
     # Getting the data size
     data=$(kubectl get configmap -n default dtcredentials | awk '{print $2}')
@@ -444,69 +601,43 @@ saveReadCredentials() {
       DT_TENANT=$(kubectl get configmap -n default dtcredentials -ojsonpath={.data.tenant})
       DT_OPERATOR_TOKEN=$(kubectl get configmap -n default dtcredentials -ojsonpath={.data.apiToken})
       DT_INGEST_TOKEN=$(kubectl get configmap -n default dtcredentials -ojsonpath={.data.dataIngestToken})
-
+      found=0
     else
-      printInfo "ConfigMap not found, resetting variables"
-      unset DT_TENANT DT_OPERATOR_TOKEN DT_INGEST_TOKEN
+        printInfo "ConfigMap not found, resetting variables"
+        unset DT_TENANT DT_OPERATOR_TOKEN DT_INGEST_TOKEN
     fi
   fi
-  printInfo "Dynatrace Tenant: $DT_TENANT"
-  printInfo "Dynatrace API & PaaS Token: $DT_OPERATOR_TOKEN"
-  printInfo "Dynatrace Ingest Token: $DT_INGEST_TOKEN"
-  printInfo "Dynatrace Otel API Token: $DT_INGEST_TOKEN"
-  printInfo "Dynatrace Otel Endpoint: $DT_OTEL_ENDPOINT"
 
-  export DT_TENANT=$DT_TENANT
-  export DT_OPERATOR_TOKEN=$DT_OPERATOR_TOKEN
-  export DT_INGEST_TOKEN=$DT_INGEST_TOKEN
-  export DT_INGEST_TOKEN=$DT_INGEST_TOKEN
-  export DT_OTEL_ENDPOINT=$DT_OTEL_ENDPOINT
+  if [[ $found -eq 0 ]]; then
 
+    export DT_TENANT=$DT_TENANT
+    export DT_OPERATOR_TOKEN=$DT_OPERATOR_TOKEN
+    export DT_INGEST_TOKEN=$DT_INGEST_TOKEN
+    export DT_INGEST_TOKEN=$DT_INGEST_TOKEN
+    export DT_OTEL_ENDPOINT=$DT_OTEL_ENDPOINT
+    export DT_EVAL_SECRETS=true
+    printSecrets
+  else 
+    printError "No Dynatrace secrets have been found in the environment and are needed for Dynatrace components."
+    unset DT_EVAL_SECRETS
+    exit 1
+  fi
+
+  return $found
 }
 
-# FIXME: Clean up this mess
-dynatraceEvalReadSaveCredentials() {
-  printInfoSection "Dynatrace evaluating and reading/saving Credentials"
-  if [[ -n "${DT_TENANT}" && -n "${DT_INGEST_TOKEN}" ]]; then
-    DT_TENANT=$DT_TENANT
-    DT_OPERATOR_TOKEN=$DT_OPERATOR_TOKEN
-    DT_INGEST_TOKEN=$DT_INGEST_TOKEN
-    DT_OTEL_ENDPOINT=$DT_TENANT/api/v2/otlp
-    
-    printInfo "--- Variables set in the environment with Otel config, overriding & saving them ------"
+printSecrets(){
+    # Print all known vars
     printInfo "Dynatrace Tenant: $DT_TENANT"
-    printInfo "Dynatrace API Token: $DT_OPERATOR_TOKEN"
-    printInfo "Dynatrace Ingest Token: $DT_INGEST_TOKEN"
+    printInfo "Dynatrace API & PaaS Token: ${DT_OPERATOR_TOKEN:0:14}xxx..."
+    printInfo "Dynatrace Ingest Token: ${DT_INGEST_TOKEN:0:14}xxx..."
+    printInfo "Dynatrace Otel API Token: ${DT_INGEST_TOKEN:0:14}xxx..."
     printInfo "Dynatrace Otel Endpoint: $DT_OTEL_ENDPOINT"
-
-    saveReadCredentials $DT_TENANT $DT_OPERATOR_TOKEN $DT_INGEST_TOKEN
-
-  elif [[ $# -eq 3 ]]; then
-    DT_TENANT=$1
-    DT_OPERATOR_TOKEN=$2
-    DT_INGEST_TOKEN=$3
-    printInfo "--- Variables passed as arguments, overriding & saving them ------"
-    printInfo "Dynatrace Tenant: $DT_TENANT"
-    printInfo "Dynatrace API Token: $DT_OPERATOR_TOKEN"
-    printInfo "Dynatrace Ingest Token: $DT_INGEST_TOKEN"
-    saveReadCredentials $DT_TENANT $DT_OPERATOR_TOKEN $DT_INGEST_TOKEN
-
-  elif [[ -n "${DT_TENANT}" ]]; then
-    DT_TENANT=$DT_TENANT
-    DT_OPERATOR_TOKEN=$DT_OPERATOR_TOKEN
-    DT_INGEST_TOKEN=$DT_INGEST_TOKEN
-    printInfo "--- Variables set in the environment, overriding & saving them ------"
-    printInfo "Dynatrace Tenant: $DT_TENANT"
-    printInfo "Dynatrace API Token: $DT_OPERATOR_TOKEN"
-    printInfo "Dynatrace Ingest Token: $DT_INGEST_TOKEN"
-    saveReadCredentials $DT_TENANT $DT_OPERATOR_TOKEN $DT_INGEST_TOKEN
-  else
-    printInfoSection "Dynatrace Variables not passed, reading them"
-    saveReadCredentials
-  fi
 }
 
 deployCloudNative() {
+  dynatraceEvalReadSaveCredentials "$@"
+
   printInfoSection "Deploying Dynatrace in CloudNativeFullStack mode for $DT_TENANT"
   if [ -n "${DT_TENANT}" ]; then
     # Check if the Webhook has been created and is ready
@@ -526,6 +657,9 @@ deployCloudNative() {
 }
 
 deployApplicationMonitoring() { 
+
+  dynatraceEvalReadSaveCredentials "$@"
+
   printInfoSection "Deploying Dynatrace in ApplicationMonitoring mode for $DT_TENANT"
   if [ -n "${DT_TENANT}" ]; then
     # Check if the Webhook has been created and is ready
@@ -569,7 +703,7 @@ dynatraceDeployOperator() {
   printInfoSection "Deploying Dynatrace Operator"
   # posssibility to load functions.sh and call dynatraceDeployOperator A B C to save credentials and override
   # or just run in normal deployment
-  saveReadCredentials $@
+  dynatraceEvalReadSaveCredentials "$@"
   # new lines, needed for workflow-k8s-playground, cluster in dt needs to have the name k8s-playground-{requestuser} to be able to spin up multiple instances per tenant
 
   if [ -n "${DT_TENANT}" ]; then
@@ -625,8 +759,6 @@ deployOperatorViaKubectl(){
 
   printInfoSection "Deploying Operator via kubectl"
 
-  saveReadCredentials
-
   kubectl create namespace dynatrace
 
   kubectl apply -f https://github.com/Dynatrace/dynatrace-operator/releases/download/v1.5.1/kubernetes-csi.yaml
@@ -639,8 +771,6 @@ deployOperatorViaKubectl(){
 }
 
 deployOperatorViaHelm(){
-
-  saveReadCredentials
 
   helm install dynatrace-operator oci://public.ecr.aws/dynatrace/dynatrace-operator --create-namespace --namespace dynatrace --atomic
 
@@ -712,6 +842,10 @@ deployTodoApp(){
   # Define the NodePort to expose the app from the Cluster
   kubectl patch service todoapp --namespace=todoapp --type='json' --patch='[{"op": "replace", "path": "/spec/ports/0/nodePort", "value":30100}]'
 
+  waitForAllReadyPods todoapp
+
+  waitAppCanHandleRequests 30100
+
   printInfoSection "TodoApp is available via NodePort=30100"
 }
 
@@ -756,9 +890,6 @@ _buildLabGuide(){
 
 deployAstroshop(){
   printInfoSection "Deploying Astroshop"
-
-  # read the credentials and variables
-  #saveReadCredentials 
 
   # To override the Dynatrace values call the function with the following order
   #saveReadCredentials $DT_TENANT $DT_OPERATOR_TOKEN $DT_INGEST_TOKEN $DT_INGEST_TOKEN $DT_OTEL_ENDPOINT
@@ -901,3 +1032,6 @@ finalizePostCreation(){
       fi
   fi
 }
+
+# Custom functions for each repo can be added in my_functions.sh
+source /workspaces/$RepositoryName/.devcontainer/util/my_functions.sh
