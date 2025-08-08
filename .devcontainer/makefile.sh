@@ -12,15 +12,22 @@ TAG="v1.1"
 
 REPOTAG=$REPOSITORY:$TAG
 
-# Commands to be executed in the container after it is created (as in VSCode devcontainer.json)
-CMD="./.devcontainer/post-create.sh; ./.devcontainer/post-start.sh; zsh ;"
-
-# Calculates the RepositoryName from the base path, needed for loading the framework inside the container.
+# Calculates the RepositoryName from the base path needed for setting the directory so the framework can load inside the container.
 getRepositoryName
 
 # Loads variables k=v from the .env file into DOCKER_ENVS such as DT_TENANT, so they can be added as environment variables to the Docker container.
 getDockerEnvsFromEnvFile
 
+# Commands to be executed in the container after it is created (as in VSCode devcontainer.json)
+CMD="./.devcontainer/post-create.sh; ./.devcontainer/post-start.sh; zsh"
+
+# Ports to map to the host, add as many as wanted
+#PORTS="-p 30100:30100 -p 8000"
+PORTS="-p 30100:30100"
+
+VOLUMEMOUNTS="-v /var/run/docker.sock:/var/run/docker.sock -v /lib/modules:/lib/modules -v $(dirname "$PWD"):/workspaces/$RepositoryName"
+
+WORKINGDIR="-w /workspaces/$RepositoryName"
 
 buildNoCache(){
     # Build the image with no cache
@@ -40,41 +47,23 @@ build(){
     echo "Building completed."
 }
 
-runForProfessors(){
-    # Same as run but with exposure of port 8000 for Labguides
-
-    # Add repository name to the environment variables for the container
-    DOCKER_ENVS+=" -e RepositoryName=$RepositoryName"
-
-    docker run $DOCKER_ENVS \
-        --name $IMAGENAME \
-        --privileged \
-        --dns=8.8.8.8 \
-        --network=host \
-        -p 8000:8000 \
-        -p 30100:30100 \
-        -v /var/run/docker.sock:/var/run/docker.sock \
-        -v /lib/modules:/lib/modules \
-        -v $(dirname "$PWD"):/workspaces/$RepositoryName \
-        -w /workspaces/$RepositoryName \
-        -it $REPOTAG \
-        /usr/bin/zsh -c "$CMD"
-}
 
 run(){
-    # Add repository name to the environment variables for the container
-    DOCKER_ENVS+=" -e RepositoryName=$RepositoryName"
+    if [ -z "$1" ]; then
+        echo "starting docker container with: $CMD"
+    else
+        echo "running in container: $1"
+        CMD="$1"
+    fi
 
     docker run $DOCKER_ENVS \
         --name $IMAGENAME \
         --privileged \
         --dns=8.8.8.8 \
         --network=host \
-        -p 30100:30100 \
-        -v /var/run/docker.sock:/var/run/docker.sock \
-        -v /lib/modules:/lib/modules \
-        -v $(dirname "$PWD"):/workspaces/$RepositoryName \
-        -w /workspaces/$RepositoryName \
+        $PORTS \
+        $VOLUMEMOUNTS \
+        $WORKINGDIR \
         -it $REPOTAG \
         /usr/bin/zsh -c "$CMD"
 }
@@ -90,6 +79,33 @@ start(){
     elif  [ "$status" = "running" ]; then 
         echo "Container $IMAGENAME is running, attaching new shell to it"
         docker exec -it $IMAGENAME zsh 
+    else
+        echo "Image $IMAGENAME is not found."
+        if docker images --format '{{.Repository}}:{{.Tag}}' | grep -q "^$IMAGENAME$"; then
+            echo "Image exists locally, running it."
+        else
+            echo "Image does not exist locally. Building it first, if you want to build your own, do 'make build'"
+        fi
+        run
+    fi
+}
+
+integration(){
+    echo "Executing Integration-Tests -"
+    CMD_TEST=" ./.devcontainer/test/integration.sh"
+    CMD+="$CMD_TEST"
+    
+    status=$(docker inspect -f '{{.State.Status}}' "$IMAGENAME")
+    if [ "$status" = "exited" ] || [ "$status" = "dead" ]; then
+        echo "Container is stopped removing container."
+        # Add repository name to the environment variables for the container
+        docker rm $IMAGENAME
+        echo "Starting a new container"
+        run 
+    elif  [ "$status" = "running" ]; then 
+        # FIXME: Better to load test functions in framework or call the script from a function in the framework in an extra shell. 
+        echo "Container $IMAGENAME is running, running the tests inside the running container (WIP)..."
+        docker exec -t $IMAGENAME "zsh"
     else
         echo "Image $IMAGENAME is not found."
         if docker images --format '{{.Repository}}:{{.Tag}}' | grep -q "^$IMAGENAME$"; then

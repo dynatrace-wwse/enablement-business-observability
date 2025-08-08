@@ -7,6 +7,7 @@ on:
     branches:
       - main
       - ghactions/main
+      - fix/repopath
   pull_request:
     branches:
       - main
@@ -16,7 +17,6 @@ jobs:
     # No CI Test should run longer than 10 minutes.
     timeout-minutes: 10
     env:
-      RepositoryName: "codespaces-synchronizer"
       DT_TENANT: ${{ secrets.DT_TENANT }}
       DT_OPERATOR_TOKEN: ${{ secrets.DT_OPERATOR_TOKEN }}
       DT_INGEST_TOKEN: ${{ secrets.DT_INGEST_TOKEN }}

@@ -1,10 +1,7 @@
 #!/bin/bash
-
-# Install RunMe
-# RunMe makes markdown files runnable
-# Used during end2end testing to execute the code snippets
-source /workspaces/$RepositoryName/.devcontainer/util/functions.sh
-
+#loading functions to script
+export SECONDS=0
+source .devcontainer/util/source_framework.sh
 
 bindFunctionsInShell
 

@@ -42,23 +42,21 @@
 	},
   // minimal CPU when running DT components and apps.
 	"hostRequirements": {
-		"cpus": 4
-	},
-
-	// Add recommended secrets
-	// Commented out since we are not deploying Dynatrace in the template.
-	"secrets": {
-		"DT_TENANT": {
-			 "description": "eg. abc123 for live -> https://abc123.live.dynatrace.com or sprint -> https://abc123.sprint.dynatracelabs.com no apps in the URL"
-	 },
-		"DT_OPERATOR_TOKEN": {
-			 "description": "Dynatrace Operator Token, it will be created automatically when adding a new Cluster over the UI. It contains the following permissions: 'Create ActiveGate tokens' 'Read entities' 'Read settings' 'Write settings' 'Access probrem and event feed, metrics and topology' 'PaaS Integration - installer download'"
-	 },
-		"DT_INGEST_TOKEN": {
-			 "description": "Dynatrace Ingest Token, it will be created automatically when adding a new Cluster over the UI. It contains the following permissions: 'Ingest logs' 'Ingest metrics' 'Ingest OpenTelemetry traces' "
-	 }
-  },
-  "remoteEnv": {
-    "RepositoryName": "enablement-business-observability"
-  }
+		"cpus": 2
+	}
+  /*
+  // Add recommended secrets 
+  */
+  ,
+    "secrets": {
+      "DT_TENANT": {
+        "description": "eg. abc123 for live -> https://abc123.live.dynatrace.com or sprint -> https://abc123.sprint.dynatracelabs.com no apps in the URL"
+      },
+      "DT_OPERATOR_TOKEN": {
+        "description": "Dynatrace Operator Token, it will be created automatically when adding a new Cluster over the UI. It contains the following permissions: 'Create ActiveGate tokens' 'Read entities' 'Read settings' 'Write settings' 'Access probrem and event feed, metrics and topology' 'PaaS Integration - installer download'"
+      },
+      "DT_INGEST_TOKEN": {
+        "description": "Dynatrace Ingest Token, it will be created automatically when adding a new Cluster over the UI. It contains the following permissions: 'Ingest logs' 'Ingest metrics' 'Ingest OpenTelemetry traces' "
+      }
+    }
 }
