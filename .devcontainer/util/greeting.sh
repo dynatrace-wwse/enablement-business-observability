@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # VARIABLES DECLARATION
-source /workspaces/$RepositoryName/.devcontainer/util/variables.sh
+source $REPO_PATH/.devcontainer/util/variables.sh
 
 echo -e "${thickline}"
 echo -e ""
@@ -36,7 +36,7 @@ echo -e " ${LILA}Codespace information: ${NORMAL}   "
 echo -e "Codespace ${RESET}${CODESPACE_NAME}${NORMAL} running for user ${RESET}${PRINT_USER}    "
 echo -e "                                                                                                             "
 echo -e "${CYAN}This devcontainer is exposing the following processes:${RESET} "
-echo -e "  ${LILA}App UI:${RESET} ${WEBAPP_URL} "
+echo -e "  ${LILA}Web App UI:${RESET} ${WEBAPP_URL} "
 echo -e "                                                                                                             "
 echo -e "${CYAN}This container has the following tools installed and configured for your best experience:${RESET} "
 echo -e "  ${RESET}k9s kubectl helm node jq python3 gh ${RESET} "

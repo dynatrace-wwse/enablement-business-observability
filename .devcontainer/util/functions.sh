@@ -15,7 +15,7 @@ if [ -z "$REPO_PATH" ]; then
 fi
 
 # VARIABLES DECLARATION
-source /workspaces/$RepositoryName/.devcontainer/util/variables.sh
+source "$REPO_PATH/.devcontainer/util/variables.sh"
 
 # FUNCTIONS DECLARATIONS
 timestamp() {
@@ -121,7 +121,7 @@ postCodespaceTracker(){
 }
 
 printGreeting(){
-  bash $CODESPACE_VSCODE_FOLDER/.devcontainer/util/greeting.sh
+  bash $REPO_PATH/.devcontainer/util/greeting.sh
 }
 
 waitForPod() {
@@ -327,7 +327,7 @@ export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 
 # Loading all this functions in CLI
-source $CODESPACE_VSCODE_FOLDER/.devcontainer/util/functions.sh
+source $REPO_PATH/.devcontainer/util/functions.sh
 
 #print greeting everytime a Terminal is opened
 printGreeting
@@ -373,11 +373,11 @@ startKindCluster(){
   KINDIMAGE="kind-control-plane"
   KIND_STATUS=$(docker inspect -f '{{.State.Status}}' $KINDIMAGE 2>/dev/null)
   if [ "$KIND_STATUS" = "exited" ] || [ "$KIND_STATUS" = "dead" ]; then
-    printInfo "There is a stopped $KINDIMAGE, starting it..."
+    printWarn "There is a stopped $KINDIMAGE, starting it..."
     docker start $KINDIMAGE
     attachKindCluster
   elif  [ "$KIND_STATUS" = "running" ]; then
-    printInfo "A $KINDIMAGE is already running, attaching to it..."
+    printWarn "A $KINDIMAGE is already running, attaching to it..."
     attachKindCluster
   else
     printInfo "No $KINDIMAGE was found, creating a new one..."
@@ -413,7 +413,7 @@ createKindCluster() {
   printInfoSection "Creating Kubernetes Cluster (kind-control-plane)"
   # Create k8s cluster
   printInfo "Creating Kind cluster"
-  kind create cluster --config "$CODESPACE_VSCODE_FOLDER/.devcontainer/kind-cluster.yml" --wait 5m &&\
+  kind create cluster --config "$REPO_PATH/.devcontainer/kind-cluster.yml" --wait 5m &&\
     printInfo "Kind cluster created successfully, reachabe under:" ||\
     printWarn "Kind cluster could not be created"
   kubectl cluster-info --context kind-kind
@@ -455,9 +455,9 @@ certmanagerEnable() {
   fi
 
   printInfo "EmailAccount for ClusterIssuer $EMAIL, creating ClusterIssuer"
-  cat $CODESPACE_VSCODE_FOLDER/.devcontainer/yaml/clusterissuer.yaml | sed 's~email.placeholder~'"$EMAIL"'~' >$CODESPACE_VSCODE_FOLDER/.devcontainer/yaml/gen/clusterissuer.yaml
+  cat $REPO_PATH/.devcontainer/yaml/clusterissuer.yaml | sed 's~email.placeholder~'"$EMAIL"'~' >$REPO_PATH/.devcontainer/yaml/gen/clusterissuer.yaml
 
-  kubectl apply -f $CODESPACE_VSCODE_FOLDER/.devcontainer/yaml/gen/clusterissuer.yaml
+  kubectl apply -f $REPO_PATH/.devcontainer/yaml/gen/clusterissuer.yaml
 
   printInfo "Let's Encrypt Process in kubectl for CertManager"
   printInfo " For observing the creation of the certificates: \n
@@ -648,7 +648,7 @@ deployCloudNative() {
     # Check if the Webhook has been created and is ready
     kubectl -n dynatrace wait pod --for=condition=ready --selector=app.kubernetes.io/name=dynatrace-operator,app.kubernetes.io/component=webhook --timeout=300s
 
-    kubectl -n dynatrace apply -f $CODESPACE_VSCODE_FOLDER/.devcontainer/yaml/gen/dynakube-cloudnative.yaml
+    kubectl -n dynatrace apply -f $REPO_PATH/.devcontainer/yaml/gen/dynakube-cloudnative.yaml
 
     printInfo "Log capturing will be handled by the Host agent."
     
@@ -670,7 +670,7 @@ deployApplicationMonitoring() {
     # Check if the Webhook has been created and is ready
     kubectl -n dynatrace wait pod --for=condition=ready --selector=app.kubernetes.io/name=dynatrace-operator,app.kubernetes.io/component=webhook --timeout=300s
 
-    kubectl -n dynatrace apply -f $CODESPACE_VSCODE_FOLDER/.devcontainer/yaml/gen/dynakube-apponly.yaml
+    kubectl -n dynatrace apply -f $REPO_PATH/.devcontainer/yaml/gen/dynakube-apponly.yaml
     
     # we wait for the AG to be scheduled
     waitForPod dynatrace activegate
@@ -738,25 +738,25 @@ generateDynakube(){
     export CLUSTERNAME
 
     # Generate DynaKubeSkel with API URL
-    sed -e 's~apiUrl: https://ENVIRONMENTID.live.dynatrace.com/api~apiUrl: '"$DT_API_URL"'~' $CODESPACE_VSCODE_FOLDER/.devcontainer/yaml/dynakube-skel-head.yaml > $CODESPACE_VSCODE_FOLDER/.devcontainer/yaml/gen/dynakube-skel-head.yaml
+    sed -e 's~apiUrl: https://ENVIRONMENTID.live.dynatrace.com/api~apiUrl: '"$DT_API_URL"'~' $REPO_PATH/.devcontainer/yaml/dynakube-skel-head.yaml > $REPO_PATH/.devcontainer/yaml/gen/dynakube-skel-head.yaml
 
     # ClusterName for API
-    sed -i 's~feature.dynatrace.com/automatic-kubernetes-api-monitoring-cluster-name: "CLUSTERNAME"~feature.dynatrace.com/automatic-kubernetes-api-monitoring-cluster-name: "'"$CLUSTERNAME"'"~g' $CODESPACE_VSCODE_FOLDER/.devcontainer/yaml/gen/dynakube-skel-head.yaml
+    sed -i 's~feature.dynatrace.com/automatic-kubernetes-api-monitoring-cluster-name: "CLUSTERNAME"~feature.dynatrace.com/automatic-kubernetes-api-monitoring-cluster-name: "'"$CLUSTERNAME"'"~g' $REPO_PATH/.devcontainer/yaml/gen/dynakube-skel-head.yaml
     # Replace Networkzone
-    sed -i 's~networkZone: CLUSTERNAME~networkZone: '$CLUSTERNAME'~g' $CODESPACE_VSCODE_FOLDER/.devcontainer/yaml/gen/dynakube-skel-head.yaml
+    sed -i 's~networkZone: CLUSTERNAME~networkZone: '$CLUSTERNAME'~g' $REPO_PATH/.devcontainer/yaml/gen/dynakube-skel-head.yaml
     # Add ActiveGate config (added first so its applied to both CNFS and AppOnly)
-    cat $CODESPACE_VSCODE_FOLDER/.devcontainer/yaml/dynakube-body-activegate.yaml >> $CODESPACE_VSCODE_FOLDER/.devcontainer/yaml/gen/dynakube-skel-head.yaml
+    cat $REPO_PATH/.devcontainer/yaml/dynakube-body-activegate.yaml >> $REPO_PATH/.devcontainer/yaml/gen/dynakube-skel-head.yaml
     
     # Set ActiveGate Group 
-    sed -i 's~group: CLUSTERNAME~group: '$CLUSTERNAME'~g' $CODESPACE_VSCODE_FOLDER/.devcontainer/yaml/gen/dynakube-skel-head.yaml
+    sed -i 's~group: CLUSTERNAME~group: '$CLUSTERNAME'~g' $REPO_PATH/.devcontainer/yaml/gen/dynakube-skel-head.yaml
 
     # Generate CloudNative Body (head + CNFS)
-    cat $CODESPACE_VSCODE_FOLDER/.devcontainer/yaml/gen/dynakube-skel-head.yaml $CODESPACE_VSCODE_FOLDER/.devcontainer/yaml/dynakube-body-cloudnative.yaml > $CODESPACE_VSCODE_FOLDER/.devcontainer/yaml/gen/dynakube-cloudnative.yaml
+    cat $REPO_PATH/.devcontainer/yaml/gen/dynakube-skel-head.yaml $REPO_PATH/.devcontainer/yaml/dynakube-body-cloudnative.yaml > $REPO_PATH/.devcontainer/yaml/gen/dynakube-cloudnative.yaml
     # Set CloudNative HostGroup
-    sed -i 's~hostGroup: CLUSTERNAME~hostGroup: '$CLUSTERNAME'~g' $CODESPACE_VSCODE_FOLDER/.devcontainer/yaml/gen/dynakube-cloudnative.yaml
+    sed -i 's~hostGroup: CLUSTERNAME~hostGroup: '$CLUSTERNAME'~g' $REPO_PATH/.devcontainer/yaml/gen/dynakube-cloudnative.yaml
 
     # Generate AppOnly Body
-    cat $CODESPACE_VSCODE_FOLDER/.devcontainer/yaml/gen/dynakube-skel-head.yaml $CODESPACE_VSCODE_FOLDER/.devcontainer/yaml/dynakube-body-apponly.yaml > $CODESPACE_VSCODE_FOLDER/.devcontainer/yaml/gen/dynakube-apponly.yaml
+    cat $REPO_PATH/.devcontainer/yaml/gen/dynakube-skel-head.yaml $REPO_PATH/.devcontainer/yaml/dynakube-body-apponly.yaml > $REPO_PATH/.devcontainer/yaml/gen/dynakube-apponly.yaml
 
 }
 
@@ -796,13 +796,13 @@ undeployOperatorViaHelm(){
 deployAITravelAdvisorApp(){
   printInfoSection "Deploying AI Travel Advisor App & it's LLM"
 
-  kubectl apply -f /workspaces/$RepositoryName/app/k8s/namespace.yaml
+  kubectl apply -f $REPO_PATH/app/k8s/namespace.yaml
 
   kubectl -n ai-travel-advisor create secret generic dynatrace --from-literal=token=$DT_TOKEN --from-literal=endpoint=$DT_TENANT/api/v2/otlp
 
   # Start OLLAMA
   printInfo "Deploying our LLM => Ollama"
-  kubectl apply -f /workspaces/$RepositoryName/app/k8s/ollama.yaml
+  kubectl apply -f $REPO_PATH/app/k8s/ollama.yaml
   waitForPod ai-travel-advisor ollama
   printInfo "Waiting for Ollama to get ready"
   kubectl -n ai-travel-advisor wait --for=condition=Ready pod --all --timeout=10m
@@ -810,7 +810,7 @@ deployAITravelAdvisorApp(){
 
   # Start Weaviate
   printInfo "Deploying our VectorDB => Weaviate"
-  kubectl apply -f /workspaces/$RepositoryName/app/k8s/weaviate.yaml
+  kubectl apply -f $REPO_PATH/app/k8s/weaviate.yaml
 
   waitForPod ai-travel-advisor weaviate
   printInfo "Waiting for Weaviate to get ready"
@@ -819,7 +819,7 @@ deployAITravelAdvisorApp(){
 
   # Start AI Travel Advisor
   printInfo "Deploying AI App => AI Travel Advisor"
-  kubectl apply -f /workspaces/$RepositoryName/app/k8s/ai-travel-advisor.yaml
+  kubectl apply -f $REPO_PATH/app/k8s/ai-travel-advisor.yaml
   
   waitForPod ai-travel-advisor ai-travel-advisor
   printInfo "Waiting for AI Travel Advisor to get ready"
@@ -883,14 +883,14 @@ exposeMkdocs(){
 
 _exposeLabguide(){
   printInfo "Exposing Lab Guide in your dev.container"
-  cd $CODESPACE_VSCODE_FOLDER/lab-guide/
+  cd $REPO_PATH/lab-guide/
   nohup node bin/server.js --host 0.0.0.0 --port 3000 > /dev/null 2>&1 &
   cd -
 }
 
 _buildLabGuide(){
   printInfoSection "Building the Lab-guide in port 3000"
-  cd $CODESPACE_VSCODE_FOLDER/lab-guide/
+  cd $REPO_PATH/lab-guide/
   node bin/generator.js
   cd -
 }
@@ -904,12 +904,12 @@ deployAstroshop(){
   ###
   # Instructions to install Astroshop with Helm Chart from R&D and images built in shinojos repo (including code modifications from R&D)
   ####
-  #sed -i 's~domain.placeholder~'"$DOMAIN"'~' $CODESPACE_VSCODE_FOLDER/.devcontainer/astroshop/helm/dt-otel-demo-helm/values.yaml
-  #sed -i 's~domain.placeholder~'"$DOMAIN"'~' $CODESPACE_VSCODE_FOLDER/.devcontainer/astroshop/helm/dt-otel-demo-helm-deployments/values.yaml
+  #sed -i 's~domain.placeholder~'"$DOMAIN"'~' $REPO_PATH/.devcontainer/astroshop/helm/dt-otel-demo-helm/values.yaml
+  #sed -i 's~domain.placeholder~'"$DOMAIN"'~' $REPO_PATH/.devcontainer/astroshop/helm/dt-otel-demo-helm-deployments/values.yaml
 
   helm repo add open-telemetry https://open-telemetry.github.io/opentelemetry-helm-charts
 
-  helm dependency build $CODESPACE_VSCODE_FOLDER/.devcontainer/astroshop/helm/dt-otel-demo-helm
+  helm dependency build $REPO_PATH/.devcontainer/astroshop/helm/dt-otel-demo-helm
 
   kubectl create namespace astroshop
 
@@ -917,7 +917,7 @@ deployAstroshop(){
 
   printInfo "OTEL Configuration URL $DT_OTEL_ENDPOINT and Ingest Token $DT_INGEST_TOKEN"  
 
-  helm upgrade --install astroshop -f $CODESPACE_VSCODE_FOLDER/.devcontainer/astroshop/helm/dt-otel-demo-helm-deployments/values.yaml --set default.image.repository=docker.io/shinojosa/astroshop --set default.image.tag=1.12.0 --set collector_tenant_endpoint=$DT_OTEL_ENDPOINT --set collector_tenant_token=$DT_INGEST_TOKEN -n astroshop $CODESPACE_VSCODE_FOLDER/.devcontainer/astroshop/helm/dt-otel-demo-helm
+  helm upgrade --install astroshop -f $REPO_PATH/.devcontainer/astroshop/helm/dt-otel-demo-helm-deployments/values.yaml --set default.image.repository=docker.io/shinojosa/astroshop --set default.image.tag=1.12.0 --set collector_tenant_endpoint=$DT_OTEL_ENDPOINT --set collector_tenant_token=$DT_INGEST_TOKEN -n astroshop $REPO_PATH/.devcontainer/astroshop/helm/dt-otel-demo-helm
 
   printInfo "Exposing Astroshop in your dev.container via NodePort 30100"
 
@@ -956,7 +956,7 @@ deployGhdocs(){
 
 deployCronJobs() {
   printInfoSection "Deploying CronJobs for Astroshop for this lab"
-  kubectl apply -f $CODESPACE_VSCODE_FOLDER/.devcontainer/manifests/cronjobs.yaml
+  kubectl apply -f $REPO_PATH/.devcontainer/manifests/cronjobs.yaml
 }
 
 verifyCodespaceCreation(){
@@ -1021,10 +1021,10 @@ finalizePostCreation(){
       gh label create "e2e test failed" --force || true
 
       # Install required Python packages
-      pip install -r "/workspaces/$REPOSITORY_NAME/.devcontainer/testing/requirements.txt" --break-system-packages
+      pip install -r "$REPO_PATH/.devcontainer/testing/requirements.txt" --break-system-packages
 
       # Run the test harness script
-      python "/workspaces/$REPOSITORY_NAME/.devcontainer/testing/testharness.py"
+      python "$REPO_PATH/.devcontainer/testing/testharness.py"
 
       # Testing finished. Destroy the codespace
       gh codespace delete --codespace "$CODESPACE_NAME" --force
@@ -1047,4 +1047,4 @@ runIntegrationTests(){
 }
 
 # Custom functions for each repo can be added in my_functions.sh
-source /workspaces/$RepositoryName/.devcontainer/util/my_functions.sh
+source $REPO_PATH/.devcontainer/util/my_functions.sh
