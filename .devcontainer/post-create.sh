@@ -7,8 +7,6 @@ bindFunctionsInShell
 
 setupAliases
 
-installRunme
-
 startKindCluster
 
 installK9s
