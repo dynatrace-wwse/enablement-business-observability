@@ -1,7 +1,11 @@
 #!/bin/bash
-# Each function contains a boolean flag so the installations
-# can be highly customized.
-# Original file located https://github.com/dynatrace-wwse/kubernetes-playground/blob/main/cluster-setup/functions.sh
+# Functions file of the codespaces framework. Functions are loaded into the shell so the user can easily call them in a dynamic fashion.
+# This file contains all core functions used for deploying applications, tools or dynatrace components. 
+# Brief descrition of files:
+#  - functions.sh - core functions
+#  - greeting.sh -zsh/bash greeting (similar to MOTD)
+#  - source_framework.sh helper file to load the framework from different places (Codespaces, VSCode Extention, plain Docker container)
+#  - variables.sh - variable definitions
 
 # ======================================================================
 #          ------- Util Functions -------                              #
@@ -796,13 +800,13 @@ undeployOperatorViaHelm(){
 deployAITravelAdvisorApp(){
   printInfoSection "Deploying AI Travel Advisor App & it's LLM"
 
-  kubectl apply -f $REPO_PATH/app/k8s/namespace.yaml
+  kubectl apply -f $REPO_PATH/.devcontainer/apps/ai-travel-advisor/k8s/namespace.yaml
 
   kubectl -n ai-travel-advisor create secret generic dynatrace --from-literal=token=$DT_TOKEN --from-literal=endpoint=$DT_TENANT/api/v2/otlp
 
   # Start OLLAMA
   printInfo "Deploying our LLM => Ollama"
-  kubectl apply -f $REPO_PATH/app/k8s/ollama.yaml
+  kubectl apply -f $REPO_PATH/.devcontainer/apps/ai-travel-advisor/k8s/ollama.yaml
   waitForPod ai-travel-advisor ollama
   printInfo "Waiting for Ollama to get ready"
   kubectl -n ai-travel-advisor wait --for=condition=Ready pod --all --timeout=10m
@@ -810,7 +814,7 @@ deployAITravelAdvisorApp(){
 
   # Start Weaviate
   printInfo "Deploying our VectorDB => Weaviate"
-  kubectl apply -f $REPO_PATH/app/k8s/weaviate.yaml
+  kubectl apply -f $REPO_PATH/.devcontainer/apps/ai-travel-advisor/k8s/weaviate.yaml
 
   waitForPod ai-travel-advisor weaviate
   printInfo "Waiting for Weaviate to get ready"
@@ -819,7 +823,7 @@ deployAITravelAdvisorApp(){
 
   # Start AI Travel Advisor
   printInfo "Deploying AI App => AI Travel Advisor"
-  kubectl apply -f $REPO_PATH/app/k8s/ai-travel-advisor.yaml
+  kubectl apply -f $REPO_PATH/.devcontainer/apps/ai-travel-advisor/k8s/ai-travel-advisor.yaml
   
   waitForPod ai-travel-advisor ai-travel-advisor
   printInfo "Waiting for AI Travel Advisor to get ready"
@@ -904,12 +908,12 @@ deployAstroshop(){
   ###
   # Instructions to install Astroshop with Helm Chart from R&D and images built in shinojos repo (including code modifications from R&D)
   ####
-  #sed -i 's~domain.placeholder~'"$DOMAIN"'~' $REPO_PATH/.devcontainer/astroshop/helm/dt-otel-demo-helm/values.yaml
-  #sed -i 's~domain.placeholder~'"$DOMAIN"'~' $REPO_PATH/.devcontainer/astroshop/helm/dt-otel-demo-helm-deployments/values.yaml
+  #sed -i 's~domain.placeholder~'"$DOMAIN"'~' $REPO_PATH/.devcontainer/apps/astroshop/helm/dt-otel-demo-helm/values.yaml
+  #sed -i 's~domain.placeholder~'"$DOMAIN"'~' $REPO_PATH/.devcontainer/apps/astroshop/helm/dt-otel-demo-helm-deployments/values.yaml
 
   helm repo add open-telemetry https://open-telemetry.github.io/opentelemetry-helm-charts
 
-  helm dependency build $REPO_PATH/.devcontainer/astroshop/helm/dt-otel-demo-helm
+  helm dependency build $REPO_PATH/.devcontainer/apps/astroshop/helm/dt-otel-demo-helm
 
   kubectl create namespace astroshop
 
@@ -917,7 +921,7 @@ deployAstroshop(){
 
   printInfo "OTEL Configuration URL $DT_OTEL_ENDPOINT and Ingest Token $DT_INGEST_TOKEN"  
 
-  helm upgrade --install astroshop -f $REPO_PATH/.devcontainer/astroshop/helm/dt-otel-demo-helm-deployments/values.yaml --set default.image.repository=docker.io/shinojosa/astroshop --set default.image.tag=1.12.0 --set collector_tenant_endpoint=$DT_OTEL_ENDPOINT --set collector_tenant_token=$DT_INGEST_TOKEN -n astroshop $REPO_PATH/.devcontainer/astroshop/helm/dt-otel-demo-helm
+  helm upgrade --install astroshop -f $REPO_PATH/.devcontainer/apps/astroshop/helm/dt-otel-demo-helm-deployments/values.yaml --set default.image.repository=docker.io/shinojosa/astroshop --set default.image.tag=1.12.0 --set collector_tenant_endpoint=$DT_OTEL_ENDPOINT --set collector_tenant_token=$DT_INGEST_TOKEN -n astroshop $REPO_PATH/.devcontainer/apps/astroshop/helm/dt-otel-demo-helm
 
   printInfo "Exposing Astroshop in your dev.container via NodePort 30100"
 
@@ -934,6 +938,8 @@ deployAstroshop(){
   kubectl get cronjobs -n astroshop
 
   waitForAllPods astroshop
+
+  waitAppCanHandleRequests 30100
 
   printInfo "Astroshop deployed succesfully"
 }
@@ -952,11 +958,6 @@ showOpenPorts(){
 
 deployGhdocs(){
   mkdocs gh-deploy
-}
-
-deployCronJobs() {
-  printInfoSection "Deploying CronJobs for Astroshop for this lab"
-  kubectl apply -f $REPO_PATH/.devcontainer/manifests/cronjobs.yaml
 }
 
 verifyCodespaceCreation(){
