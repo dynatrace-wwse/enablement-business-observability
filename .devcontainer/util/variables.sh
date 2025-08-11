@@ -13,12 +13,12 @@ CERTMANAGER_VERSION=1.15.3
 RUNME_CLI_VERSION=3.10.2
 
 # Setting up the variable since its not set when instantiating the vscode folder.
-CODESPACE_VSCODE_FOLDER="/workspaces/$RepositoryName"
+#CODESPACE_VSCODE_FOLDER="$REPO_PATH"
 # Codespace Persisted share folder
 CODESPACE_PSHARE_FOLDER="/workspaces/.codespaces/.persistedshare"
 
 # Dynamic Variables between phases
-ENV_FILE="$CODESPACE_VSCODE_FOLDER/.devcontainer/util/.env"
+ENV_FILE="$REPO_PATH/.devcontainer/util/.env"
 
 if [ -e "$ENV_FILE" ]; then
   # file exists
@@ -60,7 +60,6 @@ thinline="______________________________________________________________________
 LOGNAME="dynatrace.enablement"
 
 # LabGuidePort
-LABGUIDEPORT=3000
 WEBAPPPORT=30100
 if [[ $CODESPACES == true ]]; then
   PRINT_USER=$GITHUB_USER

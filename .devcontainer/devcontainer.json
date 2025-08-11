@@ -33,12 +33,11 @@
   },
   	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	"forwardPorts": [
-		30100, 3000
+		30100
 	],
 	// add labels
 	"portsAttributes": {
-		"3000": { "label": "Lab Guide" },
-		"30100": { "label": "Astroshop Web UI" }
+		"30100": { "label": "Application Web UI" }
 	},
   // minimal CPU when running DT components and apps.
 	"hostRequirements": {
