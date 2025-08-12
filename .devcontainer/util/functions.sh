@@ -323,8 +323,32 @@ installK9s() {
   curl -sS https://webinstall.dev/k9s | bash
 }
 
+
+setUpTerminal(){
+  printInfoSection "Sourcing the DT-Enablement framework functions to the terminal, adding aliases, a Dynatrace greeting and installing power10k into .zshrc for user $USER "
+
+  printInfoSection "Installing power10k into .zshrc for user $USER "
+  
+  git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k"
+  
+  if [[ $CODESPACES == true ]]; then
+    printInfoSection "Power10k configuration is limited on web. If you open the devcontainer on an IDE type 'p10k configure' to reconfigure it."
+    cp $REPO_PATH/.devcontainer/p10k/.p10k.zsh.web $HOME/.p10k.zsh
+  else 
+    printInfoSection "Power10k configuration with many icons added."
+    cp $REPO_PATH/.devcontainer/p10k/.p10k.zsh $HOME/.p10k.zsh
+  fi
+  
+  cp $REPO_PATH/.devcontainer/p10k/.zshrc $HOME/.zshrc
+  
+  bindFunctionsInShell
+
+  setupAliases
+}
+
+
 bindFunctionsInShell() {
-  printInfoSection "Binding functions.sh and adding a Greeting in the .zshrc for user $USER "
+  printInfo "Binding functions.sh and adding a Greeting in the .zshrc for user $USER "
   echo "
 #Making sure the Locale is set properly
 export LANG=en_US.UTF-8
@@ -335,12 +359,15 @@ source $REPO_PATH/.devcontainer/util/functions.sh
 
 #print greeting everytime a Terminal is opened
 printGreeting
+
+#supress p10k instant prompt
+typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
 " >> /"$HOME"/.zshrc
 
 }
 
 setupAliases() {
-  printInfoSection "Adding Bash and Kubectl Pro CLI aliases to the end of the .zshrc for user $USER "
+  printInfo "Adding Bash and Kubectl Pro CLI aliases to the end of the .zshrc for user $USER "
   echo "
 # Alias for ease of use of the CLI
 alias las='ls -las' 
