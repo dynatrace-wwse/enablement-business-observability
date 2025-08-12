@@ -3,9 +3,7 @@
 export SECONDS=0
 source .devcontainer/util/source_framework.sh
 
-bindFunctionsInShell
-
-setupAliases
+setUpTerminal
 
 startKindCluster
 
