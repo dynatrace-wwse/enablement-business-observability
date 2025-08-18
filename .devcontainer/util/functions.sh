@@ -111,16 +111,21 @@ entrypoint(){
 }
 
 postCodespaceTracker(){
+  
   printInfo "Sending bizevent for $RepositoryName with $ERROR_COUNT issues built in $DURATION seconds"
 
-  curl -X POST https://grzxx1q7wd.execute-api.us-east-1.amazonaws.com/default/codespace-tracker \
+  curl -X POST $ENDPOINT_CODESPACES_TRACKER \
   -H "Content-Type: application/json" \
+  -H "Authorization: $CODESPACES_TRACKER_TOKEN" \
   -d "{
-  \"repo\": \"$GITHUB_REPOSITORY\",
-  \"demo\": \"$RepositoryName\",
-  \"codespace.error\": \"$ERROR_COUNT\",
+  \"repository\": \"$GITHUB_REPOSITORY\",
+  \"repository.name\": \"$RepositoryName\",
+  \"codespace.errors\": \"$ERROR_COUNT\",
   \"codespace.creation\": \"$DURATION\",
-  \"codespace.name\": \"$CODESPACE_NAME\"
+  \"codespace.type\": \"$INSTANTIATION_TYPE\",
+  \"codespace.arch\": \"$ARCH\",
+  \"codespace.name\": \"$CODESPACE_NAME\",
+  \"tenant\": \"$DT_TENANT\"
   }"
 }
 
@@ -329,6 +334,9 @@ setUpTerminal(){
 
   printInfoSection "Installing power10k into .zshrc for user $USER "
   
+  #TODO: Verify if ohmyZsh is there so we can add this functionality to any server by loading the functions
+  # source .devcontainer/util/source_framework.sh && setUpTerminal
+  # or at least add ohmyzsh, power10k and no greeting
   git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k"
   
   if [[ $CODESPACES == true ]]; then
@@ -987,10 +995,36 @@ deployGhdocs(){
   mkdocs gh-deploy
 }
 
+getRunningDockerContainernameByImagePattern(){
+  pattern=$1
+
+  containername=$(docker ps --filter "status=running" --format "{{.Names}} {{.Image}}" | grep $pattern | awk '{print $1}')
+
+  echo $containername
+
+}
+
 verifyCodespaceCreation(){
   printInfoSection "Verify Codespace creation"
   calculateTime
-  CODESPACE_ERRORS=$(cat $CODESPACE_PSHARE_FOLDER/creation.log | grep -i -E 'error|failed')
+  if [[ $INSTANTIATION_TYPE == "github-codespaces" ]]; then
+    CODESPACE_ERRORS=$(cat $CODESPACE_PSHARE_FOLDER/creation.log | grep -i -E 'error|failed')
+  elif [[ $INSTANTIATION_TYPE == "remote-container" ]] || [[ $INSTANTIATION_TYPE == "github-workflow" ]]; then
+    #FIXME: Verify instantiation of Github Actions & VS Code Remote containers
+    containername=$(getRunningDockerContainernameByImagePattern "vsc")
+    
+    CODESPACE_ERRORS=$(docker logs $containername | grep -i -E 'error|failed')
+    # Print logs of VSCode and cat grep them.
+    printWarn "Container was created in a remote container, either VS Code or Github Actions. Verification of proper creation TBD"
+  elif [[ $INSTANTIATION_TYPE == "local-docker-container" ]]; then
+    containername=$(getRunningDockerContainernameByImagePattern "dt-enablement")
+    CODESPACE_ERRORS=$(docker logs $containername | grep -i -E 'error|failed')
+    # above method works only calling it the first time. Otherwise the erros will be multiplied. We could clean them like below:
+    #awk '/Verify Codespace creation/ {exit} {print}' /tmp/dt-enablement.log > /tmp/dt-enablement-create.log
+  else 
+    printWarn "Container creation unknown."
+  fi
+
   if [ -n "$CODESPACE_ERRORS" ]; then
       ERROR_COUNT=$(printf "%s" "$CODESPACE_ERRORS" | wc -l) 
   else
@@ -1057,14 +1091,9 @@ finalizePostCreation(){
       # Testing finished. Destroy the codespace
       gh codespace delete --codespace "$CODESPACE_NAME" --force
   else
-      if [[ $CODESPACES == true ]]; then
-        verifyCodespaceCreation
-        postCodespaceTracker
-      else
-        printInfo "Container was not created in a codespace. Verification of proper creation TBD"
-        #FIXME: Verify Container creation and add in payload container type (codespace/vscode local/container) 
-        # add also Host architecture to the payload
-      fi
+      
+      verifyCodespaceCreation
+      postCodespaceTracker
   fi
 }
 

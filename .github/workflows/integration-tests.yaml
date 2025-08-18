@@ -1,4 +1,4 @@
-name: Integration Tests
+name: integration-tests
 run-name: ${{ github.event.head_commit.message }} - Core tests
 permissions:
   contents: write
@@ -6,8 +6,9 @@ on:
   push:
     branches:
       - main
-      - ghactions/main
-      - fix/repopath
+      - synch/*
+      - copycore/*
+      - ghactions/*
   pull_request:
     branches:
       - main
@@ -28,6 +29,7 @@ jobs:
           echo "Repository ${{ github.repository }}"
           echo "Commit message ${{ github.event.head_commit.message }}" 
           echo "Event ${{ github.event_name }}"
+          echo "envs" && env
       - name: Check out repository code
         uses: actions/checkout@v4
       - name: Add secrets in .env file for running locally with VS Code extension
