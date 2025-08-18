@@ -166,8 +166,8 @@ site/*
 **/tmp/**
 
 # no env files
-.devcontainer/util/.env
-.devcontainer/.env
-.devcontainer/runlocal/.env
+.devcontainer/util/.env*
+.devcontainer/.env*
+.devcontainer/runlocal/.env*
 
 
