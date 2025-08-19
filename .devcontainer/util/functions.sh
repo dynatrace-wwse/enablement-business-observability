@@ -837,8 +837,8 @@ deployAITravelAdvisorApp(){
 
   kubectl apply -f $REPO_PATH/.devcontainer/apps/ai-travel-advisor/k8s/namespace.yaml
 
-  kubectl -n ai-travel-advisor create secret generic dynatrace --from-literal=token=$DT_TOKEN --from-literal=endpoint=$DT_TENANT/api/v2/otlp
-
+  kubectl -n ai-travel-advisor create secret generic dynatrace --from-literal="token=$DT_TOKEN" --from-literal="endpoint=$DT_TENANT/api/v2/otlp"
+  
   # Start OLLAMA
   printInfo "Deploying our LLM => Ollama"
   kubectl apply -f $REPO_PATH/.devcontainer/apps/ai-travel-advisor/k8s/ollama.yaml
