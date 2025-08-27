@@ -6,6 +6,13 @@
 # ======================================================================
 
 # VARIABLES DECLARATION
+# Active Gate Version - https://gallery.ecr.aws/dynatrace/dynatrace-activegate
+AG_IMAGE="public.ecr.aws/dynatrace/dynatrace-activegate:1.319.40.20250825-155600"
+export AG_IMAGE=$AG_IMAGE
+# OneAgent Version - https://gallery.ecr.aws/dynatrace/dynatrace-oneagent
+OA_IMAGE="public.ecr.aws/dynatrace/dynatrace-oneagent:1.319.68.20250813-080958"
+export OA_IMAGE=$OA_IMAGE
+
 ENDPOINT_CODESPACES_TRACKER=https://codespaces-tracker.whydevslovedynatrace.com/api/receive
 CODESPACES_TRACKER_TOKEN_STRING="ilovedynatrace"
 

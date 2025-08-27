@@ -89,7 +89,7 @@
       # Optional: Sets the URI for the image containing the OneAgent installer used by the DaemonSet
       # Defaults to the latest OneAgent image on the tenant's registry
       #
-      # image:
+      # image: ""
 
       # Optional: If specified, indicates the OneAgent version to use
       # Defaults to "latest"
