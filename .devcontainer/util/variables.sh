@@ -20,7 +20,7 @@ CODESPACES_TRACKER_TOKEN_STRING="ilovedynatrace"
 CERTMANAGER_VERSION=1.15.3
 
 # RUNME Version
-RUNME_CLI_VERSION=3.10.2
+RUNME_CLI_VERSION=3.13.2
 
 # Setting up the variable since its not set when instantiating the vscode folder.
 #CODESPACE_VSCODE_FOLDER="$REPO_PATH"
