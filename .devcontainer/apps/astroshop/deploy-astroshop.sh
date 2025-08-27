@@ -15,8 +15,11 @@ saveReadCredentials
 ###
 # Instructions to install Astroshop with Helm Chart from R&D and images built in shinojos repo (including code modifications from R&D)
 ####
-sed -i 's~domain.placeholder~'"$DOMAIN"'~' $REPO_PATH/.devcontainer/astroshop/helm/dt-otel-demo-helm/values.yaml
-sed -i 's~domain.placeholder~'"$DOMAIN"'~' $REPO_PATH/.devcontainer/astroshop/helm/dt-otel-demo-helm-deployments/values.yaml
+sed 's~domain.placeholder~'"$DOMAIN"'~' $REPO_PATH/.devcontainer/astroshop/helm/dt-otel-demo-helm/values.yaml > $REPO_PATH/.devcontainer/astroshop/helm/dt-otel-demo-helm/values.yaml.tmp
+mv $REPO_PATH/.devcontainer/astroshop/helm/dt-otel-demo-helm/values.yaml.tmp $REPO_PATH/.devcontainer/astroshop/helm/dt-otel-demo-helm/values.yaml
+
+sed 's~domain.placeholder~'"$DOMAIN"'~' $REPO_PATH/.devcontainer/astroshop/helm/dt-otel-demo-helm-deployments/values.yaml > $REPO_PATH/.devcontainer/astroshop/helm/dt-otel-demo-helm-deployments/values.yaml.tmp
+mv $REPO_PATH/.devcontainer/astroshop/helm/dt-otel-demo-helm-deployments/values.yaml.tmp $REPO_PATH/.devcontainer/astroshop/helm/dt-otel-demo-helm-deployments/values.yaml
 
 helm repo add open-telemetry https://open-telemetry.github.io/opentelemetry-helm-charts
 
