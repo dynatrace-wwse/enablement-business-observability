@@ -237,3 +237,12 @@ If you are running on a MAC, You might have noticed that the terminal on VSCode 
 
 
 
+### Deployment of DT Components on ARM
+
+
+https://gallery.ecr.aws/dynatrace/dynatrace-activegate
+image: public.ecr.aws/dynatrace/dynatrace-activegate:1.317.48.20250821-210124
+
+
+https://gallery.ecr.aws/dynatrace/dynatrace-oneagent
+public.ecr.aws/dynatrace/dynatrace-oneagent:1.317.63.20250811-141521

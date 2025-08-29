@@ -1,0 +1,27 @@
+name: deploy mkdocs to github pages
+run-name: ${{ github.event.head_commit.message }}  - deploy github pages
+permissions:
+  contents: write
+on:
+  push:
+    branches:
+      - main
+jobs:
+  deploy-github-pages:
+    runs-on: ubuntu-24.04
+    # No CI Test should run longer than 10 minutes.
+    timeout-minutes: 10
+    steps:
+    - name: Checkout repository code
+      uses: actions/checkout@v4
+    - uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+    - name: Install Runme, MKDocs and deploy
+      run: | 
+        source .devcontainer/util/source_framework.sh
+        installMkdocs
+        git fetch origin gh-pages:gh-pages
+        mkdocs build
+        mkdocs gh-deploy
+        
