@@ -1,19 +1,13 @@
 name: integration-tests
-run-name: ${{ github.event.head_commit.message }} - Core tests
+run-name: ${{ github.event.head_commit.message }} - integration test
 permissions:
   contents: write
 on:
-  push:
-    branches:
-      - main
-      - synch/*
-      - copycore/*
-      - ghactions/*
   pull_request:
     branches:
       - main
 jobs:
-  ci-test-vscode-extension-locally-on-ubuntu-server:
+  codespaces-integration-test-with-dynatrace-deployment:
     runs-on: ubuntu-24.04
     # No CI Test should run longer than 10 minutes.
     timeout-minutes: 10

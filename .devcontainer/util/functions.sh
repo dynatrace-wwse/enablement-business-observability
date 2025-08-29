@@ -783,9 +783,9 @@ generateDynakube(){
     if [[ "$arch" == "x86_64" ]]; then
       printInfo "Codespace is running in AMD (x86_64), Dynakube image is set as default to pull the latest from the tenant $DT_TENANT"
     elif [[ "$arch" == *"arm"* || "$arch" == *"aarch64"* ]]; then
-      printInfo "Codespace is running in ARM architecture ($arch), Dynakube image will be set in Dynakube for AG and OneAgent."
-      printInfo "ActiveGate image: $AG_IMAGE"
-      printInfo "OneAgent image: $OA_IMAGE"
+      printWarn "Codespace is running in ARM architecture ($arch), Dynakube image will be set in Dynakube for AG and OneAgent."
+      printWarn "ActiveGate image: $AG_IMAGE"
+      printWarn "OneAgent image: $OA_IMAGE"
       ARM=true
     else
       printInfo "Codespace is running on an unkown architecture ($arch), Dynakube image will be set in Dynakube for AG and OneAgent."
@@ -944,15 +944,19 @@ _exposeAstroshop(){
 
 
 installMkdocs(){
+  printInfoSection "Installing Mkdocs"
+  printInfo "Installing Runme v $RUNME_CLI_VERSION"
   installRunme
-  printInfo "Installing Mkdocs"
+  printInfo "Installing MKdocs"
   pip install --break-system-packages -r docs/requirements/requirements-mkdocs.txt
+  printInfo "Exposing MKdocs 0.0.0.0:8000"
+  exposeMkdocs
 }
 
 
 exposeMkdocs(){
   printInfo "Exposing Mkdocs in your dev.container"
-  nohup mkdocs serve -a localhost:8000 > /dev/null 2>&1 &
+  nohup mkdocs serve -a 0.0.0.0:8000 > /dev/null 2>&1 &
 }
 
 

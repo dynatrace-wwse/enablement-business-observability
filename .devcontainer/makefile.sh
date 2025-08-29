@@ -23,7 +23,7 @@ CMD="./.devcontainer/post-create.sh; ./.devcontainer/post-start.sh; zsh"
 
 # Ports to map to the host, add as many as wanted
 #PORTS="-p 30100:30100 -p 8000"
-PORTS="-p 30100:30100"
+PORTS="-p 30100:30100 -p 30200:30200 -p 8000:8000"
 
 VOLUMEMOUNTS="-v /var/run/docker.sock:/var/run/docker.sock -v /lib/modules:/lib/modules -v $(dirname "$PWD"):/workspaces/$RepositoryName"
 
