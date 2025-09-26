@@ -1,6 +1,8 @@
 --8<-- "snippets/send-bizevent/bizevent-codespaces.js"
 # Codespaces
 
+--8<-- "snippets/dt-enablement.md"
+
 ## Codespace Prep
 
 ### Configure Codespaces Settings - Secrets
