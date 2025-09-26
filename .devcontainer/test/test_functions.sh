@@ -1,5 +1,5 @@
 #!/bin/bash
-source /workspaces/$RepositoryName/.devcontainer/util/functions.sh
+# Here is the definition of the test functions, the file needs to be loaded within the functions.sh file
 
 assertDynatraceOperator(){
 
@@ -52,10 +52,21 @@ assertRunningPod(){
   if [[ $# -eq 2 ]]; then
     namespace_filter="-n $1"
     pod_filter="$2"
+    verify_namespace=true
   elif [[ $# -eq 1 ]]; then
     namespace_filter="--all-namespaces"
     pod_filter="$1"
   fi
+
+  # Need to check if the NS exists
+  if [[ $verify_namespace == true ]]; then
+    kubectl get namespace "$1" >/dev/null 2>&1
+    if [[ $? -eq 1 ]]; then
+      printError "❌ Namespace \"$1\" does not exists."
+      exit 1
+    fi
+  fi
+
   # Get all pods, count and invert the search for not running nor completed. Status is for deleting the last line of the output
   CMD="kubectl get pods $namespace_filter 2>&1 | grep -c -E '$pod_filter'"
   printInfo "Verifying that pods in \"$namespace_filter\" with name \"$pod_filter\" are up and running."

@@ -32,12 +32,10 @@ nodes:
   extraMounts:
   - hostPath: /
     containerPath: /mnt/root
-  # Ports are forwarded on demand using a container.
   extraPortMappings:
   - hostPort: 30100
     containerPort: 30100
-  #  protocol: TCP
-  #- hostPort: 6443
-  #  containerPort: 6443
-  #- hostPort: 4318
-  #  containerPort: 4318
+  - hostPort: 30200
+    containerPort: 30200
+  - hostPort: 30300
+    containerPort: 30300

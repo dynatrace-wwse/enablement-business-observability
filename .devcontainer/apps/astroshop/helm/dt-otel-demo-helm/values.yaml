@@ -441,7 +441,7 @@ opentelemetry-demo:
     podAnnotations:
       oneagent.dynatrace.com/inject: "true"
       metadata.dynatrace.com/process.technology: "elasticsearch" 
-    enabled: true
+    enabled: false
     envOverrides:
       - name: DT_LOGLEVELCON # https://www.dynatrace.com/support/help/shortlink/agent-logging
         value: "" # info
