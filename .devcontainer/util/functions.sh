@@ -21,6 +21,10 @@ fi
 # VARIABLES DECLARATION
 source "$REPO_PATH/.devcontainer/util/variables.sh"
 
+# LOAD TEST FUNCTIONS
+source "$REPO_PATH/.devcontainer/test/test_functions.sh"
+
+
 # FUNCTIONS DECLARATIONS
 timestamp() {
   date +"[%Y-%m-%d %H:%M:%S]"
@@ -55,59 +59,6 @@ printError() {
     return 0
   fi
   echo -e "${GREEN}[$LOGNAME| ${RED}ERROR${GREEN} |$(timestamp) ${LILA}| ${RESET}$1${LILA}  |"
-}
-
-entrypoint(){
-  printInfoSection "Making sure user permissions, host mapping and docker.sock are mapped correctly"
-  if [ true ]; then
-    USER=$(whoami)
-    printInfo "PID is $$, running as $USER inside the container"
-  
-    printInfo "Adding containers Hosts to etc/hosts/ for network resolution and sharing"
-    # Add hostname to docker container's /etc/hosts
-    HOST_MAPPING="127.0.0.1  $(hostname)"
-    # We pipe out the output since sudo at this points gives an error due the hostname not being resolvable
-    sudo sh -c "echo \"$HOST_MAPPING\" >> /etc/hosts" > /dev/null 2>&1
-    # Verify output (optional)
-    printInfo "/etc/hosts content:"
-    #cat /etc/hosts
-
-    printInfo "Verifying the Hosts Docker.sock GID (DOCKER_SOCK_GID) vs Container Docker Group GID (DOCKER_GROUP_ID)"
-    # Even if the user is in the same group (docker) since they are sharing the socket, the GID of the socket needs to match the GID of the docker group in the container.
-    # GID from the socker stat
-    DOCKER_SOCK_GID=$(stat -c '%g' /var/run/docker.sock)
-    # Group ID for docker group
-    DOCKER_GROUP_ID=$(getent group docker | cut -d: -f3)
-    # Mapping docker groups of Host and Container
-    if [ $DOCKER_SOCK_GID = $DOCKER_GROUP_ID ]; then
-        printInfo "DOCKER_SOCK_GID[$DOCKER_SOCK_GID] matches DOCKER_GROUP_ID[$DOCKER_GROUP_ID]. No changes needed."
-    else
-        printInfo "DOCKER_SOCK_GID[$DOCKER_SOCK_GID] do NOT match DOCKER_GROUP_ID[$DOCKER_GROUP_ID]. Updating..."
-        sudo groupmod -g $DOCKER_SOCK_GID docker && printInfo "Updated correctly..."
-
-        printInfo "Adding '$USER' to the docker group to have access to the docker socket"
-        sudo usermod -aG docker $USER
-
-        printInfo "Changing shell with 'newgrp docker' to apply changes immediately of the docker group membership"
-        
-        printInfo "Executing following commands as Group docker: 0:$0 ,$1 ,$2, @:$@ , *:$*"
-        #exec newgrp docker "$0 $*"
-        #exec sg docker "$@"
-        #exec sg docker "$0"
-        exec sg docker "$*"
-        
-        # Construct an array which quotes all the command-line parameters.
-        #arr=("${@/#/\"}")
-        #arr=("${arr[*]/%/\"}")
-        #exec sg docker "$0 ${arr[@]}"
-        
-        #exec newgrp docker "$@"
-        printInfo "Replacing current shell process with the command and its arguments passed to the script or function since we are at entrypoint"
-        exec "$@"
-    fi
-  else
-    printInfo "PID is not 1, it is $$, nothing to verify, we are not at the entrypoint."
-  fi
 }
 
 postCodespaceTracker(){
@@ -394,10 +345,18 @@ alias pg='ps -aux | grep'
 }
 
 installRunme() {
-  printInfoSection "Installing Runme Version $RUNME_CLI_VERSION"
   mkdir runme_binary
-  wget -O runme_binary/runme_linux_x86_64.tar.gz https://download.stateful.com/runme/${RUNME_CLI_VERSION}/runme_linux_x86_64.tar.gz
-  tar -xvf runme_binary/runme_linux_x86_64.tar.gz --directory runme_binary
+  if [[ "$ARCH" == "x86_64" ]]; then
+    printInfoSection "Installing Runme Version $RUNME_CLI_VERSION for AMD/x86"
+    wget -O runme_binary/runme_linux_x86_64.tar.gz https://download.stateful.com/runme/${RUNME_CLI_VERSION}/runme_linux_x86_64.tar.gz
+    tar -xvf runme_binary/runme_linux_x86_64.tar.gz --directory runme_binary
+  elif [[ "$ARCH" == *"arm"* || "$ARCH" == *"aarch64"* ]]; then
+    printInfoSection "Installing Runme Version $RUNME_CLI_VERSION for ARM"
+    wget -O runme_binary/runme_linux_arm64.tar.gz https://download.stateful.com/runme/${RUNME_CLI_VERSION}/runme_linux_arm64.tar.gz
+    tar -xvf runme_binary/runme_linux_arm64.tar.gz --directory runme_binary
+  else 
+    printWarn "Runme cant be installed, Architecture unknown"
+  fi
   sudo mv runme_binary/runme /usr/local/bin
   rm -rf runme_binary
 }
@@ -409,7 +368,6 @@ stopKindCluster(){
 
 startKindCluster(){
   printInfoSection "Starting Kubernetes Cluster (kind-control-plane)"
-  KINDIMAGE="kind-control-plane"
   KIND_STATUS=$(docker inspect -f '{{.State.Status}}' $KINDIMAGE 2>/dev/null)
   if [ "$KIND_STATUS" = "exited" ] || [ "$KIND_STATUS" = "dead" ]; then
     printWarn "There is a stopped $KINDIMAGE, starting it..."
@@ -469,6 +427,10 @@ certmanagerInstall() {
   kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v$CERTMANAGER_VERSION/cert-manager.yaml
   # shellcheck disable=SC2119
   waitForAllPods cert-manager
+}
+
+certmanagerDelete(){
+  kubectl delete -f https://github.com/jetstack/cert-manager/releases/download/v$CERTMANAGER_VERSION/cert-manager.yaml
 }
 
 generateRandomEmail() {
@@ -777,18 +739,17 @@ generateDynakube(){
     CLUSTERNAME=$(hostname)
     export CLUSTERNAME
 
-    arch=$(uname -m)
     ARM=false
 
-    if [[ "$arch" == "x86_64" ]]; then
+    if [[ "$ARCH" == "x86_64" ]]; then
       printInfo "Codespace is running in AMD (x86_64), Dynakube image is set as default to pull the latest from the tenant $DT_TENANT"
-    elif [[ "$arch" == *"arm"* || "$arch" == *"aarch64"* ]]; then
-      printInfo "Codespace is running in ARM architecture ($arch), Dynakube image will be set in Dynakube for AG and OneAgent."
-      printInfo "ActiveGate image: $AG_IMAGE"
-      printInfo "OneAgent image: $OA_IMAGE"
+    elif [[ "$ARCH" == *"arm"* || "$ARCH" == *"aarch64"* ]]; then
+      printWarn "Codespace is running in ARM architecture ($ARCH), Dynakube image will be set in Dynakube for AG and OneAgent."
+      printWarn "ActiveGate image: $AG_IMAGE"
+      printWarn "OneAgent image: $OA_IMAGE"
       ARM=true
     else
-      printInfo "Codespace is running on an unkown architecture ($arch), Dynakube image will be set in Dynakube for AG and OneAgent."
+      printInfo "Codespace is running on an unkown architecture ($ARCH), Dynakube image will be set in Dynakube for AG and OneAgent."
       printInfo "ActiveGate image: $AG_IMAGE"
       printInfo "OneAgent image: $OA_IMAGE"
       ARM=true
@@ -851,7 +812,6 @@ deployOperatorViaKubectl(){
 }
 
 deployOperatorViaHelm(){
-
   helm install dynatrace-operator oci://public.ecr.aws/dynatrace/dynatrace-operator --create-namespace --namespace dynatrace --atomic
 
   # Save Dynatrace Secret
@@ -862,14 +822,101 @@ deployOperatorViaHelm(){
 }
 
 undeployOperatorViaHelm(){
-
   helm uninstall dynatrace-operator --namespace dynatrace
+}
 
+
+installMkdocs(){
+  printInfoSection "Installing Mkdocs"
+  installRunme
+  printInfo "Installing MKdocs requirements"
+  pip install --break-system-packages -r docs/requirements/requirements-mkdocs.txt
+  exposeMkdocs
+}
+
+
+exposeMkdocs(){
+  printInfo "Exposing Mkdocs in your dev.container in port 8000 & running in the background, type 'jobs' to show the process."
+  nohup mkdocs serve --dev-addr=0.0.0.0:8000 --watch-theme --dirtyreload --livereload > /dev/null 2>&1 &
+
+}
+
+
+_exposeLabguide(){
+  printInfo "Exposing Lab Guide in your dev.container"
+  cd $REPO_PATH/lab-guide/
+  nohup node bin/server.js --host 0.0.0.0 --port 3000 > /dev/null 2>&1 &
+  cd -
+}
+
+_buildLabGuide(){
+  printInfoSection "Building the Lab-guide in port 3000"
+  cd $REPO_PATH/lab-guide/
+  node bin/generator.js
+  cd -
+}
+
+deployCertmanager(){
+  certmanagerInstall
+  certmanagerEnable
+}
+
+getNextFreeAppPort() {
+  # When print_log == true, then log is printed out but the 
+  # variable is not echoed out, this way is not printed in the log. If print_log =0 false, then the variable is echoed out 
+  # so the value can be catched as return vaue and stored.
+  local print_log="$1"
+  if [ -z "$print_log" ]; then
+    # As default no log is printed out. 
+    print_log=false
+  fi
+
+  printInfo "Iterating over NODE_PORTS: $NODE_PORTS" $print_log
+
+  # Reconstruct array (portable for Bash and Zsh)
+  PORT_ARRAY=()
+  for port in $(echo "$NODE_PORTS"); do
+    PORT_ARRAY+=("$port")
+  done
+
+  for port in "${PORT_ARRAY[@]}"; do
+    printInfo "Verifying if $port is free in Kubernetes Cluster..." $print_log
+
+    # Searching for services attached to a NodePort
+    allocated_app=$(kubectl get svc --all-namespaces -o wide | grep "$port")
+    
+    if [[ "$?" == '0' ]]; then
+      printWarn "Port $port is allocated by: $allocated_app" $print_log
+      app_deployed=true
+    else
+      printInfo "Port $port is free, allocating to app" $print_log
+      if [[ $app_deployed ]]; then
+        printWarn "You already have applications deployed, be careful with the sizing of your Kubernetes Cluster ;)" $print_log
+      fi 
+      # Use echo to return the value (functions can't use `return` for strings/numbers reliably)
+      echo "$port"
+      return 0
+    fi
+  done
+  printWarn "No NodePort is free for deploying apps in your container, please delete some apps before deploying more." $print_log
+  return 1
 }
 
 
 deployAITravelAdvisorApp(){
   printInfoSection "Deploying AI Travel Advisor App & it's LLM"
+  
+  if [[ "$ARCH" != "x86_64" ]]; then
+    printWarn "This version of the AI Travel Advisor only supports AMD/x86 architectures and not ARM, exiting deployment..."
+    return 1
+  fi
+  
+  getNextFreeAppPort true
+  PORT=$(getNextFreeAppPort)
+  if [[ $? -ne 0 ]]; then
+    printWarn "Application can't be deployed"
+    return 1
+  fi
 
   kubectl apply -f $REPO_PATH/.devcontainer/apps/ai-travel-advisor/k8s/namespace.yaml
 
@@ -898,20 +945,28 @@ deployAITravelAdvisorApp(){
   
   waitForPod ai-travel-advisor ai-travel-advisor
   printInfo "Waiting for AI Travel Advisor to get ready"
+
   kubectl -n ai-travel-advisor wait --for=condition=Ready pod --all --timeout=10m
   printInfo "AI Travel Advisor is ready"
 
   # Define the NodePort to expose the app from the Cluster
-  kubectl patch service ai-travel-advisor --namespace=ai-travel-advisor --type='json' --patch='[{"op": "replace", "path": "/spec/ports/0/nodePort", "value":30100}]'
+  kubectl patch service ai-travel-advisor --namespace=ai-travel-advisor --type='json' --patch="[{\"op\": \"replace\", \"path\": \"/spec/ports/0/nodePort\", \"value\":$PORT}]"
 
-  waitAppCanHandleRequests 30100
+  waitAppCanHandleRequests $PORT
 
-  printInfo "AI Travel Advisor is available via NodePort=30100"
-
+  printInfo "AI Travel Advisor is available via NodePort=$PORT"
 }
 
 deployTodoApp(){
+
   printInfoSection "Deploying Todo App"
+
+  getNextFreeAppPort true
+  PORT=$(getNextFreeAppPort)
+  if [[ $? -ne 0 ]]; then
+    printWarn "Application can't be deployed"
+    return 1
+  fi
 
   kubectl create ns todoapp
 
@@ -922,65 +977,40 @@ deployTodoApp(){
   kubectl -n todoapp expose deployment todoapp --type=NodePort --name=todoapp --port=8080 --target-port=8080
 
   # Define the NodePort to expose the app from the Cluster
-  kubectl patch service todoapp --namespace=todoapp --type='json' --patch='[{"op": "replace", "path": "/spec/ports/0/nodePort", "value":30100}]'
+  kubectl patch service todoapp --namespace=todoapp --type='json' --patch="[{\"op\": \"replace\", \"path\": \"/spec/ports/0/nodePort\", \"value\":$PORT}]"
 
   waitForAllReadyPods todoapp
 
-  waitAppCanHandleRequests 30100
+  waitAppCanHandleRequests $PORT
 
-  printInfoSection "TodoApp is available via NodePort=30100"
-}
-
-exposeTodoApp(){
-  printInfo "Exposing Todo App in your dev.container"
-  nohup kubectl port-forward service/todoapp 8080:8080  -n todoapp --address="0.0.0.0" > /tmp/kubectl-port-forward.log 2>&1 &
-}
-
-
-_exposeAstroshop(){
-  printInfo "Exposing Astroshop in your dev.container"
-  nohup kubectl port-forward service/astroshop-frontendproxy 8080:8080  -n astroshop --address="0.0.0.0" > /tmp/kubectl-port-forward.log 2>&1 &
-}
-
-
-installMkdocs(){
-  installRunme
-  printInfo "Installing Mkdocs"
-  pip install --break-system-packages -r docs/requirements/requirements-mkdocs.txt
-}
-
-
-exposeMkdocs(){
-  printInfo "Exposing Mkdocs in your dev.container"
-  nohup mkdocs serve -a localhost:8000 > /dev/null 2>&1 &
-}
-
-
-_exposeLabguide(){
-  printInfo "Exposing Lab Guide in your dev.container"
-  cd $REPO_PATH/lab-guide/
-  nohup node bin/server.js --host 0.0.0.0 --port 3000 > /dev/null 2>&1 &
-  cd -
-}
-
-_buildLabGuide(){
-  printInfoSection "Building the Lab-guide in port 3000"
-  cd $REPO_PATH/lab-guide/
-  node bin/generator.js
-  cd -
+  printInfoSection "TodoApp is available via NodePort=$PORT"
 }
 
 deployAstroshop(){
+
   printInfoSection "Deploying Astroshop"
+  
+  if [[ "$ARCH" != "x86_64" ]]; then
+    printWarn "This version of the Astroshop only supports AMD/x86 architectures and not ARM, exiting deployment..."
+    return 1
+  fi
 
-  # To override the Dynatrace values call the function with the following order
-  #saveReadCredentials $DT_TENANT $DT_OPERATOR_TOKEN $DT_INGEST_TOKEN $DT_INGEST_TOKEN $DT_OTEL_ENDPOINT
+  getNextFreeAppPort true
+  PORT=$(getNextFreeAppPort)
+  if [[ $? -ne 0 ]]; then
+    printWarn "Application can't be deployed"
+    return 1
+  fi
 
-  ###
-  # Instructions to install Astroshop with Helm Chart from R&D and images built in shinojos repo (including code modifications from R&D)
-  ####
-  #sed -i 's~domain.placeholder~'"$DOMAIN"'~' $REPO_PATH/.devcontainer/apps/astroshop/helm/dt-otel-demo-helm/values.yaml
-  #sed -i 's~domain.placeholder~'"$DOMAIN"'~' $REPO_PATH/.devcontainer/apps/astroshop/helm/dt-otel-demo-helm-deployments/values.yaml
+  # Verify if cert-manager is installed in subshell to not exit function, if not, then install it
+  (assertRunningPod cert-manager cert-manager >/dev/null 2>&1)
+  certmanager_installed=$?
+  if [[ $certmanager_installed -ne 0 ]]; then
+    printWarn "Certmanager is not installed, this version of Astroshop needs it, installing it..."
+    deployCertmanager
+  else
+    printInfo "Certmanager is installed, continuing with deployment"
+  fi
 
   helm repo add open-telemetry https://open-telemetry.github.io/opentelemetry-helm-charts
 
@@ -994,13 +1024,11 @@ deployAstroshop(){
 
   helm upgrade --install astroshop -f $REPO_PATH/.devcontainer/apps/astroshop/helm/dt-otel-demo-helm-deployments/values.yaml --set default.image.repository=docker.io/shinojosa/astroshop --set default.image.tag=1.12.0 --set collector_tenant_endpoint=$DT_OTEL_ENDPOINT --set collector_tenant_token=$DT_INGEST_TOKEN -n astroshop $REPO_PATH/.devcontainer/apps/astroshop/helm/dt-otel-demo-helm
 
-  printInfo "Exposing Astroshop in your dev.container via NodePort 30100"
-
   printInfo "Change astroshop-frontendproxy service from LoadBalancer to NodePort"
   kubectl patch service astroshop-frontendproxy --namespace=astroshop --patch='{"spec": {"type": "NodePort"}}'
 
-  printInfo "Exposing the astroshop-frontendproxy in NodePort 30100"
-  kubectl patch service astroshop-frontendproxy --namespace=astroshop --type='json' --patch='[{"op": "replace", "path": "/spec/ports/0/nodePort", "value":30100}]'
+  printInfo "Exposing the astroshop-frontendproxy in NodePort $PORT"
+  kubectl patch service astroshop-frontendproxy --namespace=astroshop --type='json' --patch="[{\"op\": \"replace\", \"path\": \"/spec/ports/0/nodePort\", \"value\":$PORT}]"
 
   printInfo "Stopping all cronjobs from Demo Live since they are not needed with this scenario"
   kubectl get cronjobs -n astroshop -o json | jq -r '.items[] | .metadata.name' | xargs -I {} kubectl patch cronjob {} -n astroshop --patch '{"spec": {"suspend": true}}'
@@ -1010,20 +1038,22 @@ deployAstroshop(){
 
   waitForAllPods astroshop
 
-  waitAppCanHandleRequests 30100
+  waitAppCanHandleRequests $PORT
 
-  printInfo "Astroshop deployed succesfully"
+  printInfo "Astroshop deployed succesfully and handling request in port $PORT"
 }
 
 deployBugZapperApp(){
 
-  if [[ $# -eq 1 ]]; then
-    PORT="$1"
-  else
-    PORT="30100"
+  printInfoSection "Deploying BugZapper App"
+  
+  getNextFreeAppPort true
+  PORT=$(getNextFreeAppPort)
+  if [[ $? -ne 0 ]]; then
+    printWarn "Application can't be deployed"
+    return 1
   fi
 
-  printInfoSection "Deploying BugZapper App on Port $PORT"
 
   kubectl create ns bugzapper
 
@@ -1041,6 +1071,193 @@ deployBugZapperApp(){
   waitAppCanHandleRequests $PORT
 
   printInfoSection "Bugzapper is available via NodePort=$PORT"
+}
+
+# deploy easytrade from manifests
+deployEasyTrade() {
+
+  printInfoSection "Deploying EasyTrade"
+  
+  if [[ "$ARCH" != "x86_64" ]]; then
+    printWarn "This version of the EasyTrade only supports AMD/x86 architectures and not ARM, exiting deployment..."
+    return 1
+  fi
+
+  getNextFreeAppPort true
+  PORT=$(getNextFreeAppPort)
+  if [[ $? -ne 0 ]]; then
+    printWarn "Application can't be deployed"
+    return 1
+  fi
+
+  # Create easytrade namespace
+  printInfo "Creating 'easytrade' namespace"
+
+  kubectl create namespace easytrade
+
+  # Deploy easytrade manifests
+  printInfo "Deploying easytrade manifests"
+
+  kubectl apply -f $REPO_PATH/.devcontainer/apps/easytrade/manifests -n easytrade
+
+  # Validate pods are running
+  printInfo "Waiting for all pods to start"
+
+  waitForAllPods easytrade
+
+  printInfo "Exposing EasyTrade in your dev.container via NodePort $PORT"
+
+  kubectl patch service frontendreverseproxy-easytrade --namespace=easytrade --type='json' --patch="[{\"op\": \"replace\", \"path\": \"/spec/ports/0/nodePort\", \"value\":$PORT}]"
+
+  waitAppCanHandleRequests $PORT
+
+  printInfo "EasyTrade is available via NodePort=$PORT"
+}
+
+# deploy hipstershop from manifests
+deployHipsterShop() {
+  
+  printInfoSection "Deploying HipsterShop"
+  
+  if [[ "$ARCH" != "x86_64" ]]; then
+    printWarn "This version of the Hipstershop only supports AMD/x86 architectures and not ARM, exiting deployment..."
+    return 1
+  fi
+
+  getNextFreeAppPort true
+  PORT=$(getNextFreeAppPort)
+  if [[ $? -ne 0 ]]; then
+    printWarn "Application can't be deployed"
+    return 1
+  fi
+
+  # Create hipstershop namespace
+  printInfo "Creating 'hipstershop' namespace"
+
+  kubectl create namespace hipstershop
+
+  # Deploy hipstershop manifests
+  printInfo "Deploying hipstershop manifests"
+
+  kubectl apply -f $REPO_PATH/.devcontainer/apps/hipstershop/manifests -n hipstershop
+
+  # Validate pods are running
+  printInfo "Waiting for all pods to start"
+
+  waitForAllPods hipstershop
+
+  kubectl patch service frontend-external --namespace=hipstershop --type='json' --patch="[{\"op\": \"replace\", \"path\": \"/spec/ports/0/nodePort\", \"value\":$PORT}]"
+
+  waitAppCanHandleRequests $PORT
+  
+  printInfo "HipsterShop is available via NodePort=$PORT"
+  
+}
+
+deployApp(){
+  
+  if [ "$#" -eq 0 ]; then
+    showDeployAppUsage
+    return 0
+  elif [ "$#" -eq 1 ]; then
+    local input="$1"
+  elif [ "$#" -eq 2 ]; then
+    local input="$1"
+    if [[ "$2" == "-d" ]]; then
+      local delete=true
+    else
+      printWarn "Unexpected 2nd argument"
+      showDeployAppUsage
+      return 1
+    fi
+  else
+    printWarn "Unexpected number of arguments"
+    showDeployAppUsage
+    return 1
+  fi
+
+  case "$input" in
+    1 | a | ai-travel-advisor)
+      if [[ $delete ]]; then
+        printInfoSection "Undeploying ai-travel-advisor..."
+        kubectl delete ns ai-travel-advisor --force
+      else
+        deployAITravelAdvisorApp
+      fi
+      ;;
+
+    2 | b | astroshop)
+      if [[ $delete ]]; then
+        printInfoSection "Undeploying astroshop..."
+        kubectl delete ns astroshop --force
+        certmanagerDelete
+      else
+        deployAstroshop
+      fi
+      ;;
+
+    3 | c | bugzapper)
+       if [[ $delete ]]; then
+        printInfo "Undeploying bugzapper..."
+        kubectl delete ns bugzapper --force
+      else
+        deployBugZapperApp
+      fi
+      ;;
+
+    4 | d | easytrade)
+       if [[ $delete ]]; then
+        printInfo "Undeploying easytrade..."
+        kubectl delete ns easytrade --force
+      else
+        deployEasyTrade
+      fi
+      ;;
+
+    5 | e | hipstershop)
+       if [[ $delete ]]; then
+        printInfo "Undeploying hipstershop..."
+        kubectl delete ns hipstershop --force
+      else
+        deployHipsterShop
+      fi
+      ;;
+
+    6 | f | todoapp)
+       if [[ $delete ]]; then
+        printInfo "Undeploying todoapp..."
+        kubectl delete ns todoapp --force
+      else
+        deployTodoApp
+      fi
+      ;;
+
+    *)
+      printWarn "Invalid selection: '$input'. Please choose a valid app identifier."
+      showDeployAppUsage
+      return 1
+      ;;
+  esac
+  return 0
+}
+
+showDeployAppUsage(){
+  printInfoSection "   Un/Deploy an Application to your Kubernetes Cluster      "
+  printInfo "                ${PACKAGE} Application repository  ${PACKAGE}                               "
+  printInfo "                                                                            "
+  printInfo "For deploying one of the following apps, type the number, character or name "
+  printInfo "associated e.g. for astroshop type deployApp '2', 'b' or 'astroshop'        "
+  printInfo "                                                                            "
+  printInfo "For undeploying an app, type -d as an extra argument                        "
+  printInfo "----------------------------------------------------------------------------"
+  printInfo "[#]  [c]  [ name ]             AMD     ARM                                  "
+  printInfo "[1]   a   ai-travel-advisor     +       -                                   "
+  printInfo "[2]   b   astroshop             +       -                                   "
+  printInfo "[3]   c   bugzapper             +       +                                   "
+  printInfo "[4]   d   easytrade             +       -                                   "
+  printInfo "[5]   e   hipstershop           +       -                                   "
+  printInfo "[6]   f   todoapp               +       +                                   "
+  printInfo "----------------------------------------------------------------------------"
 }
 
 deleteCodespace(){
@@ -1121,6 +1338,7 @@ updateEnvVariable(){
     #printInfo "ZSH"
     #printInfo "update [$variable:${(P)variable}]"
     # indirect variable expansion in ZSH
+    # shellcheck disable=SC2296
     sed "s|^$variable=.*|$variable=${(P)variable}|" $ENV_FILE > $ENV_FILE.tmp
     mv $ENV_FILE.tmp $ENV_FILE
   else

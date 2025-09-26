@@ -4,6 +4,7 @@
   oneAgent:
     applicationMonitoring: {}
 
+
       # Optional: Adds resource settings for OneAgent container
       # Consumption of the OneAgent heavily depends on the workload to monitor
       # The values should be adjusted according to the workload
@@ -83,3 +84,9 @@
       # For an example of a Dockerfile creating such an image, see https://dt-url.net/operator-docker-samples
       #
       # codeModulesImage: ""
+  templates:
+    logMonitoring:
+      imageRef:
+        repository: public.ecr.aws/dynatrace/dynatrace-logmodule
+        tag: 1.319.83.20250909-095914 # TODO: update to use an environment variable
+  logMonitoring: {}

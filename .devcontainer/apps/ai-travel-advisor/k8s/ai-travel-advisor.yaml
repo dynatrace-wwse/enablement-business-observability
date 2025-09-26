@@ -54,4 +54,3 @@ spec:
       name: http
       targetPort: 8082
       protocol: TCP
-      nodePort: 30100
