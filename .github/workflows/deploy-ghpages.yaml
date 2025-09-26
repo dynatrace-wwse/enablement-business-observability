@@ -17,10 +17,9 @@ jobs:
     - uses: actions/setup-python@v2
       with:
         python-version: '3.x'
-    - name: Install Runme, MKDocs and deploy
+    - name: MKDocs - install requirements, build, gh-deploy
       run: | 
-        source .devcontainer/util/source_framework.sh
-        installMkdocs
+        pip install --break-system-packages -r docs/requirements/requirements-mkdocs.txt
         git fetch origin gh-pages:gh-pages
         mkdocs build
         mkdocs gh-deploy
