@@ -31,12 +31,6 @@ PORTS_STRING="${PORTS[*]}"
 # Export the string
 export NODE_PORTS="$PORTS_STRING"
 
-
-#if [ -z "$APPS" ]; then
-#  APPS=()
-#  export APPS=$APPS
-#fi
-
 # Setting up the variable since its not set when instantiating the vscode folder.
 #CODESPACE_VSCODE_FOLDER="$REPO_PATH"
 # Codespace Persisted share folder
@@ -130,13 +124,3 @@ thickline="=====================================================================
 halfline="=============="
 thinline="___________________________________________________________________________________________"
 LOGNAME="dynatrace.enablement"
-
-# LabGuidePort
-WEBAPPPORT=30100
-if [[ $CODESPACES == true ]]; then
-  PRINT_USER=$GITHUB_USER
-  WEBAPP_URL="https://${CODESPACE_NAME}-$WEBAPPPORT.app.github.dev"
-else
-  PRINT_USER=$USER
-  WEBAPP_URL="http://0.0.0.0:$WEBAPPPORT"
-fi

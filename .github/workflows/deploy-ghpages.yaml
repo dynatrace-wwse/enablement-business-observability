@@ -6,6 +6,7 @@ on:
   push:
     branches:
       - main
+      - docs/*
 jobs:
   deploy-github-pages:
     runs-on: ubuntu-24.04
