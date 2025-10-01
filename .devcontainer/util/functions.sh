@@ -1387,5 +1387,115 @@ runIntegrationTests(){
   bash "$REPO_PATH/.devcontainer/test/integration.sh"
 }
 
+calculateReadingTime(){
+  
+  printInfoSection "Calculating the reading time of the Documentation"
+  DOCS_DIR="/docs"
+  WORDS_PER_MIN=200
+  total_words=0
+  total_mins=0
+
+  printInfo "Section \t\t| Words \t| Estimated Reading Time (min)"
+  printInfo "--------\t\t|-------\t|-----------------------------"
+  find "$REPO_PATH/$DOCS_DIR" -type f -name "*.md" | while read -r file; do
+      section=$(basename "$file")
+      words=$(wc -w < "$file")
+      # Calculate reading time, rounding up
+      mins=$(( (words + WORDS_PER_MIN - 1) / WORDS_PER_MIN ))
+      total_words=$((total_words + words))
+      total_mins=$((total_mins + mins))
+
+      printInfo "$section \t\t| $words \t| $mins min"
+  done
+  
+  printInfo "---------------------------------------------"
+  printInfo "TOTAL     | $total_words | $total_mins min"
+
+}
+
+checkHost(){
+
+  printInfoSection "Verifying Host requirements"
+  make_available=false
+  docker_available=false
+  docker_accessible=false
+
+  # Check if host is Ubuntu
+  if grep -qi ubuntu /etc/os-release; then
+    printInfo "✅ Ubuntu detected"
+  else
+    printWarn "⚠️ Not Ubuntu, we can't guarantee proper functioning"
+  fi
+
+  # Check if make is installed
+  if command -v make >/dev/null; then
+    printInfo "✅ make is installed"
+    make_available=true
+  else
+    printWarn "❌ make is NOT installed"
+    make_available=false
+  fi
+
+  # Check if docker is installed
+  if command -v docker >/dev/null; then
+    printInfo "✅ docker is installed"
+    docker_available=true
+  else
+    printWarn "❌ docker is NOT installed"
+    docker_available=false
+  fi
+
+  # Check if user has access to docker
+  if docker info >/dev/null 2>&1; then
+    printInfo "✅ Docker is accessible"
+    docker_accessible=true
+  else
+    printWarn "❌ No access to Docker"
+    docker_accessible=false
+  fi
+
+  # Prompt if any requirement is missing
+  if [ "$make_available" = false ] || [ "$docker_available" = false ] || [ "$docker_accessible" = false ]; then
+    printWarn "One or more requirements are missing or not accessible"
+    printWarn "Would you like to attempt to correct them now? (y/n) 'yes' to run the commands for you, 'n' we only print how to resolve the issue"
+    read -r answer
+    if [[ "$answer" =~ ^[Yy]$ ]]; then
+      # Install make if missing
+      if [ "$make_available" = false ]; then
+        printInfo "Installing make..."
+        sudo apt-get update && sudo apt-get install -y make
+      fi
+      # Install docker if missing
+      if [ "$docker_available" = false ]; then
+        printInfo "Installing docker..."
+        sudo apt-get update && sudo apt-get install -y docker.io
+        sudo systemctl enable --now docker
+      fi
+      # Add user to docker group if docker not accessible
+      if [ "$docker_accessible" = false ]; then
+        printInfo "Adding user $USER to docker group and restarting docker..."
+        sudo usermod -aG docker $USER
+        sudo systemctl restart docker
+        printWarn "You may need to log out and log back in for group changes to take effect."
+      fi
+      printInfo "Auto-fix attempted. Please re-run this function or open a new shell."
+    else
+      printWarn "Host setup not corrected. Some features may not work as expected."
+      if [ "$make_available" = false ]; then
+        printInfo "To install make: sudo apt-get update && sudo apt-get install -y make"
+      fi
+      if [ "$docker_available" = false ]; then
+        printInfo "To install docker: sudo apt-get update && sudo apt-get install -y docker.io && sudo systemctl enable --now docker"
+      fi
+      if [ "$docker_accessible" = false ]; then
+        printInfo "To enable Docker access: sudo usermod -aG docker $USER && sudo systemctl restart docker (then log out and back in)"
+      fi
+    fi
+  else
+    printInfo "✅ All requirements are met, navigate to the .devcontainer/ folder then 'make start' to start your enablement jouney 🚀"
+  fi
+
+}
+
 # Custom functions for each repo can be added in my_functions.sh
 source $REPO_PATH/.devcontainer/util/my_functions.sh
