@@ -8,14 +8,14 @@ ENV_FILE=runlocal/.env
 NAMESPACE="shinojosa"
 IMAGENAME="dt-enablement"
 REPOSITORY=$NAMESPACE/$IMAGENAME
-TAG="v1.1"
+TAG="v1.2"
 
 REPOTAG=$REPOSITORY:$TAG
 
 # Calculates the RepositoryName from the base path needed for setting the directory so the framework can load inside the container.
 getRepositoryName
 
-# Loads variables k=v from the .env file into DOCKER_ENVS such as DT_TENANT, so they can be added as environment variables to the Docker container.
+# Loads variables k=v from the .env file into DOCKER_ENVS such as DT_ENVIRONMENT, so they can be added as environment variables to the Docker container.
 getDockerEnvsFromEnvFile
 
 # Commands to be executed in the container after it is created (as in VSCode devcontainer.json)
