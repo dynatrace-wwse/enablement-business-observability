@@ -23,8 +23,8 @@ All variables will be read and will be passed on dynamically as environment vari
 ```sh
 # Mapping of the Secrets defined in the .devcontainer.json file
 # Dynatrace Tenant
-DT_TENANT=https://abc123.live.dynatrace.com 
-#Description: eg. abc123 for live -> https://abc123.live.dynatrace.com or sprint -> https://abc123.sprint.dynatracelabs.com no apps in the URL
+DT_ENVIRONMENT=https://abc123.apps.dynatrace.com 
+"description": "URL to your Dynatrace Platform eg. https://abc123.apps.dynatrace.com or for sprint -> https://abc123.sprint.apps.dynatracelabs.com"
 
 # Dynatrace Operator Token
 DT_OPERATOR_TOKEN=dt0c01.XXXZZZZAAAA.XXXZZZZAAAA

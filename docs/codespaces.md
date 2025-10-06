@@ -18,7 +18,7 @@ DT_INGEST_TOKEN
 
 DT_OPERATOR_TOKEN
 
-DT_TENANT
+DT_ENVIRONMENT
 ```
 
 If found, select the delete icon for each secret that exists.
@@ -96,7 +96,7 @@ Choose Machine Type `4-core`.
 Fill in recommend secrets sections for the following that you have in your saved notepad:
 
 ```txt
-DT_TENANT
+DT_ENVIRONMENT
 
 DT_OPERATOR_TOKEN
 
@@ -208,7 +208,7 @@ In the Codespaces terminal run the following commands:
 
 ```txt
 
-echo $DT_TENANT
+echo $DT_ENVIRONMENT
 
 echo $DT_OPERATOR_TOKEN
 
@@ -222,7 +222,7 @@ Make sure to check for:
 ```txt
 ⚠️ No apps in the URL! ⚠️
 
-⚠️ Make sure there is no trailing / at the end of the DT_TENANT ⚠️
+⚠️ Make sure there is no trailing / at the end of the DT_ENVIRONMENT ⚠️
 
 ⚠️ Make sure the $DT_OPERATOR_TOKEN & $DT_INGEST_TOKEN are not the same ⚠️
 ```
@@ -242,7 +242,7 @@ DT_INGEST_TOKEN
 
 DT_OPERATOR_TOKEN
 
-DT_TENANT
+DT_ENVIRONMENT
 ```
 
 Then resume the lab starting at the `Codespaces Cluster Set Up` section above in this training.

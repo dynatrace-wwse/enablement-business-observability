@@ -187,7 +187,7 @@ We have enabled Dynatrace tenant configurations for the following:
 You should now have 4 pieces of information:
 
 ```txt
-1. A DT environment URL (DT_TENANT)
+1. A DT environment URL (DT_ENVIRONMENT)
 2. A Dynatrace Operator Token (DT_OPERATOR_TOKEN)
 3. A Data Ingest Token (DT_INGEST_TOKEN)
 4. An API token with permission for Business Events
