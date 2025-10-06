@@ -13,8 +13,9 @@ getRepositoryName() {
 getDockerEnvsFromEnvFile() {
   if [[ ! -f "$ENV_FILE" ]]; then
     echo "Error: .env file not found at $ENV_FILE, before running locally read \
-the '.devcontainer/runlocal/README' file and make sure you have all the secrets \
-needed for this devcontainer to run successfully inside the .env file "
+'https://dynatrace-wwse.github.io/codespaces-framework/instantiation-types/#2-running-in-vs-code-dev-containers-or-local-container' \
+ and make sure you have all the secrets. \
+ if you don't need any, just create an empty .env file "
     exit 1
   fi
 

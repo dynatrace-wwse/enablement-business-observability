@@ -14,6 +14,13 @@ export AG_IMAGE=$AG_IMAGE
 OA_IMAGE="public.ecr.aws/dynatrace/dynatrace-oneagent:1.319.68.20250813-080958"
 export OA_IMAGE=$OA_IMAGE
 
+#MCP Server Settings
+DT_GRAIL_QUERY_BUDGET_GB=1000
+export DT_GRAIL_QUERY_BUDGET_GB=$DT_GRAIL_QUERY_BUDGET_GB
+
+DT_MCP_DISABLE_TELEMETRY=false
+export DT_MCP_DISABLE_TELEMETRY=$DT_MCP_DISABLE_TELEMETRY
+
 ENDPOINT_CODESPACES_TRACKER=https://codespaces-tracker.whydevslovedynatrace.com/api/receive
 CODESPACES_TRACKER_TOKEN_STRING="ilovedynatrace"
 
@@ -37,7 +44,13 @@ export NODE_PORTS="$PORTS_STRING"
 CODESPACE_PSHARE_FOLDER="/workspaces/.codespaces/.persistedshare"
 
 # Dynamic Variables between phases
-ENV_FILE="$REPO_PATH/.devcontainer/util/.env"
+COUNT_FILE="$REPO_PATH/.devcontainer/util/.count"
+export COUNT_FILE=$COUNT_FILE
+
+# Env file (needed for MCP and local runs)
+ENV_FILE="$REPO_PATH/.devcontainer/runlocal/.env"
+export ENV_FILE=$ENV_FILE
+
 
 # Calculating GH Repository
 if [ -z "$GITHUB_REPOSITORY" ]; then
@@ -57,13 +70,13 @@ else
 fi
 export INSTANTIATION_TYPE=$INSTANTIATION_TYPE
 
-if [ -e "$ENV_FILE" ]; then
+if [ -e "$COUNT_FILE" ]; then
   # file exists
-  source $ENV_FILE
+  source $COUNT_FILE
 else
   # create .env file and add variables
-  echo -e "DURATION=0\nERROR_COUNT=0" > $ENV_FILE
-  source $ENV_FILE
+  echo -e "DURATION=0\nERROR_COUNT=0" > $COUNT_FILE
+  source $COUNT_FILE
 fi
 
 # Calculating architecture

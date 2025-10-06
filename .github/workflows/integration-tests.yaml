@@ -1,5 +1,5 @@
 name: integration-tests
-run-name: ${{ github.event.head_commit.message }} - integration test
+run-name: ${{ github.event.head_commit.message }} - PR integration test
 permissions:
   contents: write
 on:
@@ -12,7 +12,7 @@ jobs:
     # No CI Test should run longer than 10 minutes.
     timeout-minutes: 10
     env:
-      DT_TENANT: ${{ secrets.DT_TENANT }}
+      DT_ENVIRONMENT: ${{ secrets.DT_ENVIRONMENT }}
       DT_OPERATOR_TOKEN: ${{ secrets.DT_OPERATOR_TOKEN }}
       DT_INGEST_TOKEN: ${{ secrets.DT_INGEST_TOKEN }}
     steps:
@@ -30,7 +30,7 @@ jobs:
         run: |
             cd .devcontainer 
             cat <<EOF >> runlocal/.env
-            DT_TENANT=$DT_TENANT
+            DT_ENVIRONMENT=$DT_ENVIRONMENT
             DT_OPERATOR_TOKEN=$DT_OPERATOR_TOKEN
             DT_INGEST_TOKEN=$DT_INGEST_TOKEN
             EOF

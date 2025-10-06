@@ -1,0 +1,11 @@
+{
+	"servers": {
+		"dynatrace-mcp-server": {
+			"type": "stdio",
+			"command": "npx",
+			"cwd": "${workspaceFolder}",
+			"args": ["-y","@dynatrace-oss/dynatrace-mcp-server@latest"],
+			"envFile": "${workspaceFolder}/.devcontainer/runlocal/.env"
+		}
+	}
+}
