@@ -859,8 +859,10 @@ document.addEventListener('DOMContentLoaded', function() {
 <li>Seamless operation within GitHub Codespaces, as a remote container, or locally via Docker.</li>
 <li>Cross-compilation support for both AMD and ARM architectures, ensuring broad compatibility.</li>
 <li>Adherence to industry standards and best practices to optimize the developer experience.</li>
+<li>Real-time observability of Kubernetes clusters using <a href="https://dynatrace-wwse.github.io/codespaces-framework/dynatrace-integration/">Dynatrace Full-Stack monitoring</a>.</li>
+<li>Integrated <a href="https://dynatrace-wwse.github.io/codespaces-framework/dynatrace-integration/">Dynatrace MCP Server</a> to deliver deep, actionable insights across distributed systems.</li>
 </ul>
-<p>To learn more about the Dynatrace Enablement Framework and how it can enhance your development workflow, please refer to the <a href="https://dynatrace-wwse.github.io/codespaces-framework">official documentation</a></p>
+<p>To learn more about the Dynatrace Enablement Framework and how it can enhance your development workflow, please refer to the <a href="https://dynatrace-wwse.github.io/codespaces-framework">official documentation</a>      </p>
 </details>
 <h2 id="codespace-prep">Codespace Prep<a class="headerlink" href="#codespace-prep" title="Permanent link">#</a></h2>
 <h3 id="configure-codespaces-settings-secrets">Configure Codespaces Settings - Secrets<a class="headerlink" href="#configure-codespaces-settings-secrets" title="Permanent link">#</a></h3>
@@ -871,7 +873,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 DT_OPERATOR_TOKEN
 
-DT_TENANT
+DT_ENVIRONMENT
 </code></pre></div>
 <p>If found, select the delete icon for each secret that exists.</p>
 <p><img alt="Codespaces Secrets Delete 1" src="../img/00_01_readme_lab_guide_codespaces_secrets_1.png" /></p>
@@ -927,7 +929,7 @@ Select the <code>Save</code> button.</p>
 <p>Choose Machine Type <code>4-core</code>.</p>
 <p><img alt="github new codespaces" src="../img/prereq-github_cluster_new_codespaces.png" /></p>
 <p>Fill in recommend secrets sections for the following that you have in your saved notepad:</p>
-<p><div class="highlight"><pre><span></span><code>DT_TENANT
+<p><div class="highlight"><pre><span></span><code>DT_ENVIRONMENT
 
 DT_OPERATOR_TOKEN
 
@@ -987,7 +989,7 @@ Then in the  <code>Astroshop UI</code> section,  cmd + click the url or copy and
 <p>If you don't see data for Distributed Traces and Logs data validation steps above do the following.</p>
 <p>Environment Variables Validation:</p>
 <p>In the Codespaces terminal run the following commands:</p>
-<div class="highlight"><pre><span></span><code>echo $DT_TENANT
+<div class="highlight"><pre><span></span><code>echo $DT_ENVIRONMENT
 
 echo $DT_OPERATOR_TOKEN
 
@@ -997,7 +999,7 @@ echo $DT_INGEST_TOKEN
 <p>Make sure to check for:</p>
 <div class="highlight"><pre><span></span><code>⚠️ No apps in the URL! ⚠️
 
-⚠️ Make sure there is no trailing / at the end of the DT_TENANT ⚠️
+⚠️ Make sure there is no trailing / at the end of the DT_ENVIRONMENT ⚠️
 
 ⚠️ Make sure the $DT_OPERATOR_TOKEN &amp; $DT_INGEST_TOKEN are not the same ⚠️
 </code></pre></div>
@@ -1010,7 +1012,7 @@ echo $DT_INGEST_TOKEN
 
 DT_OPERATOR_TOKEN
 
-DT_TENANT
+DT_ENVIRONMENT
 </code></pre></div>
 <p>Then resume the lab starting at the <code>Codespaces Cluster Set Up</code> section above in this training.</p>
 <p>If the variables are correct, we need to confirm Astroshop and Dynatrace are running correctly.</p>
