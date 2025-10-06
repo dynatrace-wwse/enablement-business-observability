@@ -48,7 +48,6 @@ printCodespacesInformation(){
         echo -e " ${YELLOW}${WARNING}${ORANGE} No Dynatrace information provided."
     else
         echo -e " ${LILA}Dynatrace Environment: ${RESET}${DT_ENVIRONMENT}"
-        echo -e " ${LILA}Dynatrace Environment: ${RESET}${DT_ENVIRONMENT}"
     fi
     
     echo -e "                                                                                                             "
