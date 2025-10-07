@@ -1,6 +1,9 @@
 --8<-- "snippets/send-bizevent/bizevent-cleanup.js"
 # Clean Up
 
+--8<-- "snippets/feedback.md"
+
+
 !!! tip "Deleting the codespace from inside the container"
     We like to make your life easier, for convenience there is a function loaded in the shell of the Codespace for deleting the codespace, just type `deleteCodespace`. This will trigger the deletion of the codespace.
 
