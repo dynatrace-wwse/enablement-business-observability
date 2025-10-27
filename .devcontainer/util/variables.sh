@@ -14,12 +14,6 @@ export AG_IMAGE=$AG_IMAGE
 OA_IMAGE="public.ecr.aws/dynatrace/dynatrace-oneagent:1.319.68.20250813-080958"
 export OA_IMAGE=$OA_IMAGE
 
-#MCP Server Settings
-DT_GRAIL_QUERY_BUDGET_GB=1000
-export DT_GRAIL_QUERY_BUDGET_GB=$DT_GRAIL_QUERY_BUDGET_GB
-
-DT_MCP_DISABLE_TELEMETRY=false
-export DT_MCP_DISABLE_TELEMETRY=$DT_MCP_DISABLE_TELEMETRY
 
 ENDPOINT_CODESPACES_TRACKER=https://codespaces-tracker.whydevslovedynatrace.com/api/receive
 CODESPACES_TRACKER_TOKEN_STRING="ilovedynatrace"
@@ -51,6 +45,10 @@ export COUNT_FILE=$COUNT_FILE
 ENV_FILE="$REPO_PATH/.devcontainer/runlocal/.env"
 export ENV_FILE=$ENV_FILE
 
+if [ -e "$ENV_FILE" ]; then
+  # file exists
+  source $ENV_FILE
+fi
 
 # Calculating GH Repository
 if [ -z "$GITHUB_REPOSITORY" ]; then

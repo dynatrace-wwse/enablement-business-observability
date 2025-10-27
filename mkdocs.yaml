@@ -18,12 +18,14 @@ nav:
 theme:
   name: material
   custom_dir: docs/overrides
+  logo: https://cdn.bfldr.com/B686QPH3/at/w5hnjzb32k5wcrcxnwcx4ckg/Dynatrace_signet_RGB_HTML.svg?auto=webp&format=pngg
   features:
     - content.code.copy
     
   palette:
   # Palette toggle for automatic mode
   - media: "(prefers-color-scheme)"
+    primary: deep-purple
     toggle:
       icon: material/brightness-auto
       name: Switch to light mode
@@ -31,6 +33,7 @@ theme:
   # Palette toggle for light mode
   - media: "(prefers-color-scheme: light)"
     scheme: default 
+    primary: deep-purple
     toggle:
       icon: material/brightness-7
       name: Switch to dark mode
@@ -38,6 +41,7 @@ theme:
   # Palette toggle for dark mode
   - media: "(prefers-color-scheme: dark)"
     scheme: slate
+    primary: deep-purple
     toggle:
       icon: material/brightness-4
       name: Switch to system preference
