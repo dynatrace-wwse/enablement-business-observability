@@ -1,7 +1,7 @@
 {
   "name": "Dynatrace Enablement Container",
   // Pulling the image from the Dockerhub, runs on AMD64 and ARM64. Pulling is normally faster.
-  "image":"shinojosa/dt-enablement:v1.1",
+  "image":"shinojosa/dt-enablement:v1.2",
   /*
   // Building the image from the Dockerfile
   "build": {
