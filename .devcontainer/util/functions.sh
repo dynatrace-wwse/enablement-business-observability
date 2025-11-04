@@ -346,10 +346,11 @@ setupMCPServer(){
   printInfo "Environment variables location: $ENV_FILE"
 }
 
-selectDemoEnvironment(){
+selectEnvironment(){
   # Check if DT_ENVIRONMENT is already set
   if [ -n "$DT_ENVIRONMENT" ]; then
     printWarn "DT_ENVIRONMENT is already set to $DT_ENVIRONMENT. This function will override the DT_ENVIRONMENT environment variable and the entry in the $ENV_FILE file."
+    printWarn "You should be careful if you have other variables needed for that environment such as API Tokens."
     printf "Do you want to override it? (y/n): "
     read override
     if [ "$override" != "y" ] && [ "$override" != "Y" ]; then
@@ -362,7 +363,8 @@ selectDemoEnvironment(){
   printInfo "1. playground (wkf10640)"
   printInfo "2. demo.live (guu84124)"
   printInfo "3. tacocorp (bwm98081)"
-  printf "Enter your choice (1-3): "
+  printInfo "4. other, you'll be prompted to enter the full URL (Prod/Sprint/Dev)"
+  printf "Enter your choice (1-4): "
   read choice
   case $choice in
     1)
@@ -373,6 +375,15 @@ selectDemoEnvironment(){
       ;;
     3)
       DT_ENVIRONMENT="https://bwm98081.apps.dynatrace.com"
+      ;;
+    4)
+      printf "Enter in the format eg. https://abc123.apps.dynatrace.com or for sprint -> https://abc123.sprint.apps.dynatracelabs.com\nURL to your Dynatrace Platform:"
+      read -r DT_ENVIRONMENT
+      # Basic validation to ensure it starts with https://
+      if [[ ! "$DT_ENVIRONMENT" =~ ^https:// ]]; then
+        printWarn "URL should start with 'https://'. Please try again."
+        return 1
+      fi
       ;;
     *)
       printWarn "Invalid choice. Defaulting to playground."
@@ -391,7 +402,7 @@ selectDemoEnvironment(){
 
   printInfoSection "$DT_ENVIRONMENT selected, the VS Code agent should start the MPC server automatically"
   printInfo "you can alternatively go to 'Extensions > MCP Servers installed > dynatrace-mcp-server' and start it."
-  printInfo "If you want to connect to another MCP server, just type the function 'selectDemoEnvironment'"
+  printInfo "If you want to connect to another MCP server, just type the function 'selectEnvironment'"
 
 }
 

@@ -1,4 +1,4 @@
-??? example "[![dt-badge](https://img.shields.io/badge/powered_by-DT_enablement-8A2BE2?logo=dynatrace)](https://dynatrace-wwse.github.io/codespaces-framework)"
+??? example "[![dt-badge](https://img.shields.io/badge/Powered_by-DT_Enablement-8A2BE2?logo=dynatrace)](https://dynatrace-wwse.github.io/codespaces-framework)"
     This Codespace leverages the Dynatrace Enablement Framework, providing a robust and flexible development environment. Key features include:
 
     - Seamless operation within GitHub Codespaces, as a remote container, or locally via Docker.
