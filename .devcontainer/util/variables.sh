@@ -8,15 +8,21 @@
 
 # VARIABLES DECLARATION
 # Active Gate Version - https://gallery.ecr.aws/dynatrace/dynatrace-activegate
-AG_IMAGE="public.ecr.aws/dynatrace/dynatrace-activegate:1.319.40.20250825-155600"
+AG_IMAGE="public.ecr.aws/dynatrace/dynatrace-activegate:1.327.28.20251118-083113"
 export AG_IMAGE=$AG_IMAGE
 # OneAgent Version - https://gallery.ecr.aws/dynatrace/dynatrace-oneagent
-OA_IMAGE="public.ecr.aws/dynatrace/dynatrace-oneagent:1.319.68.20250813-080958"
+OA_IMAGE="public.ecr.aws/dynatrace/dynatrace-oneagent:1.325.66.20251118-131645"
 export OA_IMAGE=$OA_IMAGE
-
+# Operator Version - https://github.com/Dynatrace/dynatrace-operator/releases
+DT_OPERATOR_VERSION="1.7.1"
+export DT_OPERATOR_VERSION=$DT_OPERATOR_VERSION
 
 ENDPOINT_CODESPACES_TRACKER=https://codespaces-tracker.whydevslovedynatrace.com/api/receive
 CODESPACES_TRACKER_TOKEN_STRING="ilovedynatrace"
+
+# Helm Version
+HELM_VERSION=3.17.0
+export HELM_VERSION=$HELM_VERSION
 
 #https://cert-manager.io/docs/release-notes/
 CERTMANAGER_VERSION=1.15.3
