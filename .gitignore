@@ -202,3 +202,6 @@ dist-ssr
 *.sw?
 .env
 .dt-app
+
+# Omit run file
+synchronizer/run.sh

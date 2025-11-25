@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: ai-travel-advisor
-          image: thisthatdc/ai-travel-advisor:v0.1.1
+          image: shinojosa/ai-travel-advisor:v1.0.0
           ports:
             - name: http
               containerPort: 8082
