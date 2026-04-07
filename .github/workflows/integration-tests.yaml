@@ -29,12 +29,12 @@ jobs:
       - name: Add secrets in .env file for running locally with VS Code extension
         run: |
             cd .devcontainer 
-            cat <<EOF >> runlocal/.env
+            cat <<EOF >> .env
             DT_ENVIRONMENT=$DT_ENVIRONMENT
             DT_OPERATOR_TOKEN=$DT_OPERATOR_TOKEN
             DT_INGEST_TOKEN=$DT_INGEST_TOKEN
             EOF
-            sed -i '/"runArgs": \["--init", "--privileged", "--network=host"\]/c\  "runArgs": ["--init", "--privileged", "--network=host", "--env-file",".devcontainer/runlocal/.env"]' devcontainer.json
+            sed -i '/"runArgs": \["--init", "--privileged", "--network=host"\]/c\  "runArgs": ["--init", "--privileged", "--network=host", "--env-file",".devcontainer/.env"]' devcontainer.json
       - name: Test Codespace (devcontainer) build and run commands
         uses: devcontainers/ci@v0.3
         with:
