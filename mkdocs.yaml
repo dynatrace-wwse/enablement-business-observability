@@ -1,63 +1,21 @@
+INHERIT: mkdocs-base.yaml
+
 site_name: "Dynatrace Observability Lab: Business Observability"
 repo_name: "View Code on GitHub"
 repo_url: "https://github.com/dynatrace-wwse/enablement-business-observability"
 nav:
-  - '1. About': index.md
-  - '2. Getting Started': getting-started.md
-  - '3. Codespaces': codespaces.md
-  - '4. Business Events via OneAgent': 04_bizevents_oneagent.md
-  - '5. Business Events via Logs': 05_bizevents_logs.md
-  - '6. Business Events via API': 06_bizevents_api.md
-  - '7. Business Events Metrics': 07_bizevents_metric.md
-  - '8. Business Events Alerts': 08_bizevents_alerts.md
-  - '9. Business Flows': 09_bizevents_business_flow.md
-  - '10. Business Dashboard': 10_bizevents_dashboard.md
-  - '11. Wrap Up': 11_wrapup.md
-  # ...
-  - '12. Cleanup': cleanup.md
-theme:
-  name: material
-  custom_dir: docs/overrides
-  logo: https://cdn.bfldr.com/B686QPH3/at/w5hnjzb32k5wcrcxnwcx4ckg/Dynatrace_signet_RGB_HTML.svg?auto=webp&format=pngg
-  features:
-    - content.code.copy
-    
-  palette:
-  # Palette toggle for automatic mode
-  - media: "(prefers-color-scheme)"
-    primary: deep-purple
-    toggle:
-      icon: material/brightness-auto
-      name: Switch to light mode
+  - "1. About": index.md
+  - "2. Getting Started": getting-started.md
+  - "3. Codespaces": codespaces.md
+  - "4. Business Events via OneAgent": 04_bizevents_oneagent.md
+  - "5. Business Events via Logs": 05_bizevents_logs.md
+  - "6. Business Events via API": 06_bizevents_api.md
+  - "7. Business Events Metrics": 07_bizevents_metric.md
+  - "8. Business Events Alerts": 08_bizevents_alerts.md
+  - "9. Business Flows": 09_bizevents_business_flow.md
+  - "10. Business Dashboard": 10_bizevents_dashboard.md
+  - "11. Wrap Up": 11_wrapup.md
+  - "12. Cleanup": cleanup.md
 
-  # Palette toggle for light mode
-  - media: "(prefers-color-scheme: light)"
-    scheme: default 
-    primary: deep-purple
-    toggle:
-      icon: material/brightness-7
-      name: Switch to dark mode
-
-  # Palette toggle for dark mode
-  - media: "(prefers-color-scheme: dark)"
-    scheme: slate
-    primary: deep-purple
-    toggle:
-      icon: material/brightness-4
-      name: Switch to system preference
-
-markdown_extensions:
-  - toc:
-      permalink: '#'
-  - md_in_html
-  - pymdownx.emoji:
-      emoji_index: !!python/name:material.extensions.emoji.twemoji
-      emoji_generator: !!python/name:material.extensions.emoji.to_svg
-  - admonition
-  - pymdownx.details
-  - pymdownx.superfences
-  - pymdownx.snippets:
-      base_path: ["docs"]
-  - attr_list
-plugins:
-    - search
+extra:
+  rum_snippet: "https://js-cdn.dynatrace.com/jstag/1612cf70810/bf81393wlb/f0e597e550cc03f6_complete.js"

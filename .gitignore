@@ -169,7 +169,7 @@ site/*
 .devcontainer/util/.env*
 .devcontainer/util/.count*
 .devcontainer/.env*
-.devcontainer/runlocal/.env*
+.devcontainer/.env*
 
 #no count
 .devcontainer/util/.count*
@@ -205,3 +205,12 @@ dist-ssr
 
 # Omit run file
 synchronizer/run.sh
+
+# Framework cache
+.devcontainer/.cache/
+
+# Framework base config fetched at runtime
+mkdocs-base.yaml
+
+# Temporary Dockerfile from cache for local builds
+Dockerfile.framework

@@ -8,7 +8,7 @@
     "dockerfile": "Dockerfile"
     },
     */
-  // When running locally we pass the 'secrets' as env variables via runArgs "--env-file",".devcontainer/runlocal/.env"
+  // When running locally we pass the 'secrets' as env variables via runArgs "--env-file",".devcontainer/.env"
   "runArgs": ["--init", "--privileged", "--network=host"],
   "mounts": ["source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind"],
   // Entrypoint and CMD are overwritten by VSCode
