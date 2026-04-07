@@ -9,10 +9,6 @@ startKindCluster
 
 installK9s
 
-certmanagerInstall
-
-certmanagerEnable
-
 dynatraceDeployOperator
 
 deployCloudNative
