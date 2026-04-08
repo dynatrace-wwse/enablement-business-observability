@@ -13,7 +13,7 @@
 #                    Local to the container -> fast access, lost on container rebuild
 
 # Framework version pin — sync push-update updates this line
-FRAMEWORK_VERSION="${FRAMEWORK_VERSION:-1.2.6}"
+FRAMEWORK_VERSION="${FRAMEWORK_VERSION:-1.2.7}"
 
 REPO_PATH="$(pwd)"
 RepositoryName="$(basename "$REPO_PATH")"
