@@ -5,7 +5,7 @@
   /*
   // Building the image from the Dockerfile
   "build": {
-    "dockerfile": "Dockerfile"
+    "image": "shinojosa/dt-enablement:v1.2"
     },
     */
   // When running locally we pass the 'secrets' as env variables via runArgs "--env-file",".devcontainer/.env"
