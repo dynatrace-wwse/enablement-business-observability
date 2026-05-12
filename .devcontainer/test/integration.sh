@@ -12,4 +12,4 @@ assertRunningPod astroshop cart
 
 assertRunningPod astroshop checkout
 
-assertRunningApp 30100
+assertRunningApp astroshop
