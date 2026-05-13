@@ -214,3 +214,6 @@ mkdocs-base.yaml
 
 # Temporary Dockerfile from cache for local builds
 Dockerfile.framework
+
+
+docs/stylesheets/extra.css
