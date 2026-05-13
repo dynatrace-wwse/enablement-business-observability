@@ -17,14 +17,16 @@ jobs:
     - uses: actions/setup-python@v2
       with:
         python-version: '3.x'
-    - name: Fetch framework mkdocs-base.yaml
+    - name: Fetch framework assets (mkdocs-base + theme)
       run: |
         FRAMEWORK_VERSION=$(grep -oP ':-\K[^}"]+' .devcontainer/util/source_framework.sh | head -1)
         echo "Using framework version: $FRAMEWORK_VERSION"
         curl -fsSL "https://raw.githubusercontent.com/dynatrace-wwse/codespaces-framework/${FRAMEWORK_VERSION}/mkdocs-base.yaml" -o mkdocs-base.yaml
+        mkdir -p docs/stylesheets
+        curl -fsSL "https://raw.githubusercontent.com/dynatrace-wwse/codespaces-framework/${FRAMEWORK_VERSION}/docs/stylesheets/extra.css" -o docs/stylesheets/extra.css
     - name: MKDocs - install requirements, build, gh-deploy
       run: |
         pip install --break-system-packages -r docs/requirements/requirements-mkdocs.txt
-        git fetch origin gh-pages:gh-pages
+        git fetch origin gh-pages:gh-pages 2>/dev/null || true
         mkdocs build
-        mkdocs gh-deploy
+        mkdocs gh-deploy --force
