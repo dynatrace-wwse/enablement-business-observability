@@ -171,6 +171,11 @@
       </label>
       <nav class="md-search__options" aria-label="Search">
         
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
         <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
           
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
@@ -1216,8 +1221,8 @@ document.addEventListener('DOMContentLoaded', function() {
 <p><img alt="Rule 1" src="../img/02_bizevents_oneagent_rule_1.png" /></p>
 <h3 id="business-event-capture-rule">Business Event - Capture Rule<a class="headerlink" href="#business-event-capture-rule" title="Permanent link">#</a></h3>
 <p>Select the Add new capture rule button and name your rule using the following name: </p>
-<div class="highlight"><pre><span></span><code>astroshop_placeorder_success
-</code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>astroshop_placeorder_success
+</span></code></pre></div>
 <p><img alt="Rule Name" src="../img/02_bizevents_oneagent_placeorder_success_rule_1.png" /></p>
 <h3 id="business-event-triggers">Business Event - Triggers<a class="headerlink" href="#business-event-triggers" title="Permanent link">#</a></h3>
 <p>To capture Business Events from incoming web requests, we need to define conditions which are called Triggers.  Triggers are connected by AND logic per capture rule. If you set multiple trigger rules, all of them need to be fulfilled to capture a business event.</p>
@@ -1225,61 +1230,61 @@ document.addEventListener('DOMContentLoaded', function() {
 <p><strong>Trigger 1</strong></p>
 <p>Select the Add trigger button.</p>
 <p>In the <code>Data source</code> drop down list select:  </p>
-<div class="highlight"><pre><span></span><code>Request - Path
-</code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>Request - Path
+</span></code></pre></div>
 <p>In the <code>Operator</code> drop down list select: </p>
-<div class="highlight"><pre><span></span><code>equals
-</code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>equals
+</span></code></pre></div>
 <p>In the <code>Value</code> field use: </p>
-<div class="highlight"><pre><span></span><code>/api/checkout
-</code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>/api/checkout
+</span></code></pre></div>
 <p><img alt="Trigger 1" src="../img/02_bizevents_oneagent_placeorder_success_rule_2_A.png" /></p>
 <p><strong>Trigger 2</strong></p>
 <p>Select the Add trigger button.</p>
 <p>In the <code>Data source</code> drop down list select:  </p>
-<div class="highlight"><pre><span></span><code>Response - Body
-</code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>Response - Body
+</span></code></pre></div>
 <p>In the <code>Path</code> field use: </p>
-<div class="highlight"><pre><span></span><code>*
-</code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>*
+</span></code></pre></div>
 <p>In the <code>Operator</code> drop down list select: </p>
-<div class="highlight"><pre><span></span><code>contains
-</code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>contains
+</span></code></pre></div>
 <p>In the <code>value</code> field use:  </p>
-<div class="highlight"><pre><span></span><code>orderId
-</code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>orderId
+</span></code></pre></div>
 <p><img alt="Trigger 2" src="../img/02_bizevents_oneagent_placeorder_success_rule_2_BB.png" /></p>
 <p><strong>Trigger 3</strong></p>
 <p>Select the Add trigger button.</p>
 <p>In the <code>Data source</code> drop down list select:  </p>
-<div class="highlight"><pre><span></span><code>Response - HTTP Status Code
-</code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>Response - HTTP Status Code
+</span></code></pre></div>
 <p>In the <code>Operator</code> drop down list select: </p>
-<div class="highlight"><pre><span></span><code>equals
-</code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>equals
+</span></code></pre></div>
 <p>In the <code>Value</code> field use: </p>
-<div class="highlight"><pre><span></span><code>200
-</code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>200
+</span></code></pre></div>
 <p><img alt="Trigger 3" src="../img/02_bizevents_oneagent_placeorder_success_rule_2_C.png" /></p>
 <h3 id="business-event-event-provider">Business Event - Event Provider<a class="headerlink" href="#business-event-event-provider" title="Permanent link">#</a></h3>
 <p>The <code>Event Provider</code> is the source of the event, for example, the name of the component or system that generated the event.</p>
 <p>Under Event meta data, for the Event provider section use the following:</p>
 <p>In the <code>Data source</code> drop down list select:</p>
-<div class="highlight"><pre><span></span><code>Fixed value
-</code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>Fixed value
+</span></code></pre></div>
 <p>In the <code>Fixed value</code> section use:</p>
-<div class="highlight"><pre><span></span><code>astroshop
-</code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>astroshop
+</span></code></pre></div>
 <p><img alt="Event Provider" src="../img/02_bizevents_oneagent_placeorder_success_rule_3.png" /></p>
 <h3 id="business-event-event-type">Business Event - Event Type<a class="headerlink" href="#business-event-event-type" title="Permanent link">#</a></h3>
 <p>The Event Type is the unique identifier of a given event.</p>
 <p>Under Event meta data, for the Event type section use the following:</p>
 <p>In the <code>Data source</code> drop down list select:</p>
-<div class="highlight"><pre><span></span><code>Fixed value
-</code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>Fixed value
+</span></code></pre></div>
 <p>In the <code>Fixed value</code> section use:</p>
-<div class="highlight"><pre><span></span><code>astroshop.placeorder.success
-</code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>astroshop.placeorder.success
+</span></code></pre></div>
 <p><img alt="Event Type" src="../img/02_bizevents_oneagent_placeorder_success_rule_4.png" /></p>
 <h2 id="business-event-event-category">Business Event - Event Category<a class="headerlink" href="#business-event-event-category" title="Permanent link">#</a></h2>
 <p>The <code>Event Category</code> is optional.  </p>
@@ -1290,145 +1295,145 @@ document.addEventListener('DOMContentLoaded', function() {
 <p>Below is sample response payload for the <code>Place Order</code> transaction.  The following steps will cover how to extract the <code>orderId</code> and <code>units</code> (units will be used for the revenue number) and more from the response payload.  </p>
 <p>Capturing the <code>orderId</code> is critical for this business process as it will be unique identifier (correlation ID) that is common to all of the process steps.</p>
 <p><strong>Note:</strong> Use must use exact letter casing for fields that you define for data extraction. </p>
-<div class="highlight"><pre><span></span><code><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;orderId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;09766d7d-0530-11f0-895b-0e326b3139ca&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;shippingTrackingId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;c51af8bd-3fe1-4a46-9d9b-45a16cd7cd66&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;shippingCost&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nt">&quot;currencyCode&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;USD&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;units&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">47</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;nanos&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">700000000</span>
-<span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="nt">&quot;shippingAddress&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nt">&quot;streetAddress&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1600 Amphitheatre Parkway&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;city&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Mountain View&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;state&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;CA&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;country&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;United States&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;zipCode&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;94043&quot;</span>
-<span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="nt">&quot;items&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">        </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;cost&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;currencyCode&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;USD&quot;</span><span class="p">,</span>
-<span class="w">                </span><span class="nt">&quot;units&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">349</span><span class="p">,</span>
-<span class="w">                </span><span class="nt">&quot;nanos&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">949999999</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;item&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;productId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;66VCHSJNUP&quot;</span><span class="p">,</span>
-<span class="w">                </span><span class="nt">&quot;quantity&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
-<span class="w">                </span><span class="nt">&quot;product&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                    </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;66VCHSJNUP&quot;</span><span class="p">,</span>
-<span class="w">                    </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Starsense Explorer Refractor Telescope&quot;</span><span class="p">,</span>
-<span class="w">                    </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;The first telescope that uses your smartphone to analyze the night sky and calculate its position in real time. StarSense Explorer is ideal for beginners thanks to the app’s user-friendly interface and detailed tutorials. It’s like having your own personal tour guide of the night sky&quot;</span><span class="p">,</span>
-<span class="w">                    </span><span class="nt">&quot;picture&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;StarsenseExplorer.jpg&quot;</span><span class="p">,</span>
-<span class="w">                    </span><span class="nt">&quot;priceUsd&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                        </span><span class="nt">&quot;currencyCode&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;USD&quot;</span><span class="p">,</span>
-<span class="w">                        </span><span class="nt">&quot;units&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">349</span><span class="p">,</span>
-<span class="w">                        </span><span class="nt">&quot;nanos&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">950000000</span>
-<span class="w">                    </span><span class="p">},</span>
-<span class="w">                    </span><span class="nt">&quot;categories&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">                        </span><span class="s2">&quot;telescopes&quot;</span>
-<span class="w">                    </span><span class="p">]</span>
-<span class="w">                </span><span class="p">}</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">        </span><span class="p">}</span>
-<span class="w">    </span><span class="p">]</span>
-<span class="p">}</span>
-</code></pre></div>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="p">{</span>
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="w">    </span><span class="nt">&quot;orderId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;09766d7d-0530-11f0-895b-0e326b3139ca&quot;</span><span class="p">,</span>
+</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="w">    </span><span class="nt">&quot;shippingTrackingId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;c51af8bd-3fe1-4a46-9d9b-45a16cd7cd66&quot;</span><span class="p">,</span>
+</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="w">    </span><span class="nt">&quot;shippingCost&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="w">        </span><span class="nt">&quot;currencyCode&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;USD&quot;</span><span class="p">,</span>
+</span><span id="__span-15-6"><a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a><span class="w">        </span><span class="nt">&quot;units&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">47</span><span class="p">,</span>
+</span><span id="__span-15-7"><a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a><span class="w">        </span><span class="nt">&quot;nanos&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">700000000</span>
+</span><span id="__span-15-8"><a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a><span class="w">    </span><span class="p">},</span>
+</span><span id="__span-15-9"><a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a><span class="w">    </span><span class="nt">&quot;shippingAddress&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-15-10"><a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a><span class="w">        </span><span class="nt">&quot;streetAddress&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1600 Amphitheatre Parkway&quot;</span><span class="p">,</span>
+</span><span id="__span-15-11"><a id="__codelineno-15-11" name="__codelineno-15-11" href="#__codelineno-15-11"></a><span class="w">        </span><span class="nt">&quot;city&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Mountain View&quot;</span><span class="p">,</span>
+</span><span id="__span-15-12"><a id="__codelineno-15-12" name="__codelineno-15-12" href="#__codelineno-15-12"></a><span class="w">        </span><span class="nt">&quot;state&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;CA&quot;</span><span class="p">,</span>
+</span><span id="__span-15-13"><a id="__codelineno-15-13" name="__codelineno-15-13" href="#__codelineno-15-13"></a><span class="w">        </span><span class="nt">&quot;country&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;United States&quot;</span><span class="p">,</span>
+</span><span id="__span-15-14"><a id="__codelineno-15-14" name="__codelineno-15-14" href="#__codelineno-15-14"></a><span class="w">        </span><span class="nt">&quot;zipCode&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;94043&quot;</span>
+</span><span id="__span-15-15"><a id="__codelineno-15-15" name="__codelineno-15-15" href="#__codelineno-15-15"></a><span class="w">    </span><span class="p">},</span>
+</span><span id="__span-15-16"><a id="__codelineno-15-16" name="__codelineno-15-16" href="#__codelineno-15-16"></a><span class="w">    </span><span class="nt">&quot;items&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+</span><span id="__span-15-17"><a id="__codelineno-15-17" name="__codelineno-15-17" href="#__codelineno-15-17"></a><span class="w">        </span><span class="p">{</span>
+</span><span id="__span-15-18"><a id="__codelineno-15-18" name="__codelineno-15-18" href="#__codelineno-15-18"></a><span class="w">            </span><span class="nt">&quot;cost&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-15-19"><a id="__codelineno-15-19" name="__codelineno-15-19" href="#__codelineno-15-19"></a><span class="w">                </span><span class="nt">&quot;currencyCode&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;USD&quot;</span><span class="p">,</span>
+</span><span id="__span-15-20"><a id="__codelineno-15-20" name="__codelineno-15-20" href="#__codelineno-15-20"></a><span class="w">                </span><span class="nt">&quot;units&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">349</span><span class="p">,</span>
+</span><span id="__span-15-21"><a id="__codelineno-15-21" name="__codelineno-15-21" href="#__codelineno-15-21"></a><span class="w">                </span><span class="nt">&quot;nanos&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">949999999</span>
+</span><span id="__span-15-22"><a id="__codelineno-15-22" name="__codelineno-15-22" href="#__codelineno-15-22"></a><span class="w">            </span><span class="p">},</span>
+</span><span id="__span-15-23"><a id="__codelineno-15-23" name="__codelineno-15-23" href="#__codelineno-15-23"></a><span class="w">            </span><span class="nt">&quot;item&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-15-24"><a id="__codelineno-15-24" name="__codelineno-15-24" href="#__codelineno-15-24"></a><span class="w">                </span><span class="nt">&quot;productId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;66VCHSJNUP&quot;</span><span class="p">,</span>
+</span><span id="__span-15-25"><a id="__codelineno-15-25" name="__codelineno-15-25" href="#__codelineno-15-25"></a><span class="w">                </span><span class="nt">&quot;quantity&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+</span><span id="__span-15-26"><a id="__codelineno-15-26" name="__codelineno-15-26" href="#__codelineno-15-26"></a><span class="w">                </span><span class="nt">&quot;product&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-15-27"><a id="__codelineno-15-27" name="__codelineno-15-27" href="#__codelineno-15-27"></a><span class="w">                    </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;66VCHSJNUP&quot;</span><span class="p">,</span>
+</span><span id="__span-15-28"><a id="__codelineno-15-28" name="__codelineno-15-28" href="#__codelineno-15-28"></a><span class="w">                    </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Starsense Explorer Refractor Telescope&quot;</span><span class="p">,</span>
+</span><span id="__span-15-29"><a id="__codelineno-15-29" name="__codelineno-15-29" href="#__codelineno-15-29"></a><span class="w">                    </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;The first telescope that uses your smartphone to analyze the night sky and calculate its position in real time. StarSense Explorer is ideal for beginners thanks to the app’s user-friendly interface and detailed tutorials. It’s like having your own personal tour guide of the night sky&quot;</span><span class="p">,</span>
+</span><span id="__span-15-30"><a id="__codelineno-15-30" name="__codelineno-15-30" href="#__codelineno-15-30"></a><span class="w">                    </span><span class="nt">&quot;picture&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;StarsenseExplorer.jpg&quot;</span><span class="p">,</span>
+</span><span id="__span-15-31"><a id="__codelineno-15-31" name="__codelineno-15-31" href="#__codelineno-15-31"></a><span class="w">                    </span><span class="nt">&quot;priceUsd&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-15-32"><a id="__codelineno-15-32" name="__codelineno-15-32" href="#__codelineno-15-32"></a><span class="w">                        </span><span class="nt">&quot;currencyCode&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;USD&quot;</span><span class="p">,</span>
+</span><span id="__span-15-33"><a id="__codelineno-15-33" name="__codelineno-15-33" href="#__codelineno-15-33"></a><span class="w">                        </span><span class="nt">&quot;units&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">349</span><span class="p">,</span>
+</span><span id="__span-15-34"><a id="__codelineno-15-34" name="__codelineno-15-34" href="#__codelineno-15-34"></a><span class="w">                        </span><span class="nt">&quot;nanos&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">950000000</span>
+</span><span id="__span-15-35"><a id="__codelineno-15-35" name="__codelineno-15-35" href="#__codelineno-15-35"></a><span class="w">                    </span><span class="p">},</span>
+</span><span id="__span-15-36"><a id="__codelineno-15-36" name="__codelineno-15-36" href="#__codelineno-15-36"></a><span class="w">                    </span><span class="nt">&quot;categories&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+</span><span id="__span-15-37"><a id="__codelineno-15-37" name="__codelineno-15-37" href="#__codelineno-15-37"></a><span class="w">                        </span><span class="s2">&quot;telescopes&quot;</span>
+</span><span id="__span-15-38"><a id="__codelineno-15-38" name="__codelineno-15-38" href="#__codelineno-15-38"></a><span class="w">                    </span><span class="p">]</span>
+</span><span id="__span-15-39"><a id="__codelineno-15-39" name="__codelineno-15-39" href="#__codelineno-15-39"></a><span class="w">                </span><span class="p">}</span>
+</span><span id="__span-15-40"><a id="__codelineno-15-40" name="__codelineno-15-40" href="#__codelineno-15-40"></a><span class="w">            </span><span class="p">}</span>
+</span><span id="__span-15-41"><a id="__codelineno-15-41" name="__codelineno-15-41" href="#__codelineno-15-41"></a><span class="w">        </span><span class="p">}</span>
+</span><span id="__span-15-42"><a id="__codelineno-15-42" name="__codelineno-15-42" href="#__codelineno-15-42"></a><span class="w">    </span><span class="p">]</span>
+</span><span id="__span-15-43"><a id="__codelineno-15-43" name="__codelineno-15-43" href="#__codelineno-15-43"></a><span class="p">}</span>
+</span></code></pre></div>
 <p>Below is sample request payload for the <code>Place Order</code> transaction.  The following steps will cover how to extract the <code>userId</code> from the response payload. </p>
 <p><strong>Note:</strong> Use must use exact letter casing for fields that you define for data extraction.</p>
-<div class="highlight"><pre><span></span><code><span class="p">{</span>
-<span class="w">        </span><span class="nt">&quot;userId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2e31768f-dc87-4a74-b70f-5972ecca30b1&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;email&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;mark@example.com&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;address&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">          </span><span class="nt">&quot;streetAddress&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1 Hacker Way&quot;</span><span class="p">,</span>
-<span class="w">          </span><span class="nt">&quot;state&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;CA&quot;</span><span class="p">,</span>
-<span class="w">          </span><span class="nt">&quot;country&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;United States&quot;</span><span class="p">,</span>
-<span class="w">          </span><span class="nt">&quot;city&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Menlo Park&quot;</span><span class="p">,</span>
-<span class="w">          </span><span class="nt">&quot;zipCode&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;94025&quot;</span>
-<span class="w">        </span><span class="p">},</span>
-<span class="w">        </span><span class="nt">&quot;userCurrency&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;USD&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;creditCard&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">          </span><span class="nt">&quot;creditCardCvv&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;***&quot;</span><span class="p">,</span>
-<span class="w">          </span><span class="nt">&quot;creditCardExpirationMonth&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;*&quot;</span><span class="p">,</span>
-<span class="w">          </span><span class="nt">&quot;creditCardExpirationYear&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;****&quot;</span><span class="p">,</span>
-<span class="w">          </span><span class="nt">&quot;creditCardNumber&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;****-****-****-****&quot;</span>
-<span class="w">        </span><span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="p">{</span>
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="w">        </span><span class="nt">&quot;userId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2e31768f-dc87-4a74-b70f-5972ecca30b1&quot;</span><span class="p">,</span>
+</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="w">        </span><span class="nt">&quot;email&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;mark@example.com&quot;</span><span class="p">,</span>
+</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="w">        </span><span class="nt">&quot;address&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="w">          </span><span class="nt">&quot;streetAddress&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1 Hacker Way&quot;</span><span class="p">,</span>
+</span><span id="__span-16-6"><a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a><span class="w">          </span><span class="nt">&quot;state&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;CA&quot;</span><span class="p">,</span>
+</span><span id="__span-16-7"><a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a><span class="w">          </span><span class="nt">&quot;country&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;United States&quot;</span><span class="p">,</span>
+</span><span id="__span-16-8"><a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a><span class="w">          </span><span class="nt">&quot;city&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Menlo Park&quot;</span><span class="p">,</span>
+</span><span id="__span-16-9"><a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a><span class="w">          </span><span class="nt">&quot;zipCode&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;94025&quot;</span>
+</span><span id="__span-16-10"><a id="__codelineno-16-10" name="__codelineno-16-10" href="#__codelineno-16-10"></a><span class="w">        </span><span class="p">},</span>
+</span><span id="__span-16-11"><a id="__codelineno-16-11" name="__codelineno-16-11" href="#__codelineno-16-11"></a><span class="w">        </span><span class="nt">&quot;userCurrency&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;USD&quot;</span><span class="p">,</span>
+</span><span id="__span-16-12"><a id="__codelineno-16-12" name="__codelineno-16-12" href="#__codelineno-16-12"></a><span class="w">        </span><span class="nt">&quot;creditCard&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-16-13"><a id="__codelineno-16-13" name="__codelineno-16-13" href="#__codelineno-16-13"></a><span class="w">          </span><span class="nt">&quot;creditCardCvv&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;***&quot;</span><span class="p">,</span>
+</span><span id="__span-16-14"><a id="__codelineno-16-14" name="__codelineno-16-14" href="#__codelineno-16-14"></a><span class="w">          </span><span class="nt">&quot;creditCardExpirationMonth&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;*&quot;</span><span class="p">,</span>
+</span><span id="__span-16-15"><a id="__codelineno-16-15" name="__codelineno-16-15" href="#__codelineno-16-15"></a><span class="w">          </span><span class="nt">&quot;creditCardExpirationYear&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;****&quot;</span><span class="p">,</span>
+</span><span id="__span-16-16"><a id="__codelineno-16-16" name="__codelineno-16-16" href="#__codelineno-16-16"></a><span class="w">          </span><span class="nt">&quot;creditCardNumber&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;****-****-****-****&quot;</span>
+</span><span id="__span-16-17"><a id="__codelineno-16-17" name="__codelineno-16-17" href="#__codelineno-16-17"></a><span class="w">        </span><span class="p">}</span>
+</span><span id="__span-16-18"><a id="__codelineno-16-18" name="__codelineno-16-18" href="#__codelineno-16-18"></a><span class="p">}</span>
+</span></code></pre></div>
 <p>The following table shows additional examples of how to extract data from JSON payloads.</p>
 <p><img alt="JSON Payload Extractin Example" src="../img/02_bizevents_oneagent_json_payload_example.png" /></p>
 <p><a href="https://docs.dynatrace.com/docs/shortlink/ba-business-events-capturing#json">Dynatrace Documentation Link</a></p>
 <h3 id="business-event-orderid-capture">Business Event - orderId Capture<a class="headerlink" href="#business-event-orderid-capture" title="Permanent link">#</a></h3>
 <p>Under the Event data section, select the Add data field button.</p>
 <p>In the <code>Field name</code> section use: </p>
-<div class="highlight"><pre><span></span><code>orderId
-</code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>orderId
+</span></code></pre></div>
 <p>In the <code>Data Source</code> drop down list select:</p>
-<div class="highlight"><pre><span></span><code>Response - Body
-</code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>Response - Body
+</span></code></pre></div>
 <p>In the <code>Path</code> section use:</p>
-<div class="highlight"><pre><span></span><code>orderId
-</code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>orderId
+</span></code></pre></div>
 <p><img alt="Event Data orderId" src="../img/02_bizevents_oneagent_placeorder_success_rule_5.png" /></p>
 <h3 id="business-event-country-capture">Business Event - country Capture<a class="headerlink" href="#business-event-country-capture" title="Permanent link">#</a></h3>
 <p>Under the Event data section, select the Add data field button.</p>
 <p>In the <code>Field name</code> section use: </p>
-<div class="highlight"><pre><span></span><code>country
-</code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>country
+</span></code></pre></div>
 <p>In the <code>Data Source</code> drop down list select:</p>
-<div class="highlight"><pre><span></span><code>Response - Body
-</code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>Response - Body
+</span></code></pre></div>
 <p>In the <code>Path</code> section use:</p>
-<div class="highlight"><pre><span></span><code>shippingAddress.country
-</code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>shippingAddress.country
+</span></code></pre></div>
 <p><img alt="Event Data country" src="../img/02_bizevents_oneagent_placeorder_success_rule_country.png" /></p>
 <h3 id="business-event-userid-capture">Business Event - userId Capture<a class="headerlink" href="#business-event-userid-capture" title="Permanent link">#</a></h3>
 <p>Under the Event data section, select the Add data field button.</p>
 <p>In the <code>Field name</code> section use: </p>
-<div class="highlight"><pre><span></span><code>userId
-</code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>userId
+</span></code></pre></div>
 <p>In the <code>Data Source</code> drop down list select:</p>
-<div class="highlight"><pre><span></span><code>Request - Body
-</code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>Request - Body
+</span></code></pre></div>
 <p>In the <code>Path</code> section use:</p>
-<div class="highlight"><pre><span></span><code>userId
-</code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>userId
+</span></code></pre></div>
 <p><img alt="Event Data userId" src="../img/02_bizevents_oneagent_placeorder_success_rule_7.png" /></p>
 <h3 id="business-event-revenue-capture">Business Event - revenue Capture<a class="headerlink" href="#business-event-revenue-capture" title="Permanent link">#</a></h3>
 <p>Under the Event data section, select the Add data field button.</p>
 <p>In the <code>Field name</code> section use: </p>
-<div class="highlight"><pre><span></span><code>revenue
-</code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-26-1"><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>revenue
+</span></code></pre></div>
 <p>In the <code>Data Source</code> drop down list select:</p>
-<div class="highlight"><pre><span></span><code>Response - Body
-</code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-27-1"><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a>Response - Body
+</span></code></pre></div>
 <p>In the <code>Path</code> section use:</p>
-<div class="highlight"><pre><span></span><code>items.0.cost.units
-</code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-28-1"><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a>items.0.cost.units
+</span></code></pre></div>
 <p><img alt="Event Data revenue" src="../img/02_bizevents_oneagent_placeorder_success_rule_8.png" /></p>
 <h3 id="business-event-shippingtrackingid-capture">Business Event - shippingTrackingId Capture<a class="headerlink" href="#business-event-shippingtrackingid-capture" title="Permanent link">#</a></h3>
 <p>Under the Event data section, select the Add data field button.</p>
 <p>In the <code>Field name</code> section use: </p>
-<div class="highlight"><pre><span></span><code>shippingTrackingId
-</code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-29-1"><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a>shippingTrackingId
+</span></code></pre></div>
 <p>In the <code>Data Source</code> drop down list select:</p>
-<div class="highlight"><pre><span></span><code>Response - Body
-</code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-30-1"><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a>Response - Body
+</span></code></pre></div>
 <p>In the <code>Path</code> section use:</p>
-<div class="highlight"><pre><span></span><code>shippingTrackingId
-</code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-31-1"><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a>shippingTrackingId
+</span></code></pre></div>
 <p><img alt="Event Data shippingTrackingId" src="../img/02_bizevents_oneagent_placeorder_success_rule_6.png" /></p>
 <h3 id="business-event-full-response-body-capture">Business Event - Full Response Body Capture<a class="headerlink" href="#business-event-full-response-body-capture" title="Permanent link">#</a></h3>
 <p>Under the Event data section, select the Add data field button.</p>
 <p>In the <code>Field name</code> section use: </p>
-<div class="highlight"><pre><span></span><code>ResBody
-</code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-32-1"><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a>ResBody
+</span></code></pre></div>
 <p>In the <code>Data Source</code> drop down list select:</p>
-<div class="highlight"><pre><span></span><code>Response - Body
-</code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-33-1"><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a>Response - Body
+</span></code></pre></div>
 <p>In the <code>Path</code> section use:</p>
-<div class="highlight"><pre><span></span><code>*
-</code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-34-1"><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a>*
+</span></code></pre></div>
 <p><img alt="Event Data ResBody" src="../img/02_bizevents_oneagent_placeorder_success_rule_8b.png" /></p>
 <p><code>Note:</code> Some use cases might require capturing and store the full response body.  OpenPipeline can be used for Business Events to extract needed fields, masking.   You can also drop the full response body field keeping only what extract.  </p>
 <p>This approach is also helpful for data validation/debugging during initial setup but not using when you fully deploy.  Lastly, using * for the path field value will capture everything. For this lab will use the full response body.</p>
@@ -1442,11 +1447,11 @@ document.addEventListener('DOMContentLoaded', function() {
 <p><img alt="Astroshop Notebook" src="../img/astroshop_notebook_github_download.png" /></p>
 <p>Or, using your own Notebook execute the below DQL query which retrieves the business events for <code>astroshop.placeorder.success</code> step.</p>
 <p>DQL:
-<div class="highlight"><pre><span></span><code><span class="k">fetch</span><span class="w"> </span><span class="n">bizevents</span>
-<span class="o">|</span><span class="w"> </span><span class="n">filter</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="n">provider</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="ss">&quot;astroshop&quot;</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="k">type</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="ss">&quot;astroshop.placeorder.success&quot;</span>
-<span class="o">|</span><span class="w"> </span><span class="n">fields</span><span class="w"> </span><span class="k">timestamp</span><span class="p">,</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="n">provider</span><span class="p">,</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="k">type</span><span class="p">,</span><span class="w"> </span><span class="n">userId</span><span class="p">,</span><span class="w"> </span><span class="n">orderId</span><span class="p">,</span><span class="w"> </span><span class="n">revenue</span><span class="p">,</span><span class="w"> </span><span class="n">country</span><span class="p">,</span><span class="n">trace_id</span><span class="p">,</span><span class="n">ResBody</span>
-<span class="o">|</span><span class="w"> </span><span class="n">sort</span><span class="w"> </span><span class="k">timestamp</span><span class="w"> </span><span class="k">desc</span>
-</code></pre></div></p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-35-1"><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a><span class="k">fetch</span><span class="w"> </span><span class="n">bizevents</span>
+</span><span id="__span-35-2"><a id="__codelineno-35-2" name="__codelineno-35-2" href="#__codelineno-35-2"></a><span class="o">|</span><span class="w"> </span><span class="n">filter</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="n">provider</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="ss">&quot;astroshop&quot;</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="k">type</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="ss">&quot;astroshop.placeorder.success&quot;</span>
+</span><span id="__span-35-3"><a id="__codelineno-35-3" name="__codelineno-35-3" href="#__codelineno-35-3"></a><span class="o">|</span><span class="w"> </span><span class="n">fields</span><span class="w"> </span><span class="k">timestamp</span><span class="p">,</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="n">provider</span><span class="p">,</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="k">type</span><span class="p">,</span><span class="w"> </span><span class="n">userId</span><span class="p">,</span><span class="w"> </span><span class="n">orderId</span><span class="p">,</span><span class="w"> </span><span class="n">revenue</span><span class="p">,</span><span class="w"> </span><span class="n">country</span><span class="p">,</span><span class="n">trace_id</span><span class="p">,</span><span class="n">ResBody</span>
+</span><span id="__span-35-4"><a id="__codelineno-35-4" name="__codelineno-35-4" href="#__codelineno-35-4"></a><span class="o">|</span><span class="w"> </span><span class="n">sort</span><span class="w"> </span><span class="k">timestamp</span><span class="w"> </span><span class="k">desc</span>
+</span></code></pre></div></p>
 <p>Result:</p>
 <p><img alt="DQL Query" src="../img/02_bizevents_oneagent_placeorder_success_dql_before_pioeline.png" /></p>
 <p>Notice we have null values for <code>orderId</code>, <code>revenue</code>, <code>country</code> fields.   </p>
@@ -1465,34 +1470,34 @@ document.addEventListener('DOMContentLoaded', function() {
 <p><img alt="Launch OpenPipeline" src="../img/02_bizevents_oneagent_placeorder_success_open_pipeline_1.png" /></p>
 <h2 id="business-events-openpipeline-processing-place-order">Business Events - OpenPipeline - Processing - Place Order<a class="headerlink" href="#business-events-openpipeline-processing-place-order" title="Permanent link">#</a></h2>
 <p>Name your OpenPipeline rule using the following name: </p>
-<div class="highlight"><pre><span></span><code>Astroshop
-</code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-36-1"><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a>Astroshop
+</span></code></pre></div>
 <p>Select the <code>Processing</code> tab.</p>
 <p>Select the <code>+ Processor</code> button (left side of the screen), then select <code>DQL</code>.</p>
 <p><img alt="OpenPipeline Processing Part 1" src="../img/02_bizevents_oneagent_placeorder_success_open_pipeline_2.png" /></p>
 <p>Fill out the fields with the following data:</p>
 <p>Name: </p>
-<div class="highlight"><pre><span></span><code>FixFieldsWithNullValues
-</code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-37-1"><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a>FixFieldsWithNullValues
+</span></code></pre></div>
 <p>Matching condition: </p>
-<div class="highlight"><pre><span></span><code>event.type == &quot;astroshop.placeorder.success&quot; and isNull(orderId)
-</code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-38-1"><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a>event.type == &quot;astroshop.placeorder.success&quot; and isNull(orderId)
+</span></code></pre></div>
 <p>DQL processor definition: </p>
-<div class="highlight"><pre><span></span><code>parse ResBody, &quot;&quot;&quot;DATA &#39;orderId&quot;:&#39; DQS:orderId LD &#39;shippingTrackingId&quot;:&#39; DQS:shippingTrackingId LD &#39;units&quot;:&#39; DOUBLE:revenue LD  LD &#39;country&quot;:&#39; DQS:country&quot;&quot;&quot;
-</code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-39-1"><a id="__codelineno-39-1" name="__codelineno-39-1" href="#__codelineno-39-1"></a>parse ResBody, &quot;&quot;&quot;DATA &#39;orderId&quot;:&#39; DQS:orderId LD &#39;shippingTrackingId&quot;:&#39; DQS:shippingTrackingId LD &#39;units&quot;:&#39; DOUBLE:revenue LD  LD &#39;country&quot;:&#39; DQS:country&quot;&quot;&quot;
+</span></code></pre></div>
 <p>Sample data:</p>
-<div class="highlight"><pre><span></span><code><span class="w">     </span><span class="p">{</span>
-<span class="w">           </span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2025-03-26T23:39:04.840000000-04:00&quot;</span><span class="p">,</span>
-<span class="w">           </span><span class="nt">&quot;event.provider&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;astroshop&quot;</span><span class="p">,</span>
-<span class="w">           </span><span class="nt">&quot;event.type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;astroshop.placeorder.success&quot;</span><span class="p">,</span>
-<span class="w">           </span><span class="nt">&quot;userId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ae844c70-5b7e-471f-9cfb-07715a46bc8d&quot;</span><span class="p">,</span>
-<span class="w">           </span><span class="nt">&quot;orderId&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
-<span class="w">           </span><span class="nt">&quot;revenue&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
-<span class="w">           </span><span class="nt">&quot;country&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
-<span class="w">           </span><span class="nt">&quot;trace_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;104a1ee54db91be0ff9acbcb65cdfee4&quot;</span><span class="p">,</span>
-<span class="w">           </span><span class="nt">&quot;ResBody&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;{\&quot;orderId\&quot;:\&quot;07fa8ff2-0abd-11f0-92d2-0e1e3ab12988\&quot;,\&quot;shippingTrackingId\&quot;:\&quot;6fd4c157-ca6b-465e-bc39-a5096d6ee08c\&quot;,\&quot;shippingCost\&quot;:{\&quot;currencyCode\&quot;:\&quot;USD\&quot;,\&quot;units\&quot;:84,\&quot;nanos\&quot;:400000000},\&quot;shippingAddress\&quot;:{\&quot;streetAddress\&quot;:\&quot;1 Hacker Way\&quot;,\&quot;city\&quot;:\&quot;Menlo Park\&quot;,\&quot;state\&quot;:\&quot;CA\&quot;,\&quot;country\&quot;:\&quot;United States\&quot;,\&quot;zipCode\&quot;:\&quot;94025\&quot;},\&quot;items\&quot;:[{\&quot;cost\&quot;:{\&quot;currencyCode\&quot;:\&quot;USD\&quot;,\&quot;units\&quot;:209,\&quot;nanos\&quot;:949999999},\&quot;item\&quot;:{\&quot;productId\&quot;:\&quot;2ZYFJ3GM2N\&quot;,\&quot;quantity\&quot;:2,\&quot;product\&quot;:{\&quot;id\&quot;:\&quot;2ZYFJ3GM2N\&quot;,\&quot;name\&quot;:\&quot;Roof Binoculars\&quot;,\&quot;description\&quot;:\&quot;This versatile, all-around binocular is a great choice for the trail, the stadium, the arena, or just about anywhere you want a close-up view of the action without sacrificing brightness or detail. It\u0019s an especially great companion for nature observation and bird watching, with ED glass that helps you spot the subtlest field markings and a close focus of just 6.5 feet.\&quot;,\&quot;picture\&quot;:\&quot;RoofBinoculars.jpg\&quot;,\&quot;priceUsd\&quot;:{\&quot;currencyCode\&quot;:\&quot;USD\&quot;,\&quot;units\&quot;:209,\&quot;nanos\&quot;:950000000},\&quot;categories\&quot;:[\&quot;binoculars\&quot;]}}}]}&quot;</span>
-<span class="w">         </span><span class="p">}</span>
-</code></pre></div>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-40-1"><a id="__codelineno-40-1" name="__codelineno-40-1" href="#__codelineno-40-1"></a><span class="w">     </span><span class="p">{</span>
+</span><span id="__span-40-2"><a id="__codelineno-40-2" name="__codelineno-40-2" href="#__codelineno-40-2"></a><span class="w">           </span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2025-03-26T23:39:04.840000000-04:00&quot;</span><span class="p">,</span>
+</span><span id="__span-40-3"><a id="__codelineno-40-3" name="__codelineno-40-3" href="#__codelineno-40-3"></a><span class="w">           </span><span class="nt">&quot;event.provider&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;astroshop&quot;</span><span class="p">,</span>
+</span><span id="__span-40-4"><a id="__codelineno-40-4" name="__codelineno-40-4" href="#__codelineno-40-4"></a><span class="w">           </span><span class="nt">&quot;event.type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;astroshop.placeorder.success&quot;</span><span class="p">,</span>
+</span><span id="__span-40-5"><a id="__codelineno-40-5" name="__codelineno-40-5" href="#__codelineno-40-5"></a><span class="w">           </span><span class="nt">&quot;userId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ae844c70-5b7e-471f-9cfb-07715a46bc8d&quot;</span><span class="p">,</span>
+</span><span id="__span-40-6"><a id="__codelineno-40-6" name="__codelineno-40-6" href="#__codelineno-40-6"></a><span class="w">           </span><span class="nt">&quot;orderId&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+</span><span id="__span-40-7"><a id="__codelineno-40-7" name="__codelineno-40-7" href="#__codelineno-40-7"></a><span class="w">           </span><span class="nt">&quot;revenue&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+</span><span id="__span-40-8"><a id="__codelineno-40-8" name="__codelineno-40-8" href="#__codelineno-40-8"></a><span class="w">           </span><span class="nt">&quot;country&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+</span><span id="__span-40-9"><a id="__codelineno-40-9" name="__codelineno-40-9" href="#__codelineno-40-9"></a><span class="w">           </span><span class="nt">&quot;trace_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;104a1ee54db91be0ff9acbcb65cdfee4&quot;</span><span class="p">,</span>
+</span><span id="__span-40-10"><a id="__codelineno-40-10" name="__codelineno-40-10" href="#__codelineno-40-10"></a><span class="w">           </span><span class="nt">&quot;ResBody&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;{\&quot;orderId\&quot;:\&quot;07fa8ff2-0abd-11f0-92d2-0e1e3ab12988\&quot;,\&quot;shippingTrackingId\&quot;:\&quot;6fd4c157-ca6b-465e-bc39-a5096d6ee08c\&quot;,\&quot;shippingCost\&quot;:{\&quot;currencyCode\&quot;:\&quot;USD\&quot;,\&quot;units\&quot;:84,\&quot;nanos\&quot;:400000000},\&quot;shippingAddress\&quot;:{\&quot;streetAddress\&quot;:\&quot;1 Hacker Way\&quot;,\&quot;city\&quot;:\&quot;Menlo Park\&quot;,\&quot;state\&quot;:\&quot;CA\&quot;,\&quot;country\&quot;:\&quot;United States\&quot;,\&quot;zipCode\&quot;:\&quot;94025\&quot;},\&quot;items\&quot;:[{\&quot;cost\&quot;:{\&quot;currencyCode\&quot;:\&quot;USD\&quot;,\&quot;units\&quot;:209,\&quot;nanos\&quot;:949999999},\&quot;item\&quot;:{\&quot;productId\&quot;:\&quot;2ZYFJ3GM2N\&quot;,\&quot;quantity\&quot;:2,\&quot;product\&quot;:{\&quot;id\&quot;:\&quot;2ZYFJ3GM2N\&quot;,\&quot;name\&quot;:\&quot;Roof Binoculars\&quot;,\&quot;description\&quot;:\&quot;This versatile, all-around binocular is a great choice for the trail, the stadium, the arena, or just about anywhere you want a close-up view of the action without sacrificing brightness or detail. It\u0019s an especially great companion for nature observation and bird watching, with ED glass that helps you spot the subtlest field markings and a close focus of just 6.5 feet.\&quot;,\&quot;picture\&quot;:\&quot;RoofBinoculars.jpg\&quot;,\&quot;priceUsd\&quot;:{\&quot;currencyCode\&quot;:\&quot;USD\&quot;,\&quot;units\&quot;:209,\&quot;nanos\&quot;:950000000},\&quot;categories\&quot;:[\&quot;binoculars\&quot;]}}}]}&quot;</span>
+</span><span id="__span-40-11"><a id="__codelineno-40-11" name="__codelineno-40-11" href="#__codelineno-40-11"></a><span class="w">         </span><span class="p">}</span>
+</span></code></pre></div>
 <p>Select the <code>Run sample data</code> button.</p>
 <p>Under the <code>Preview result</code> section validate <code>orderId</code>, <code>country</code> and <code>revenue</code> fields have values.</p>
 <p><img alt="OpenPipeline Processing Part 2" src="../img/02_bizevents_oneagent_placeorder_success_open_pipeline_3.png" /></p>
@@ -1501,15 +1506,15 @@ document.addEventListener('DOMContentLoaded', function() {
 <p><img alt="OpenPipeline Processing Part 3" src="../img/02_bizevents_oneagent_placeorder_success_open_pipeline_4.png" /></p>
 <p>Fill out the fields with the following data:</p>
 <p>Name: </p>
-<div class="highlight"><pre><span></span><code>RemoveResBody
-</code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-41-1"><a id="__codelineno-41-1" name="__codelineno-41-1" href="#__codelineno-41-1"></a>RemoveResBody
+</span></code></pre></div>
 <p>Matching condition: </p>
-<div class="highlight"><pre><span></span><code>event.type == &quot;astroshop.placeorder.success&quot;
-</code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-42-1"><a id="__codelineno-42-1" name="__codelineno-42-1" href="#__codelineno-42-1"></a>event.type == &quot;astroshop.placeorder.success&quot;
+</span></code></pre></div>
 <p>Remove fields:</p>
 <p>After adding the below field to remove, select the Add button.</p>
-<div class="highlight"><pre><span></span><code>ResBody
-</code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-43-1"><a id="__codelineno-43-1" name="__codelineno-43-1" href="#__codelineno-43-1"></a>ResBody
+</span></code></pre></div>
 <p>Select the Save Button at the top right of the screen.</p>
 <p><img alt="OpenPipeline Processing Part 4" src="../img/02_bizevents_oneagent_placeorder_success_open_pipeline_5.png" /></p>
 <h2 id="business-events-openpipeline-dynamic-route-place-order">Business Events - OpenPipeline Dynamic Route - Place Order<a class="headerlink" href="#business-events-openpipeline-dynamic-route-place-order" title="Permanent link">#</a></h2>
@@ -1520,20 +1525,20 @@ document.addEventListener('DOMContentLoaded', function() {
 <p><img alt="Pipeline Dynamic Route Part 1" src="../img/05_bizevents_metric_placeorder_openpipline_rule_3.png" /></p>
 <p>Configure the Dynamic route with the following:</p>
 <p>Name:</p>
-<div class="highlight"><pre><span></span><code>Astroshop_BusinessEvents
-</code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-44-1"><a id="__codelineno-44-1" name="__codelineno-44-1" href="#__codelineno-44-1"></a>Astroshop_BusinessEvents
+</span></code></pre></div>
 <p>Matching condition:</p>
-<div class="highlight"><pre><span></span><code>event.provider == &quot;astroshop&quot;
-</code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-45-1"><a id="__codelineno-45-1" name="__codelineno-45-1" href="#__codelineno-45-1"></a>event.provider == &quot;astroshop&quot;
+</span></code></pre></div>
 <p>Pipeline:</p>
 <p>In the dropdown list select the following:</p>
-<div class="highlight"><pre><span></span><code>Astroshop
-</code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-46-1"><a id="__codelineno-46-1" name="__codelineno-46-1" href="#__codelineno-46-1"></a>Astroshop
+</span></code></pre></div>
 <p>Select the <code>Add</code> button.</p>
 <p><img alt="Pipeline Dynamic Route Part 2" src="../img/05_bizevents_metric_placeorder_openpipline_rule_4.png" /></p>
 <p>Select the <code>Save</code> button.</p>
-<p><div class="highlight"><pre><span></span><code>A warning icon with this message will appear &quot;Do you want to save your changes to this table?&quot; 
-</code></pre></div>
+<p><div class="language-text highlight"><pre><span></span><code><span id="__span-47-1"><a id="__codelineno-47-1" name="__codelineno-47-1" href="#__codelineno-47-1"></a>A warning icon with this message will appear &quot;Do you want to save your changes to this table?&quot; 
+</span></code></pre></div>
 Select the <code>Save</code> button.</p>
 <p><img alt="Pipeline Dynamic Route Part 3" src="../img/05_bizevents_metric_placeorder_openpipline_rule_5.png" /></p>
 <h3 id="conclusion_1">Conclusion<a class="headerlink" href="#conclusion_1" title="Permanent link">#</a></h3>
@@ -1543,11 +1548,11 @@ Select the <code>Save</code> button.</p>
 <h3 id="query-business-events-in-dynatrace_1">Query Business Events in Dynatrace<a class="headerlink" href="#query-business-events-in-dynatrace_1" title="Permanent link">#</a></h3>
 <p>Using a Notebook execute the below DQL query which retrieves the buisness events for <code>astroshop.placeorder.success</code> step.  </p>
 <p>DQL:
-<div class="highlight"><pre><span></span><code><span class="k">fetch</span><span class="w"> </span><span class="n">bizevents</span>
-<span class="o">|</span><span class="w"> </span><span class="n">filter</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="n">provider</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="ss">&quot;astroshop&quot;</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="k">type</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="ss">&quot;astroshop.placeorder.success&quot;</span>
-<span class="o">|</span><span class="w"> </span><span class="n">fields</span><span class="w"> </span><span class="k">timestamp</span><span class="p">,</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="n">provider</span><span class="p">,</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="k">type</span><span class="p">,</span><span class="w"> </span><span class="n">userId</span><span class="p">,</span><span class="w"> </span><span class="n">orderId</span><span class="p">,</span><span class="w"> </span><span class="n">revenue</span><span class="p">,</span><span class="w"> </span><span class="n">country</span><span class="p">,</span><span class="w"> </span><span class="n">shippingTrackingId</span><span class="p">,</span><span class="w"> </span><span class="n">trace_id</span>
-<span class="o">|</span><span class="w"> </span><span class="n">sort</span><span class="w"> </span><span class="k">timestamp</span><span class="w"> </span><span class="k">desc</span>
-</code></pre></div></p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-48-1"><a id="__codelineno-48-1" name="__codelineno-48-1" href="#__codelineno-48-1"></a><span class="k">fetch</span><span class="w"> </span><span class="n">bizevents</span>
+</span><span id="__span-48-2"><a id="__codelineno-48-2" name="__codelineno-48-2" href="#__codelineno-48-2"></a><span class="o">|</span><span class="w"> </span><span class="n">filter</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="n">provider</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="ss">&quot;astroshop&quot;</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="k">type</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="ss">&quot;astroshop.placeorder.success&quot;</span>
+</span><span id="__span-48-3"><a id="__codelineno-48-3" name="__codelineno-48-3" href="#__codelineno-48-3"></a><span class="o">|</span><span class="w"> </span><span class="n">fields</span><span class="w"> </span><span class="k">timestamp</span><span class="p">,</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="n">provider</span><span class="p">,</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="k">type</span><span class="p">,</span><span class="w"> </span><span class="n">userId</span><span class="p">,</span><span class="w"> </span><span class="n">orderId</span><span class="p">,</span><span class="w"> </span><span class="n">revenue</span><span class="p">,</span><span class="w"> </span><span class="n">country</span><span class="p">,</span><span class="w"> </span><span class="n">shippingTrackingId</span><span class="p">,</span><span class="w"> </span><span class="n">trace_id</span>
+</span><span id="__span-48-4"><a id="__codelineno-48-4" name="__codelineno-48-4" href="#__codelineno-48-4"></a><span class="o">|</span><span class="w"> </span><span class="n">sort</span><span class="w"> </span><span class="k">timestamp</span><span class="w"> </span><span class="k">desc</span>
+</span></code></pre></div></p>
 <p>Result:</p>
 <p><img alt="DQL Query" src="../img/02_bizevents_oneagent_placeorder_success_dql.png" /></p>
 <h3 id="conclusion_2">Conclusion<a class="headerlink" href="#conclusion_2" title="Permanent link">#</a></h3>
@@ -1557,11 +1562,11 @@ Select the <code>Save</code> button.</p>
 <h3 id="query-business-events-in-dynatrace_2">Query Business Events in Dynatrace<a class="headerlink" href="#query-business-events-in-dynatrace_2" title="Permanent link">#</a></h3>
 <p>Using a Notebook execute the below DQL query which retrieves the buisness events for <code>astroshop.placeorder.success</code> step.  </p>
 <p>DQL:
-<div class="highlight"><pre><span></span><code><span class="k">fetch</span><span class="w"> </span><span class="n">bizevents</span>
-<span class="o">|</span><span class="w"> </span><span class="n">filter</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="n">provider</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="ss">&quot;astroshop&quot;</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="k">type</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="ss">&quot;astroshop.placeorder.success&quot;</span>
-<span class="o">|</span><span class="w"> </span><span class="n">fields</span><span class="w"> </span><span class="k">timestamp</span><span class="p">,</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="n">provider</span><span class="p">,</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="k">type</span><span class="p">,</span><span class="w"> </span><span class="n">userId</span><span class="p">,</span><span class="w"> </span><span class="n">orderId</span><span class="p">,</span><span class="w"> </span><span class="n">revenue</span><span class="p">,</span><span class="w"> </span><span class="n">country</span><span class="p">,</span><span class="w"> </span><span class="n">shippingTrackingId</span><span class="p">,</span><span class="w"> </span><span class="n">trace_id</span>
-<span class="o">|</span><span class="w"> </span><span class="n">sort</span><span class="w"> </span><span class="k">timestamp</span><span class="w"> </span><span class="k">desc</span>
-</code></pre></div></p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-49-1"><a id="__codelineno-49-1" name="__codelineno-49-1" href="#__codelineno-49-1"></a><span class="k">fetch</span><span class="w"> </span><span class="n">bizevents</span>
+</span><span id="__span-49-2"><a id="__codelineno-49-2" name="__codelineno-49-2" href="#__codelineno-49-2"></a><span class="o">|</span><span class="w"> </span><span class="n">filter</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="n">provider</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="ss">&quot;astroshop&quot;</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="k">type</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="ss">&quot;astroshop.placeorder.success&quot;</span>
+</span><span id="__span-49-3"><a id="__codelineno-49-3" name="__codelineno-49-3" href="#__codelineno-49-3"></a><span class="o">|</span><span class="w"> </span><span class="n">fields</span><span class="w"> </span><span class="k">timestamp</span><span class="p">,</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="n">provider</span><span class="p">,</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="k">type</span><span class="p">,</span><span class="w"> </span><span class="n">userId</span><span class="p">,</span><span class="w"> </span><span class="n">orderId</span><span class="p">,</span><span class="w"> </span><span class="n">revenue</span><span class="p">,</span><span class="w"> </span><span class="n">country</span><span class="p">,</span><span class="w"> </span><span class="n">shippingTrackingId</span><span class="p">,</span><span class="w"> </span><span class="n">trace_id</span>
+</span><span id="__span-49-4"><a id="__codelineno-49-4" name="__codelineno-49-4" href="#__codelineno-49-4"></a><span class="o">|</span><span class="w"> </span><span class="n">sort</span><span class="w"> </span><span class="k">timestamp</span><span class="w"> </span><span class="k">desc</span>
+</span></code></pre></div></p>
 <p>Result:</p>
 <p><img alt="DQL Query" src="../img/02_bizevents_oneagent_placeorder_success_dql.png" /></p>
 <h3 id="conclusion_3">Conclusion<a class="headerlink" href="#conclusion_3" title="Permanent link">#</a></h3>
@@ -1590,6 +1595,8 @@ Select the <code>Save</code> button.</p>
             </div>
           
           
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
 <script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
         </div>
         
@@ -1602,6 +1609,46 @@ Select the <code>Save</code> button.</p>
       </main>
       
         <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../codespaces/" class="md-footer__link md-footer__link--prev" aria-label="Previous: 3. Codespaces">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                3. Codespaces
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../05_bizevents_logs/" class="md-footer__link md-footer__link--next" aria-label="Next: 5. Business Events via Logs">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                5. Business Events via Logs
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
@@ -1625,7 +1672,7 @@ Select the <code>Save</code> button.</p>
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "..", "features": ["content.code.copy", "content.code.annotate", "navigation.instant", "navigation.tracking", "navigation.top", "search.highlight", "search.suggest"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["content.code.copy", "content.code.annotate", "content.tabs.link", "navigation.instant", "navigation.tracking", "navigation.top", "navigation.sections", "navigation.footer", "toc.follow", "search.highlight", "search.suggest", "search.share"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="../assets/javascripts/bundle.83f73b43.min.js"></script>

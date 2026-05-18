@@ -171,6 +171,11 @@
       </label>
       <nav class="md-search__options" aria-label="Search">
         
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
         <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
           
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
@@ -776,29 +781,29 @@ document.addEventListener('DOMContentLoaded', function() {
 <ul>
 <li><code>Counter metric</code> </li>
 </ul>
-<div class="highlight"><pre><span></span><code>Where you want to count the number `Place Order` occurrences.
-</code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>Where you want to count the number `Place Order` occurrences.
+</span></code></pre></div>
 <ul>
 <li><code>Value metric</code> </li>
 </ul>
-<div class="highlight"><pre><span></span><code>Where you want to report on `Revenue`. The revenue field captured in the `Place Order` 
-Business Event data values would be extracted and used as the metric value. 
-</code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>Where you want to report on `Revenue`. The revenue field captured in the `Place Order` 
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>Business Event data values would be extracted and used as the metric value. 
+</span></code></pre></div>
 <p>Fill out the fields with the following data:</p>
 <p>Name: </p>
-<div class="highlight"><pre><span></span><code>OrderShippedSucccess
-</code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>OrderShippedSucccess
+</span></code></pre></div>
 <p>Matching condition: </p>
-<div class="highlight"><pre><span></span><code>event.provider == &quot;astroshop&quot; and event.type == &quot;astroshop.placeorder.success&quot;
-</code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>event.provider == &quot;astroshop&quot; and event.type == &quot;astroshop.placeorder.success&quot;
+</span></code></pre></div>
 <p>Metric key: </p>
-<div class="highlight"><pre><span></span><code>astroshop.placeorder.success
-</code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>astroshop.placeorder.success
+</span></code></pre></div>
 <p>Dimensions: </p>
 <p>Select the Custom radio button.</p>
 <p>For the <code>Field name on record</code> and <code>Dimension name</code> sections use:</p>
-<div class="highlight"><pre><span></span><code>country
-</code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>country
+</span></code></pre></div>
 <p>Click the <code>Add dimension</code> button.  This will add both fields. </p>
 <p>Select the Save button at the top right of the screen.</p>
 <p><img alt="Pipeline Processing Rule Part 2" src="../img/05_bizevents_metric_placeorder_openpipline_rule_2.png" /></p>
@@ -809,8 +814,8 @@ Business Event data values would be extracted and used as the metric value.
 <h3 id="query-business-metric-in-dynatrace">Query Business Metric in Dynatrace<a class="headerlink" href="#query-business-metric-in-dynatrace" title="Permanent link">#</a></h3>
 <p>Using a Notebook execute the below DQL query which retrieves the business metric <code>bizevents.astroshop.placeorder.success</code> split by country.  Note, you shoud see data within 3-5 minutes.</p>
 <p>DQL:
-<div class="highlight"><pre><span></span><code><span class="n">timeseries</span><span class="w"> </span><span class="n">placeorder</span><span class="p">.</span><span class="n">success</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">sum</span><span class="p">(</span><span class="n">bizevents</span><span class="p">.</span><span class="n">astroshop</span><span class="p">.</span><span class="n">placeorder</span><span class="p">.</span><span class="n">success</span><span class="p">),</span><span class="w"> </span><span class="k">by</span><span class="p">:</span><span class="err">{</span><span class="n">country</span><span class="err">}</span>
-</code></pre></div></p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">timeseries</span><span class="w"> </span><span class="n">placeorder</span><span class="p">.</span><span class="n">success</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">sum</span><span class="p">(</span><span class="n">bizevents</span><span class="p">.</span><span class="n">astroshop</span><span class="p">.</span><span class="n">placeorder</span><span class="p">.</span><span class="n">success</span><span class="p">),</span><span class="w"> </span><span class="k">by</span><span class="p">:</span><span class="err">{</span><span class="n">country</span><span class="err">}</span>
+</span></code></pre></div></p>
 <p>Result:</p>
 <p><img alt="DQL Query" src="../img/05_bizevents_metric_place_order_data_validation.png" /></p>
 <h3 id="conclusion_1">Conclusion<a class="headerlink" href="#conclusion_1" title="Permanent link">#</a></h3>
@@ -839,6 +844,8 @@ Business Event data values would be extracted and used as the metric value.
             </div>
           
           
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
 <script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
         </div>
         
@@ -851,6 +858,46 @@ Business Event data values would be extracted and used as the metric value.
       </main>
       
         <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../06_bizevents_api/" class="md-footer__link md-footer__link--prev" aria-label="Previous: 6. Business Events via API">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                6. Business Events via API
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../08_bizevents_alerts/" class="md-footer__link md-footer__link--next" aria-label="Next: 8. Business Events Alerts">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                8. Business Events Alerts
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
@@ -874,7 +921,7 @@ Business Event data values would be extracted and used as the metric value.
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "..", "features": ["content.code.copy", "content.code.annotate", "navigation.instant", "navigation.tracking", "navigation.top", "search.highlight", "search.suggest"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["content.code.copy", "content.code.annotate", "content.tabs.link", "navigation.instant", "navigation.tracking", "navigation.top", "navigation.sections", "navigation.footer", "toc.follow", "search.highlight", "search.suggest", "search.share"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="../assets/javascripts/bundle.83f73b43.min.js"></script>

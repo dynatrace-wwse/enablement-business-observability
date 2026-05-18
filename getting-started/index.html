@@ -171,6 +171,11 @@
       </label>
       <nav class="md-search__options" aria-label="Search">
         
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
         <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
           
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
@@ -799,13 +804,13 @@ document.addEventListener('DOMContentLoaded', function() {
 <h3 id="identify-dynatrace-saas-tenant">Identify Dynatrace SaaS Tenant<a class="headerlink" href="#identify-dynatrace-saas-tenant" title="Permanent link">#</a></h3>
 <p>Make a note of the Dynatrace environment name. This is the first part of the URL. <code>abc123</code> would be the environment ID for <code>https://abc123.apps.dynatrace.com</code>. </p>
 <p>When you copy the url for the tenant, please enter it without the 'apps' part, see examples below: </p>
-<div class="highlight"><pre><span></span><code>Production -&gt; https://abc123.live.dynatrace.com 
-
-Sprint -&gt; https://abc123.sprint.dynatracelabs.com 
-</code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>Production -&gt; https://abc123.live.dynatrace.com 
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>Sprint -&gt; https://abc123.sprint.dynatracelabs.com 
+</span></code></pre></div>
 <p>For example, if you are using a Dynatrace production tenant it will look like this below,  where abc123 would be your your-environment-id.</p>
-<div class="highlight"><pre><span></span><code>https://abc123.live.dynatrace.com
-</code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>https://abc123.live.dynatrace.com
+</span></code></pre></div>
 <p>⚠️ Again, no apps in the URL! ⚠️</p>
 <p>⚠️ Make sure there is no trailing / at the end of the url ⚠️</p>
 <h3 id="enable-nodejs-business-event-oneagent-feature">Enable Node.js Business Event OneAgent Feature<a class="headerlink" href="#enable-nodejs-business-event-oneagent-feature" title="Permanent link">#</a></h3>
@@ -813,13 +818,13 @@ Sprint -&gt; https://abc123.sprint.dynatracelabs.com
 <p>In the tree select <code>Preferences</code>, then <code>OneAgent features</code>.</p>
 <p><img alt="OneAgent Features" src="../img/01_01_oneagent_features.png" /></p>
 <p>Filter by:</p>
-<div class="highlight"><pre><span></span><code>Node.js Business Events
-</code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>Node.js Business Events
+</span></code></pre></div>
 <p>Select the sliders to enabled:</p>
-<div class="highlight"><pre><span></span><code>Node.js Business Events [Opt-In]
-</code></pre></div>
-<div class="highlight"><pre><span></span><code>Instrumentation enabled (change needs a process restart)
-</code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>Node.js Business Events [Opt-In]
+</span></code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>Instrumentation enabled (change needs a process restart)
+</span></code></pre></div>
 <p>Select the <code>Save changes</code> button at the bottom left of the screen.</p>
 <p><img alt="OneAgent Features Node.js Biz Events" src="../img/01_01_oneagent_features_nodejs_bizevents.png" /></p>
 <h3 id="enable-opentelemetry-oneagent-features">Enable OpenTelemetry OneAgent Features<a class="headerlink" href="#enable-opentelemetry-oneagent-features" title="Permanent link">#</a></h3>
@@ -827,8 +832,8 @@ Sprint -&gt; https://abc123.sprint.dynatracelabs.com
 <p>In the tree select <code>Preferences</code>, then <code>OneAgent features</code>.</p>
 <p><img alt="OneAgent Features" src="../img/01_01_oneagent_features.png" /></p>
 <p>In the Filter by section, use below and hit return.</p>
-<div class="highlight"><pre><span></span><code>opentel
-</code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>opentel
+</span></code></pre></div>
 <p>Enable all,  then expand the Details for each and make sure that second Enabled button is also selected where applicable.</p>
 <p>When done, select the <code>Save changes</code> button.</p>
 <p><img alt="OneAgent OTEL Features" src="../img/01_01_oneagent_preferences_otel.png" /></p>
@@ -843,13 +848,13 @@ Sprint -&gt; https://abc123.sprint.dynatracelabs.com
 <p>In the tree select <code>Preferences</code>, then <code>Limit outbound connections</code>.</p>
 <p>Make sure the <code>Limit outbound connections to endpoints in the allow list</code> is enabled.</p>
 <p>In the allow list section your tenant info as shown in below examples:</p>
-<div class="highlight"><pre><span></span><code>Production -&gt; abc123.live.dynatrace.com 
-
-Sprint -&gt; abc123.sprint.dynatracelabs.com 
-</code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>Production -&gt; abc123.live.dynatrace.com 
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>Sprint -&gt; abc123.sprint.dynatracelabs.com 
+</span></code></pre></div>
 <p>For example, if you are using a Dynatrace production tenant it will look like this below,  where abc123 would be your your-environment-id.</p>
-<div class="highlight"><pre><span></span><code>abc123.live.dynatrace.com
-</code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>abc123.live.dynatrace.com
+</span></code></pre></div>
 <p>Select the Save changes button at the bottom left of the screen.</p>
 <p><img alt="Limit Outbound Connections" src="../img/01_01_limit_outbound_connections_2.png" /></p>
 <h3 id="enable-third-party-vulnerability-analytics">Enable Third-party Vulnerability Analytics<a class="headerlink" href="#enable-third-party-vulnerability-analytics" title="Permanent link">#</a></h3>
@@ -875,8 +880,8 @@ Sprint -&gt; abc123.sprint.dynatracelabs.com
 <p><img alt="Biz Events Token 1" src="../img/01_01_bizevents_token_1.png" /></p>
 <p>In the <code>Token name</code> section provide a name.</p>
 <p>In the <code>Select scopes from the table below</code> section find and select the checkbox for:</p>
-<p><div class="highlight"><pre><span></span><code>Ingest bizevents
-</code></pre></div>
+<p><div class="language-text highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>Ingest bizevents
+</span></code></pre></div>
 Select the <code>Generate token</code> button at the bottom left of the page.</p>
 <p><img alt="Biz Events Token 2" src="../img/01_01_bizevents_token_2.png" /></p>
 <p>In the next screen, select the <code>Copy</code> button and save the token to your notepad as we will use this later.</p>
@@ -884,18 +889,18 @@ Select the <code>Generate token</code> button at the bottom left of the page.</p
 <p><img alt="Biz Events Token 3" src="../img/01_01_bizevents_token_3.png" /></p>
 <h3 id="conclusion">Conclusion<a class="headerlink" href="#conclusion" title="Permanent link">#</a></h3>
 <p>We have enabled Dynatrace tenant configurations for the following:</p>
-<p><div class="highlight"><pre><span></span><code>1. OneAgent Feature for Node.js Business Events
-2. OneAgent Features for OpenTelemetry
-3. Logs ingestion rule [Built-in] Ingest all logs
-4. Limit outbound connections to endpoints
-5. Third-party Vulnerability Analytics
-</code></pre></div>
+<p><div class="language-text highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>1. OneAgent Feature for Node.js Business Events
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>2. OneAgent Features for OpenTelemetry
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>3. Logs ingestion rule [Built-in] Ingest all logs
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>4. Limit outbound connections to endpoints
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>5. Third-party Vulnerability Analytics
+</span></code></pre></div>
 You should now have 4 pieces of information:</p>
-<div class="highlight"><pre><span></span><code>1. A DT environment URL (DT_ENVIRONMENT)
-2. A Dynatrace Operator Token (DT_OPERATOR_TOKEN)
-3. A Data Ingest Token (DT_INGEST_TOKEN)
-4. An API token with permission for Business Events
-</code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>1. A DT environment URL (DT_ENVIRONMENT)
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>2. A Dynatrace Operator Token (DT_OPERATOR_TOKEN)
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>3. A Data Ingest Token (DT_INGEST_TOKEN)
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>4. An API token with permission for Business Events
+</span></code></pre></div>
 <h2 id="continue">Continue<a class="headerlink" href="#continue" title="Permanent link">#</a></h2>
 <p>In the next section, we'll launch our Codespaces instance.</p>
 <div class="grid cards">
@@ -920,6 +925,8 @@ You should now have 4 pieces of information:</p>
             </div>
           
           
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
 <script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
         </div>
         
@@ -932,6 +939,46 @@ You should now have 4 pieces of information:</p>
       </main>
       
         <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href=".." class="md-footer__link md-footer__link--prev" aria-label="Previous: 1. About">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                1. About
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../codespaces/" class="md-footer__link md-footer__link--next" aria-label="Next: 3. Codespaces">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                3. Codespaces
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
@@ -955,7 +1002,7 @@ You should now have 4 pieces of information:</p>
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "..", "features": ["content.code.copy", "content.code.annotate", "navigation.instant", "navigation.tracking", "navigation.top", "search.highlight", "search.suggest"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["content.code.copy", "content.code.annotate", "content.tabs.link", "navigation.instant", "navigation.tracking", "navigation.top", "navigation.sections", "navigation.footer", "toc.follow", "search.highlight", "search.suggest", "search.share"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="../assets/javascripts/bundle.83f73b43.min.js"></script>

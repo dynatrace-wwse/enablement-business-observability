@@ -171,6 +171,11 @@
       </label>
       <nav class="md-search__options" aria-label="Search">
         
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
         <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
           
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
@@ -848,8 +853,8 @@
 <p>Wait,  there is more fun!!</p>
 <p>Go to your Astroshop UI browser tab.</p>
 <p>In the url address bar, append the following to the end of the url.</p>
-<p><div class="highlight"><pre><span></span><code>/feature
-</code></pre></div>
+<p><div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>/feature
+</span></code></pre></div>
 Find the <code>paymentServiceUnreachable</code> and select the drop down to on.</p>
 <p>Then select the <code>save</code> button.</p>
 <p><img alt="Astroshop Feature Flags" src="../img/08_01_dashboard_astroshop_feature.png" /></p>
@@ -869,16 +874,16 @@ Find the <code>paymentServiceUnreachable</code> and select the drop down to on.<
 <p><img alt="Place Order - Security Issue 2" src="../img/08_01_dashboard_astroshop_review_security_issue_2.png" /></p>
 <h2 id="business-observability-orderid-lookup-dashboard">Business Observability OrderID Lookup Dashboard<a class="headerlink" href="#business-observability-orderid-lookup-dashboard" title="Permanent link">#</a></h2>
 <p>We have provided one more dashboard.  The OrderID Lookup dashboard provides the following:</p>
-<div class="highlight"><pre><span></span><code>Real-time Status KPI&#39;s for all Orders
-
-Look up any OrderID and get the status
-
-Filter on all Failed Orders 
-
-Drilldown to Distributed Traces
-
-Context to the health of backend IT Service where Orders start
-</code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>Real-time Status KPI&#39;s for all Orders
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>Look up any OrderID and get the status
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>Filter on all Failed Orders 
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>Drilldown to Distributed Traces
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>Context to the health of backend IT Service where Orders start
+</span></code></pre></div>
 <h3 id="astroshop-orderid-lookup-dashboard-downlaod">Astroshop - OrderID Lookup Dashboard - Downlaod<a class="headerlink" href="#astroshop-orderid-lookup-dashboard-downlaod" title="Permanent link">#</a></h3>
 <p>Download the dashboard <code>Astroshop - OrderID Lookup Dashboard</code> using the source file <a href="https://github.com/dynatrace-wwse/enablement-business-observability/blob/main/assets/dynatrace/dashboards/Astroshop_-_OrderID_Lookup_Dashboard.json">Astroshop_-_OrderID_Lookup_Dashboard.json</a> to your local system.</p>
 <h3 id="astroshop-orderid-lookup-dashboard-upload">Astroshop - OrderID Lookup Dashboard - Upload<a class="headerlink" href="#astroshop-orderid-lookup-dashboard-upload" title="Permanent link">#</a></h3>
@@ -922,6 +927,8 @@ Context to the health of backend IT Service where Orders start
             </div>
           
           
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
 <script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
         </div>
         
@@ -934,6 +941,46 @@ Context to the health of backend IT Service where Orders start
       </main>
       
         <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../09_bizevents_business_flow/" class="md-footer__link md-footer__link--prev" aria-label="Previous: 9. Business Flows">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                9. Business Flows
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../11_wrapup/" class="md-footer__link md-footer__link--next" aria-label="Next: 11. Wrap Up">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                11. Wrap Up
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
@@ -957,7 +1004,7 @@ Context to the health of backend IT Service where Orders start
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "..", "features": ["content.code.copy", "content.code.annotate", "navigation.instant", "navigation.tracking", "navigation.top", "search.highlight", "search.suggest"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["content.code.copy", "content.code.annotate", "content.tabs.link", "navigation.instant", "navigation.tracking", "navigation.top", "navigation.sections", "navigation.footer", "toc.follow", "search.highlight", "search.suggest", "search.share"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="../assets/javascripts/bundle.83f73b43.min.js"></script>

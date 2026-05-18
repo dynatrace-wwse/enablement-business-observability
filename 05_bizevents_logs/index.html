@@ -171,6 +171,11 @@
       </label>
       <nav class="md-search__options" aria-label="Search">
         
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
         <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
           
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
@@ -850,25 +855,25 @@ document.addEventListener('DOMContentLoaded', function() {
 <h3 id="logs-fraud-check">Logs - Fraud Check<a class="headerlink" href="#logs-fraud-check" title="Permanent link">#</a></h3>
 <p>Using a Notebook execute the below DQL query which retrieves the log lines that will be converted into business events for the <code>Fraud Check</code> step of the <code>Order to Shipped</code> business process.</p>
 <p>DQL:
-<div class="highlight"><pre><span></span><code><span class="k">fetch</span><span class="w"> </span><span class="n">logs</span>
-<span class="o">|</span><span class="w"> </span><span class="n">filter</span><span class="w"> </span><span class="n">k8s</span><span class="p">.</span><span class="n">container</span><span class="p">.</span><span class="n">name</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="ss">&quot;frauddetectionservice&quot;</span>
-<span class="o">|</span><span class="w"> </span><span class="n">filter</span><span class="w"> </span><span class="n">matchesPhrase</span><span class="p">(</span><span class="n">content</span><span class="p">,</span><span class="w"> </span><span class="ss">&quot;Consumed record with orderId:&quot;</span><span class="p">)</span>
-<span class="o">|</span><span class="w"> </span><span class="n">filter</span><span class="w"> </span><span class="n">matchesPhrase</span><span class="p">(</span><span class="n">content</span><span class="p">,</span><span class="w"> </span><span class="ss">&quot;orderId&quot;</span><span class="p">)</span>
-<span class="o">|</span><span class="w"> </span><span class="n">fields</span><span class="w"> </span><span class="k">timestamp</span><span class="p">,</span><span class="w"> </span><span class="n">content</span>
-<span class="o">|</span><span class="w"> </span><span class="n">sort</span><span class="w"> </span><span class="k">timestamp</span><span class="w"> </span><span class="k">desc</span>
-</code></pre></div></p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">fetch</span><span class="w"> </span><span class="n">logs</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="o">|</span><span class="w"> </span><span class="n">filter</span><span class="w"> </span><span class="n">k8s</span><span class="p">.</span><span class="n">container</span><span class="p">.</span><span class="n">name</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="ss">&quot;frauddetectionservice&quot;</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="o">|</span><span class="w"> </span><span class="n">filter</span><span class="w"> </span><span class="n">matchesPhrase</span><span class="p">(</span><span class="n">content</span><span class="p">,</span><span class="w"> </span><span class="ss">&quot;Consumed record with orderId:&quot;</span><span class="p">)</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="o">|</span><span class="w"> </span><span class="n">filter</span><span class="w"> </span><span class="n">matchesPhrase</span><span class="p">(</span><span class="n">content</span><span class="p">,</span><span class="w"> </span><span class="ss">&quot;orderId&quot;</span><span class="p">)</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="o">|</span><span class="w"> </span><span class="n">fields</span><span class="w"> </span><span class="k">timestamp</span><span class="p">,</span><span class="w"> </span><span class="n">content</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="o">|</span><span class="w"> </span><span class="n">sort</span><span class="w"> </span><span class="k">timestamp</span><span class="w"> </span><span class="k">desc</span>
+</span></code></pre></div></p>
 <p>Result:</p>
 <p><img alt="DQL Query 1" src="../img/03_bizevents_logs_fraudcheck_dql_1.png" /></p>
 <h2 id="logs-fraud-check-orderid-extraction">Logs - Fraud Check orderID Extraction<a class="headerlink" href="#logs-fraud-check-orderid-extraction" title="Permanent link">#</a></h2>
 <p>Using a Notebook execute the below DQL query which retrieves the log lines that will be converted into business events for the <code>Fraud Check</code> step of the <code>Order to Shipped</code> business process.  We will parse the logs lines to extract the orderId. </p>
 <p>DQL:
-<div class="highlight"><pre><span></span><code><span class="k">fetch</span><span class="w"> </span><span class="n">logs</span>
-<span class="o">|</span><span class="w"> </span><span class="n">filter</span><span class="w"> </span><span class="n">k8s</span><span class="p">.</span><span class="n">container</span><span class="p">.</span><span class="n">name</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="ss">&quot;frauddetectionservice&quot;</span>
-<span class="o">|</span><span class="w"> </span><span class="n">filter</span><span class="w"> </span><span class="n">matchesPhrase</span><span class="p">(</span><span class="n">content</span><span class="p">,</span><span class="w"> </span><span class="ss">&quot;Consumed record with orderId:&quot;</span><span class="p">)</span>
-<span class="o">|</span><span class="w"> </span><span class="n">parse</span><span class="w"> </span><span class="n">content</span><span class="p">,</span><span class="w"> </span><span class="ss">&quot;&quot;&quot;DATA &#39;Consumed record with orderId: &#39; ld:orderId &#39;,&#39;&quot;&quot;&quot;</span>
-<span class="o">|</span><span class="w"> </span><span class="n">fields</span><span class="w"> </span><span class="k">timestamp</span><span class="p">,</span><span class="w"> </span><span class="n">orderId</span><span class="p">,</span><span class="w"> </span><span class="n">content</span>
-<span class="o">|</span><span class="w"> </span><span class="n">sort</span><span class="w"> </span><span class="k">timestamp</span><span class="w"> </span><span class="k">desc</span>
-</code></pre></div>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">fetch</span><span class="w"> </span><span class="n">logs</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="o">|</span><span class="w"> </span><span class="n">filter</span><span class="w"> </span><span class="n">k8s</span><span class="p">.</span><span class="n">container</span><span class="p">.</span><span class="n">name</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="ss">&quot;frauddetectionservice&quot;</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="o">|</span><span class="w"> </span><span class="n">filter</span><span class="w"> </span><span class="n">matchesPhrase</span><span class="p">(</span><span class="n">content</span><span class="p">,</span><span class="w"> </span><span class="ss">&quot;Consumed record with orderId:&quot;</span><span class="p">)</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="o">|</span><span class="w"> </span><span class="n">parse</span><span class="w"> </span><span class="n">content</span><span class="p">,</span><span class="w"> </span><span class="ss">&quot;&quot;&quot;DATA &#39;Consumed record with orderId: &#39; ld:orderId &#39;,&#39;&quot;&quot;&quot;</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="o">|</span><span class="w"> </span><span class="n">fields</span><span class="w"> </span><span class="k">timestamp</span><span class="p">,</span><span class="w"> </span><span class="n">orderId</span><span class="p">,</span><span class="w"> </span><span class="n">content</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="o">|</span><span class="w"> </span><span class="n">sort</span><span class="w"> </span><span class="k">timestamp</span><span class="w"> </span><span class="k">desc</span>
+</span></code></pre></div>
 Result:</p>
 <p><img alt="DQL Query 2" src="../img/03_bizevents_logs_fraudcheck_dql_2.png" /></p>
 <h2 id="business-event-openpipeline-fraud-check">Business Event - OpenPipeline - Fraud Check<a class="headerlink" href="#business-event-openpipeline-fraud-check" title="Permanent link">#</a></h2>
@@ -879,30 +884,30 @@ Result:</p>
 <p><img alt="Launch OpenPipeline" src="../img/03_bizevents_logs_fraudcheck_openpipline_launch.png" /></p>
 <h2 id="business-event-openpipeline-processing-fraud-check">Business Event - OpenPipeline Processing - Fraud Check<a class="headerlink" href="#business-event-openpipeline-processing-fraud-check" title="Permanent link">#</a></h2>
 <p>Name your OpenPipeline rule using the following name: </p>
-<div class="highlight"><pre><span></span><code>Astroshop_Fraud_Check
-</code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>Astroshop_Fraud_Check
+</span></code></pre></div>
 <p>Select the <code>Processing</code> tab</p>
 <p>Select the <code>+ Processor</code> button (left side of the screen), then select DQL</p>
 <p><img alt="Pipeline Processing Rule Part 1" src="../img/03_bizevents_logs_fraudcheck_openpipline_rule_1.png" /></p>
 <p>Fill out the fields with the following data:</p>
 <p>Name: </p>
-<div class="highlight"><pre><span></span><code>FraudCheckBizEventFromLog
-</code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>FraudCheckBizEventFromLog
+</span></code></pre></div>
 <p>Matching condition: </p>
-<div class="highlight"><pre><span></span><code>k8s.container.name == &quot;frauddetectionservice&quot; AND matchesPhrase(content, &quot;Consumed record with orderId:&quot;)
-</code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>k8s.container.name == &quot;frauddetectionservice&quot; AND matchesPhrase(content, &quot;Consumed record with orderId:&quot;)
+</span></code></pre></div>
 <p>DQL processor definition: </p>
-<div class="highlight"><pre><span></span><code>parse content, &quot;&quot;&quot;DATA &#39;Consumed record with orderId: &#39; ld:orderId &#39;,&#39;&quot;&quot;&quot;
-| fieldsAdd add1second = toTimestamp(toLong(timestamp) + 1000000000)
-| fieldsAdd timestamp = add1second
-</code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>parse content, &quot;&quot;&quot;DATA &#39;Consumed record with orderId: &#39; ld:orderId &#39;,&#39;&quot;&quot;&quot;
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>| fieldsAdd add1second = toTimestamp(toLong(timestamp) + 1000000000)
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>| fieldsAdd timestamp = add1second
+</span></code></pre></div>
 <p>In the sample data section use the following:</p>
-<p><div class="highlight"><pre><span></span><code><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2025-03-19T13:41:16.000000000-04:00&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;content&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2025-03-19 17:41:16 - frauddetectionservice - Consumed record with orderId: 5ba0f19d-04e9-11f0-895b-0e326b3139ca, and updated total count to: 1126 trace_id=6cd0e9c60fd10799c66eb344f916d7e6 span_id=3173a5d07a507a1d trace_flags=01 &quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;k8s.container.name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;frauddetectionservice&quot;</span>
-<span class="p">}</span>
-</code></pre></div>
+<p><div class="language-json highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="p">{</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">      </span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2025-03-19T13:41:16.000000000-04:00&quot;</span><span class="p">,</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">      </span><span class="nt">&quot;content&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2025-03-19 17:41:16 - frauddetectionservice - Consumed record with orderId: 5ba0f19d-04e9-11f0-895b-0e326b3139ca, and updated total count to: 1126 trace_id=6cd0e9c60fd10799c66eb344f916d7e6 span_id=3173a5d07a507a1d trace_flags=01 &quot;</span><span class="p">,</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">      </span><span class="nt">&quot;k8s.container.name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;frauddetectionservice&quot;</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="p">}</span>
+</span></code></pre></div>
 Select the <code>Run sample data</code> button and Preview the results.  </p>
 <p>Validate the orderId field exists in the results.</p>
 <p><img alt="Pipeline Processing Rule Part 2" src="../img/03_bizevents_logs_fraudcheck_openpipline_rule_2.png" /></p>
@@ -912,30 +917,30 @@ Select the <code>Run sample data</code> button and Preview the results.  </p>
 <p><img alt="Pipeline Data Extraction Rule Part 1" src="../img/03_bizevents_logs_fraudcheck_openpipline_rule_3.png" /></p>
 <p>Fill out the fields with the following data:</p>
 <p>Name:</p>
-<div class="highlight"><pre><span></span><code>orderId
-</code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>orderId
+</span></code></pre></div>
 <p>Matching condition:</p>
-<div class="highlight"><pre><span></span><code>k8s.container.name == &quot;frauddetectionservice&quot; AND matchesPhrase(content, &quot;Consumed record with orderId:&quot;) and isNotNull(orderId)
-</code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>k8s.container.name == &quot;frauddetectionservice&quot; AND matchesPhrase(content, &quot;Consumed record with orderId:&quot;) and isNotNull(orderId)
+</span></code></pre></div>
 <p>Event type:</p>
 <p>Select the Static string radio button and use the following:</p>
-<div class="highlight"><pre><span></span><code>astroshop.fraudcheck.success
-</code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>astroshop.fraudcheck.success
+</span></code></pre></div>
 <p>Event provider:</p>
 <p>Select the Static string radio button and use the following:</p>
-<div class="highlight"><pre><span></span><code>astroshop
-</code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>astroshop
+</span></code></pre></div>
 <p>Field extraction: </p>
 <p>Select the Fields to extract radio button.  We will add 3 fields to extract (keep).  The fields need to be added independently.</p>
 <p>Click the Add button for:</p>
-<div class="highlight"><pre><span></span><code>timestamp
-</code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>timestamp
+</span></code></pre></div>
 <p>Click the Add button for:</p>
-<p><div class="highlight"><pre><span></span><code>orderId
-</code></pre></div>
+<p><div class="language-text highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>orderId
+</span></code></pre></div>
 Click the Add button for:</p>
-<div class="highlight"><pre><span></span><code>trace_id
-</code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>trace_id
+</span></code></pre></div>
 <p>Select the Save Button at the top right of the screen.</p>
 <p><img alt="Pipeline Data Extraction Rule Part 2" src="../img/03_bizevents_logs_fraudcheck_openpipline_rule_4.png" /></p>
 <h2 id="business-event-openpipeline-dynamic-route-fraud-check">Business Event - OpenPipeline Dynamic Route - Fraud Check<a class="headerlink" href="#business-event-openpipeline-dynamic-route-fraud-check" title="Permanent link">#</a></h2>
@@ -947,15 +952,15 @@ Click the Add button for:</p>
 <p><img alt="Pipeline Dynamic Route Part 1" src="../img/03_bizevents_logs_fraudcheck_openpipline_rule_5.png" /></p>
 <p>Configure the Dynamic route with the following:</p>
 <p>Name:</p>
-<div class="highlight"><pre><span></span><code>Astroshop_Fraud_Check
-</code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>Astroshop_Fraud_Check
+</span></code></pre></div>
 <p>Matching condition:</p>
-<div class="highlight"><pre><span></span><code>k8s.container.name == &quot;frauddetectionservice&quot; AND matchesPhrase(content, &quot;Consumed record with orderId:&quot;)
-</code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>k8s.container.name == &quot;frauddetectionservice&quot; AND matchesPhrase(content, &quot;Consumed record with orderId:&quot;)
+</span></code></pre></div>
 <p>Pipeline:</p>
 <p>In the dropdown list select the following</p>
-<div class="highlight"><pre><span></span><code>Astroshop_Fraud_Check
-</code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>Astroshop_Fraud_Check
+</span></code></pre></div>
 <p>Select Add button.</p>
 <p><img alt="Pipeline Dynamic Route Part 1" src="../img/03_bizevents_logs_fraudcheck_openpipline_rule_6.png" /></p>
 <p>Select Save button.</p>
@@ -969,11 +974,11 @@ Click the Add button for:</p>
 <h3 id="query-business-events-in-dynatrace">Query Business Events in Dynatrace<a class="headerlink" href="#query-business-events-in-dynatrace" title="Permanent link">#</a></h3>
 <p>Using a Notebook execute the below DQL query which retrieves the business events for <code>astroshop.fraudcheck.success</code> step.  Note, this may take 3-5 minutes for new data to appear.</p>
 <p>DQL:
-<div class="highlight"><pre><span></span><code><span class="k">fetch</span><span class="w"> </span><span class="n">bizevents</span>
-<span class="o">|</span><span class="w"> </span><span class="n">filter</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="n">provider</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="ss">&quot;astroshop&quot;</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="k">type</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="ss">&quot;astroshop.fraudcheck.success&quot;</span>
-<span class="o">|</span><span class="w"> </span><span class="n">fields</span><span class="w"> </span><span class="k">timestamp</span><span class="p">,</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="n">provider</span><span class="p">,</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="k">type</span><span class="p">,</span><span class="w"> </span><span class="n">orderId</span><span class="p">,</span><span class="w"> </span><span class="n">trace_id</span>
-<span class="o">|</span><span class="w"> </span><span class="n">sort</span><span class="w"> </span><span class="k">timestamp</span><span class="w"> </span><span class="k">desc</span>
-</code></pre></div></p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="k">fetch</span><span class="w"> </span><span class="n">bizevents</span>
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="o">|</span><span class="w"> </span><span class="n">filter</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="n">provider</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="ss">&quot;astroshop&quot;</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="k">type</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="ss">&quot;astroshop.fraudcheck.success&quot;</span>
+</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="o">|</span><span class="w"> </span><span class="n">fields</span><span class="w"> </span><span class="k">timestamp</span><span class="p">,</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="n">provider</span><span class="p">,</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="k">type</span><span class="p">,</span><span class="w"> </span><span class="n">orderId</span><span class="p">,</span><span class="w"> </span><span class="n">trace_id</span>
+</span><span id="__span-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a><span class="o">|</span><span class="w"> </span><span class="n">sort</span><span class="w"> </span><span class="k">timestamp</span><span class="w"> </span><span class="k">desc</span>
+</span></code></pre></div></p>
 <p>Result:</p>
 <p><img alt="DQL Query" src="../img/03_bizevents_logs_fraudcheck_data_validation_dql.png" /></p>
 <h3 id="conclusion_1">Conclusion<a class="headerlink" href="#conclusion_1" title="Permanent link">#</a></h3>
@@ -1002,6 +1007,8 @@ Click the Add button for:</p>
             </div>
           
           
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
 <script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
         </div>
         
@@ -1014,6 +1021,46 @@ Click the Add button for:</p>
       </main>
       
         <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../04_bizevents_oneagent/" class="md-footer__link md-footer__link--prev" aria-label="Previous: 4. Business Events via OneAgent">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                4. Business Events via OneAgent
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../06_bizevents_api/" class="md-footer__link md-footer__link--next" aria-label="Next: 6. Business Events via API">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                6. Business Events via API
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
@@ -1037,7 +1084,7 @@ Click the Add button for:</p>
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "..", "features": ["content.code.copy", "content.code.annotate", "navigation.instant", "navigation.tracking", "navigation.top", "search.highlight", "search.suggest"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["content.code.copy", "content.code.annotate", "content.tabs.link", "navigation.instant", "navigation.tracking", "navigation.top", "navigation.sections", "navigation.footer", "toc.follow", "search.highlight", "search.suggest", "search.share"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="../assets/javascripts/bundle.83f73b43.min.js"></script>

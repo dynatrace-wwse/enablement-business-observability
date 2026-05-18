@@ -26,10 +26,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* ---- Typography — override Material's 12.8px default ---- */
+/* ---- Typography — match docs.dynatrace.com (~12px) ---- */
 .md-typeset {
-  font-size: 1rem;
-  line-height: 1.75;
+  font-size: .75rem;
+  line-height: 1.625;
 }
 
 /* Balanced headings (no orphan words) */
@@ -597,4 +597,181 @@ body {
 [data-md-color-scheme="default"] .md-typeset .grid > .card:hover {
   transform: translateY(-3px);
   box-shadow: 0 12px 32px rgba(0, 127, 168, .15);
+}
+
+/* =============================================================
+   H2 section dividers — left accent bar for lab step feel
+   ============================================================= */
+[data-md-color-scheme="slate"] .md-typeset h2 {
+  border-left: 3px solid rgba(0, 180, 222, .55);
+  padding-left: .65rem;
+  border-bottom: none;
+  margin-top: 2rem;
+}
+
+[data-md-color-scheme="default"] .md-typeset h2 {
+  border-left: 3px solid rgba(0, 127, 168, .5);
+  padding-left: .65rem;
+  border-bottom: none;
+  margin-top: 2rem;
+}
+
+/* =============================================================
+   Keyboard key badges  ++ctrl+c++  /  <kbd>
+   ============================================================= */
+.md-typeset kbd {
+  border-radius: 4px;
+  font-size: .75em;
+  font-family: var(--md-code-font-family);
+  padding: .05em .35em;
+  vertical-align: baseline;
+}
+
+[data-md-color-scheme="slate"] .md-typeset kbd {
+  background: #111826;
+  border: 1px solid rgba(255, 255, 255, .18);
+  border-bottom: 2px solid rgba(255, 255, 255, .1);
+  color: #00b4de;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, .4);
+}
+
+[data-md-color-scheme="default"] .md-typeset kbd {
+  background: #f1f5f9;
+  border: 1px solid rgba(0, 0, 0, .2);
+  border-bottom: 2px solid rgba(0, 0, 0, .12);
+  color: #007fa8;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, .08);
+}
+
+/* =============================================================
+   Text highlight  ==marked text==
+   ============================================================= */
+[data-md-color-scheme="slate"] .md-typeset mark {
+  background: rgba(0, 180, 222, .18);
+  color: #00b4de;
+  border-radius: 3px;
+  padding: .05em .2em;
+}
+
+[data-md-color-scheme="default"] .md-typeset mark {
+  background: rgba(0, 127, 168, .12);
+  color: #006688;
+  border-radius: 3px;
+  padding: .05em .2em;
+}
+
+/* =============================================================
+   Tabbed content  === "Tab name" ===
+   ============================================================= */
+[data-md-color-scheme="slate"] .md-typeset .tabbed-labels > label {
+  color: #94a3b8;
+  border-bottom: 2px solid transparent;
+  font-size: .75rem;
+  font-weight: 600;
+  letter-spacing: .03em;
+  transition: color .15s ease, border-color .15s ease;
+}
+
+[data-md-color-scheme="slate"] .md-typeset .tabbed-labels > label:hover {
+  color: #e2e8f2;
+}
+
+[data-md-color-scheme="slate"] .md-typeset .tabbed-labels > label.tabbed-label--active {
+  color: #00b4de;
+  border-bottom-color: #00b4de;
+}
+
+[data-md-color-scheme="slate"] .md-typeset .tabbed-content {
+  background: #111826;
+  border: 1px solid rgba(255, 255, 255, .09);
+  border-top: none;
+  border-radius: 0 0 var(--dt-radius) var(--dt-radius);
+}
+
+[data-md-color-scheme="default"] .md-typeset .tabbed-labels > label {
+  font-size: .75rem;
+  font-weight: 600;
+  letter-spacing: .03em;
+}
+
+[data-md-color-scheme="default"] .md-typeset .tabbed-labels > label.tabbed-label--active {
+  color: #007fa8;
+  border-bottom-color: #007fa8;
+}
+
+/* =============================================================
+   Tasklist checkboxes
+   ============================================================= */
+[data-md-color-scheme="slate"] .md-typeset .task-list-control .task-list-indicator::before {
+  background-color: #111826;
+  border: 2px solid rgba(255, 255, 255, .18);
+  border-radius: 4px;
+}
+
+[data-md-color-scheme="slate"] .md-typeset .task-list-control [type="checkbox"]:checked + .task-list-indicator::before {
+  background-color: #00b4de;
+  border-color: #00b4de;
+}
+
+/* =============================================================
+   Navigation footer — prev/next
+   ============================================================= */
+[data-md-color-scheme="slate"] .md-footer__link {
+  background: #111826;
+  border: 1px solid rgba(255, 255, 255, .09);
+  border-radius: var(--dt-radius);
+  padding: .75rem 1rem;
+  margin: .25rem 0;
+  transition: border-color .2s ease, box-shadow .2s ease;
+}
+
+[data-md-color-scheme="slate"] .md-footer__link:hover {
+  border-color: rgba(0, 180, 222, .4);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, .3);
+}
+
+[data-md-color-scheme="slate"] .md-footer__link .md-footer__title {
+  color: #e2e8f2;
+}
+
+[data-md-color-scheme="slate"] .md-footer__link .md-footer__direction {
+  color: #00b4de;
+  font-size: .65rem;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+/* =============================================================
+   Print styles — clean, remove chrome
+   ============================================================= */
+@media print {
+  .md-header,
+  .md-sidebar,
+  .md-footer,
+  .md-top,
+  [data-md-component="announce"],
+  .md-search {
+    display: none !important;
+  }
+
+  .md-content {
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .md-typeset h1,
+  .md-typeset h2,
+  .md-typeset h3 {
+    color: #000 !important;
+    border-color: #00b4de !important;
+  }
+
+  .md-typeset pre,
+  .md-typeset code {
+    border: 1px solid #ccc !important;
+    background: #f5f5f5 !important;
+    color: #222 !important;
+  }
 }

@@ -171,6 +171,11 @@
       </label>
       <nav class="md-search__options" aria-label="Search">
         
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
         <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
           
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
@@ -858,12 +863,12 @@ document.addEventListener('DOMContentLoaded', function() {
 <p>If you previously participated in a Dynatrace training using Codespaces, you may have existing secrets that will conflict with our training today.</p>
 <p>Open the <code>GitHub Codespaces settings</code> link: <a href="https://github.com/settings/codespaces">https://github.com/settings/codespaces</a> in a new tab in your browser.</p>
 <p>Under the Secrets section,  Codespace user secrets,  check if these secrets exist.</p>
-<div class="highlight"><pre><span></span><code>DT_INGEST_TOKEN
-
-DT_OPERATOR_TOKEN
-
-DT_ENVIRONMENT
-</code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>DT_INGEST_TOKEN
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>DT_OPERATOR_TOKEN
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>DT_ENVIRONMENT
+</span></code></pre></div>
 <p>If found, select the delete icon for each secret that exists.</p>
 <p><img alt="Codespaces Secrets Delete 1" src="../img/00_01_readme_lab_guide_codespaces_secrets_1.png" /></p>
 <p>You will get a <code>Delete secret</code> prompt, select the <code>Yes, delete this secret</code> button.</p>
@@ -876,8 +881,8 @@ DT_ENVIRONMENT
 <p>By default, codespaces instances will suspend after 30 minutes of inactivity.  This may cause problems with your lab.  </p>
 <p>Scroll down GitHub Codespaces settings section and find the section called <code>Default idle timeout</code>.</p>
 <p>Increase the <code>Default idle timeout</code> setting in the minutes section to use the following:</p>
-<p><div class="highlight"><pre><span></span><code>240
-</code></pre></div>
+<p><div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>240
+</span></code></pre></div>
 Select the <code>Save</code> button.</p>
 <p><img alt="Codespaces Settings Default idle timeout" src="../img/00_01_readme_lab_guide_codespaces_default_idle_timeout.png" /></p>
 <p>When complete you can close the <code>GitHub Codespaces settings</code> browser tab.</p>
@@ -918,12 +923,12 @@ Select the <code>Save</code> button.</p>
 <p>Choose Machine Type <code>4-core</code>.</p>
 <p><img alt="github new codespaces" src="../img/prereq-github_cluster_new_codespaces.png" /></p>
 <p>Fill in recommend secrets sections for the following that you have in your saved notepad:</p>
-<p><div class="highlight"><pre><span></span><code>DT_ENVIRONMENT
-
-DT_OPERATOR_TOKEN
-
-DT_INGEST_TOKEN
-</code></pre></div>
+<p><div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>DT_ENVIRONMENT
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>DT_OPERATOR_TOKEN
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>DT_INGEST_TOKEN
+</span></code></pre></div>
 When done select the Create codespace button.</p>
 <p><img alt="github new codespaces secrets" src="../img/prereq-github_cluster_new_secrets.png" /></p>
 <p>⚠️ If any of the secrets sections have a checkbox Associated with repository?, leave this browser tab open. 
@@ -942,23 +947,23 @@ Refresh this browser tab and you should now be able to fill in the secrets. ⚠�
 <p><img alt="github codespace ready" src="../img/prereq-github_codespace_ready.png" /></p>
 <h3 id="astroshop-validation">Astroshop Validation<a class="headerlink" href="#astroshop-validation" title="Permanent link">#</a></h3>
 <p>In the Codespace window,  you will see a section called: </p>
-<p><div class="highlight"><pre><span></span><code>This devcontainer is exposing the following processes
-</code></pre></div>
+<p><div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>This devcontainer is exposing the following processes
+</span></code></pre></div>
 In the  <code>Astroshop UI</code> section,  cmd + click the url or copy and paste the url in a new browser tab.  This will launch <code>Astroshop UI</code>.</p>
 <p><img alt="Astroshop UI 1" src="../img/prereq-github_codespace_ready_astroshop_1.png" /></p>
 <p>If you caught in time you could also select the Open in Browser pop up at the very bottom right of the screen to Launch Astroshop.   Either approach works!</p>
 <p><img alt="Astroshop UI 1" src="../img/prereq-github_codespace_ready_astroshop_1_b.png" /></p>
 <p>If for some reason Astroshop is not connecting when opening in new tab run the below command in the terminal.</p>
-<p><div class="highlight"><pre><span></span><code>exposeAstroshop
-</code></pre></div>
+<p><div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>exposeAstroshop
+</span></code></pre></div>
 Then in the  <code>Astroshop UI</code> section,  cmd + click the url or copy and paste the url in a new browser tab.  This will launch <code>Astroshop UI</code>.</p>
 <p>Take a minute to navigate around.</p>
 <p><img alt="Astroshop UI 2" src="../img/prereq-github_codespace_ready_astroshop_2.png" /></p>
 <h3 id="dynatrace-data-validation-distributed-traces">Dynatrace Data Validation - Distributed Traces<a class="headerlink" href="#dynatrace-data-validation-distributed-traces" title="Permanent link">#</a></h3>
 <p>Open the <code>Distributed Tracing</code> app.</p>
 <p>In the filter section copy and paste this below:</p>
-<div class="highlight"><pre><span></span><code>Service = frontend AND Endpoint = &quot;/api/checkout&quot;
-</code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>Service = frontend AND Endpoint = &quot;/api/checkout&quot;
+</span></code></pre></div>
 <p>Select the <code>Update</code> button.</p>
 <p><img alt="Dynatrace Distributed Tracing 1" src="../img/prereq-github_codespace_ready_dynatrace_distributed_tracing_1.png" /></p>
 <p>Validate you see traces for "/api/checkout".</p>
@@ -968,8 +973,8 @@ Then in the  <code>Astroshop UI</code> section,  cmd + click the url or copy and
 <h3 id="dynatrace-data-validation-logs">Dynatrace Data Validation - Logs<a class="headerlink" href="#dynatrace-data-validation-logs" title="Permanent link">#</a></h3>
 <p>Open the <code>Logs</code> app.</p>
 <p>In the filter section copy and paste this below:</p>
-<div class="highlight"><pre><span></span><code>content = &quot;*frauddetectionservice - Consumed record with orderId*&quot;
-</code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>content = &quot;*frauddetectionservice - Consumed record with orderId*&quot;
+</span></code></pre></div>
 <p>Select the <code>Run query</code> button.</p>
 <p><img alt="Dynatrace Logs 1" src="../img/prereq-github_codespace_ready_dynatrace_logs_1.png" /></p>
 <p>Validate you see log lines for "frauddetectionservice - Consumed record with orderId:".</p>
@@ -978,42 +983,42 @@ Then in the  <code>Astroshop UI</code> section,  cmd + click the url or copy and
 <p>If you don't see data for Distributed Traces and Logs data validation steps above do the following.</p>
 <p>Environment Variables Validation:</p>
 <p>In the Codespaces terminal run the following commands:</p>
-<div class="highlight"><pre><span></span><code>echo $DT_ENVIRONMENT
-
-echo $DT_OPERATOR_TOKEN
-
-echo $DT_INGEST_TOKEN
-</code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>echo $DT_ENVIRONMENT
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>echo $DT_OPERATOR_TOKEN
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>echo $DT_INGEST_TOKEN
+</span></code></pre></div>
 <p>Validate the variables output to what you configured in the <code>Configure Codespaces Settings - Secrets</code> section above in this training.   </p>
 <p>Make sure to check for:</p>
-<div class="highlight"><pre><span></span><code>⚠️ No apps in the URL! ⚠️
-
-⚠️ Make sure there is no trailing / at the end of the DT_ENVIRONMENT ⚠️
-
-⚠️ Make sure the $DT_OPERATOR_TOKEN &amp; $DT_INGEST_TOKEN are not the same ⚠️
-</code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>⚠️ No apps in the URL! ⚠️
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>⚠️ Make sure there is no trailing / at the end of the DT_ENVIRONMENT ⚠️
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>⚠️ Make sure the $DT_OPERATOR_TOKEN &amp; $DT_INGEST_TOKEN are not the same ⚠️
+</span></code></pre></div>
 <p><img alt="Lab Guide Troubleshooting Variables" src="../img/prereq-github_codespace_troubleshooting_variables.png" /></p>
 <p>If there are mistakes,  navigate to the GitHub Codespaces page at <a href="https://github.com/codespaces/">https://github.com/codespaces/</a></p>
 <p>Locate your instance, click the <code>...</code> button, and click <code>Delete</code>.</p>
 <p><img alt="Codespaces Cleanup" src="../img/09_02_codespaces_cleanup.png" /></p>
 <p>Then go back and collect the correct information needed for:</p>
-<div class="highlight"><pre><span></span><code>DT_INGEST_TOKEN
-
-DT_OPERATOR_TOKEN
-
-DT_ENVIRONMENT
-</code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>DT_INGEST_TOKEN
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>DT_OPERATOR_TOKEN
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>DT_ENVIRONMENT
+</span></code></pre></div>
 <p>Then resume the lab starting at the <code>Codespaces Cluster Set Up</code> section above in this training.</p>
 <p>If the variables are correct, we need to confirm Astroshop and Dynatrace are running correctly.</p>
 <p>Astroshop Validation:</p>
 <p>In the Codespaces terminal run the following commands:</p>
-<div class="highlight"><pre><span></span><code>kubectl get pods -n astroshop
-</code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>kubectl get pods -n astroshop
+</span></code></pre></div>
 <p><img alt="Lab Guide Troubleshooting Astroshop Running" src="../img/prereq-github_codespace_troubleshooting_astroshop_running.png" /></p>
 <p>Dynatrace Validation:</p>
 <p>In the Codespaces terminal run the following commands:</p>
-<p><div class="highlight"><pre><span></span><code>kubectl get pods -n dynatrace
-</code></pre></div>
+<p><div class="language-text highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>kubectl get pods -n dynatrace
+</span></code></pre></div>
 <img alt="Lab Guide Troubleshooting Dynatrace Running" src="../img/prereq-github_codespace_troubleshooting_dynatrace_running.png" /></p>
 <p>If any of the Astroshop or Dynatrace Pods are not in a STATUS of running it would be best to Delete this Codespace instance.</p>
 <p>Navigate to the GitHub Codespaces page at <a href="https://github.com/codespaces/">https://github.com/codespaces/</a></p>
@@ -1055,6 +1060,8 @@ DT_ENVIRONMENT
             </div>
           
           
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
 <script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
         </div>
         
@@ -1067,6 +1074,46 @@ DT_ENVIRONMENT
       </main>
       
         <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../getting-started/" class="md-footer__link md-footer__link--prev" aria-label="Previous: 2. Getting Started">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                2. Getting Started
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../04_bizevents_oneagent/" class="md-footer__link md-footer__link--next" aria-label="Next: 4. Business Events via OneAgent">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                4. Business Events via OneAgent
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
@@ -1090,7 +1137,7 @@ DT_ENVIRONMENT
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "..", "features": ["content.code.copy", "content.code.annotate", "navigation.instant", "navigation.tracking", "navigation.top", "search.highlight", "search.suggest"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["content.code.copy", "content.code.annotate", "content.tabs.link", "navigation.instant", "navigation.tracking", "navigation.top", "navigation.sections", "navigation.footer", "toc.follow", "search.highlight", "search.suggest", "search.share"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="../assets/javascripts/bundle.83f73b43.min.js"></script>
