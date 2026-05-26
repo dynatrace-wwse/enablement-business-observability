@@ -1,4 +1,3 @@
---8<-- "snippets/send-bizevent/bizevent-10-bievents-dashboard.js"
 
 # Dashboards
 

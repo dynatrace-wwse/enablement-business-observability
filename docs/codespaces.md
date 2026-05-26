@@ -1,4 +1,3 @@
---8<-- "snippets/send-bizevent/bizevent-codespaces.js"
 # Codespaces
 
 --8<-- "snippets/dt-enablement.md"

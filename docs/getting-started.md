@@ -1,4 +1,3 @@
---8<-- "snippets/send-bizevent/bizevent-getting-started.js"
 
 # Getting Started
 

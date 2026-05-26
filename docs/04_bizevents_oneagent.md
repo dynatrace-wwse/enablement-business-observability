@@ -1,4 +1,3 @@
---8<-- "snippets/send-bizevent/bizevent-04-bizevents-oneagent.js"
 
 # Business Events Capture - OneAgent
 
