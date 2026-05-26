@@ -616,11 +616,6 @@
   
 
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-  dynatrace.sendBizEvent('page_load', {"page": "1. About"})
-});
-</script>
 <h1 id="enablement-business-observability">Enablement Business Observability<a class="headerlink" href="#enablement-business-observability" title="Permanent link">#</a></h1>
 <div class="admonition example">
 <p class="admonition-title">Support Policy - experiment, share feedback, and help shape the future</p>
@@ -754,8 +749,19 @@ Support is community-driven and provided exclusively via <a href="https://github
     <script id="__config" type="application/json">{"base": ".", "features": ["content.code.copy", "content.code.annotate", "content.tabs.link", "navigation.instant", "navigation.tracking", "navigation.top", "navigation.sections", "navigation.footer", "toc.follow", "search.highlight", "search.suggest", "search.share"], "search": "assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
+  
       <script src="assets/javascripts/bundle.83f73b43.min.js"></script>
       
     
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      if (typeof dynatrace !== 'undefined') {
+        dynatrace.sendBizEvent('page_load', {'page': "1. About"});
+      }
+    });
+  </script>
+  
+
   </body>
 </html>

@@ -840,11 +840,6 @@
   
 
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-  dynatrace.sendBizEvent('page_load', {"page": "3. Codespaces"})
-});
-</script>
 <h1 id="codespaces">Codespaces<a class="headerlink" href="#codespaces" title="Permanent link">#</a></h1>
 <details class="example">
 <summary><a href="https://dynatrace-wwse.github.io/codespaces-framework"><img alt="dt-badge" src="https://img.shields.io/badge/Powered_by-DT_Enablement-8A2BE2?logo=dynatrace" /></a></summary>
@@ -1140,8 +1135,19 @@ Then in the  <code>Astroshop UI</code> section,  cmd + click the url or copy and
     <script id="__config" type="application/json">{"base": "..", "features": ["content.code.copy", "content.code.annotate", "content.tabs.link", "navigation.instant", "navigation.tracking", "navigation.top", "navigation.sections", "navigation.footer", "toc.follow", "search.highlight", "search.suggest", "search.share"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
+  
       <script src="../assets/javascripts/bundle.83f73b43.min.js"></script>
       
     
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      if (typeof dynatrace !== 'undefined') {
+        dynatrace.sendBizEvent('page_load', {'page': "3. Codespaces"});
+      }
+    });
+  </script>
+  
+
   </body>
 </html>

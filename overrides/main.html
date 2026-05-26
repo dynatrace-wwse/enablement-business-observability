@@ -8,3 +8,16 @@
     crossorigin="anonymous"></script>
   {% endif %}
 {% endblock %}
+
+{% block scripts %}
+  {{ super() }}
+  {% if config.extra.rum_snippet and page is defined and page.title %}
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      if (typeof dynatrace !== 'undefined') {
+        dynatrace.sendBizEvent('page_load', {'page': {{ page.title | tojson }}});
+      }
+    });
+  </script>
+  {% endif %}
+{% endblock %}
