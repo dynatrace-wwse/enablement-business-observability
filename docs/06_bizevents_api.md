@@ -1,4 +1,3 @@
---8<-- "snippets/send-bizevent/bizevent-06-bizevents-api.js"
 
 # Business Events Capture - API
 

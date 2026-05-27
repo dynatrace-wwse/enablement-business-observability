@@ -1,4 +1,3 @@
---8<-- "snippets/send-bizevent/bizevent-08-bizevents-alert.js"
 
 # Business Events - Alert
 

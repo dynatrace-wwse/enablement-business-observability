@@ -1,4 +1,3 @@
---8<-- "snippets/send-bizevent/bizevents-09-business-flow.js"
 
 # Business Events - Business Flow
   
