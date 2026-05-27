@@ -1,4 +1,3 @@
---8<-- "snippets/send-bizevent/file.js"
 
 ## Topic
 

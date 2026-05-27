@@ -1,4 +1,3 @@
---8<-- "snippets/send-bizevent/bizevent-wrapup.js"
 # Wrap Up
 
 ## Key Takeaways

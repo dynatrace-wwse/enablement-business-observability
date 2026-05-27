@@ -1,4 +1,3 @@
---8<-- "snippets/send-bizevent/bizevent-05-bizevents-logs.js"
 
 # Business Events Capture - Logs
 

@@ -1,4 +1,3 @@
---8<-- "snippets/send-bizevent/bizevent-07-bizevents-metric.js"
 
 # Business Events - Metric
 
