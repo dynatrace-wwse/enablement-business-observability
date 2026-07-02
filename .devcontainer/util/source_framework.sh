@@ -13,9 +13,23 @@
 #                    Local to the container -> fast access, lost on container rebuild
 
 # Framework version pin — sync push-update updates this line
-FRAMEWORK_VERSION="${FRAMEWORK_VERSION:-1.8.0}"
+FRAMEWORK_VERSION="${FRAMEWORK_VERSION:-1.8.2}"
 
-REPO_PATH="$(pwd)"
+# Derive REPO_PATH from this script's own location (repo/.devcontainer/util/...),
+# NOT from $(pwd): shells opened outside the repo dir (docker exec lands in "/")
+# would otherwise set REPO_PATH="/" and every $REPO_PATH/... path becomes "//...".
+_sf_self=""
+if [ -n "${BASH_SOURCE:-}" ]; then
+  _sf_self="${BASH_SOURCE[0]}"
+elif [ -n "${ZSH_VERSION:-}" ]; then
+  _sf_self="${(%):-%x}"
+fi
+if [ -n "$_sf_self" ] && [ -f "$_sf_self" ]; then
+  REPO_PATH="$(cd "$(dirname "$_sf_self")/../.." && pwd)"
+else
+  REPO_PATH="$(pwd)"
+fi
+unset _sf_self
 RepositoryName="$(basename "$REPO_PATH")"
 
 # -- DEV MODE: local files exist -> source directly, no cache --
@@ -53,6 +67,9 @@ fi
 # Tier 3: Neither cache exists -> git clone into host cache, then copy to container cache
 echo "Pulling framework v${FRAMEWORK_VERSION}..."
 if ! (
+  # A partial cache (failed earlier pull, no .complete) would make git clone
+  # fail with "directory exists" forever -- clear it first.
+  rm -rf "${HOST_CACHE}" && \
   mkdir -p "$(dirname "${HOST_CACHE}")" && \
   git clone --depth 1 --filter=blob:none --sparse \
     -b "${FRAMEWORK_VERSION}" \
