@@ -13,7 +13,7 @@
 #                    Local to the container -> fast access, lost on container rebuild
 
 # Framework version pin — sync push-update updates this line
-FRAMEWORK_VERSION="${FRAMEWORK_VERSION:-1.8.2}"
+FRAMEWORK_VERSION="${FRAMEWORK_VERSION:-1.8.3}"
 
 # Derive REPO_PATH from this script's own location (repo/.devcontainer/util/...),
 # NOT from $(pwd): shells opened outside the repo dir (docker exec lands in "/")
