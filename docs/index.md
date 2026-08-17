@@ -1,5 +1,11 @@
 # Enablement Business Observability
 
+!!! warning "Not yet migrated to the Dynatrace Enablement App"
+    This training has not been migrated to a fully immersive, interactive and self-service training.
+    Questions or feedback? Reach out to the Center of Excellence Enablement Team via
+    [GitHub Issues](https://github.com/dynatrace-wwse/codespaces-framework/issues)
+    or the [feedback form](https://forms.office.com/r/QaCx6VAJe8).
+
 --8<-- "snippets/disclaimer.md"
 --8<-- "snippets/view-code.md"
 
