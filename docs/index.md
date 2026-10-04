@@ -1,3 +1,12 @@
+---
+description: Capture business events for the Astroshop order process from OneAgent, ingested logs and the Business Events API, then create metrics and alerts from them. Build a Business Flow for the Order Shipped process and review the results in dashboards.
+tags:
+  - classic
+  - bizevents
+  - business-analytics
+  - openpipeline
+---
+
 # Enablement Business Observability
 
 !!! warning "Not yet migrated to the Dynatrace Enablement App"
