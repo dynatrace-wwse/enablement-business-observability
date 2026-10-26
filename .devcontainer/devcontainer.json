@@ -1,11 +1,11 @@
 {
   "name": "Dynatrace Enablement Container",
   // Pulling the image from the Dockerhub, runs on AMD64 and ARM64. Pulling is normally faster.
-  "image":"shinojosa/dt-enablement:v1.2",
+  "image":"shinojosa/dt-enablement:v1.3.2",
   /*
   // Building the image from the Dockerfile
   "build": {
-    "image": "shinojosa/dt-enablement:v1.2"
+    "image": "shinojosa/dt-enablement:v1.3.2"
     },
     */
   // When running locally we pass the 'secrets' as env variables via runArgs "--env-file",".devcontainer/.env"
